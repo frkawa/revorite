@@ -1,2 +1,13 @@
 @import "reset";
+
+/*
+ *= require_self
+ *= require_tree .
+ */
+
+@font-face {
+  font-family: 'Kaushan Script';
+  src: font-url('KaushanScript-Regular.ttf') format('truetype');
+}
+
 @import "posts";

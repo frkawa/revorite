@@ -1,0 +1,54 @@
+$header-h: 50px;
+$main-left-w: 300px;
+$main-right-w: 400px;
+$footer-h: 50px;
+
+body {
+  font-family: "Helvetica Neue",
+    Arial,
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    Meiryo,
+    sans-serif;
+}
+
+.header {
+  a {
+    text-decoration: none;
+    color: white;
+  }
+  width: 100vw;
+  height: $header-h;
+  color: white;
+  background-color: #582300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &-left {
+    margin-left: 20px;
+    font-size: 2rem;
+    font-family: 'Kaushan Script';
+  }
+}
+
+
+.main {
+  display: flex;
+  height: calc(100vh - #{$header-h} - #{$footer-h});
+  &-left {
+    background-color: #fef6e4;
+    width: $main-left-w;
+  }
+  &-center {
+    width: calc(100vw - #{$main-left-w} - #{$main-right-w})
+  }
+  &-right {
+    background-color: #fef6e4;
+    width: $main-right-w;
+  }
+}
+
+.footer {
+  background-color: #f3d2c1;
+  height: $footer-h;
+}
