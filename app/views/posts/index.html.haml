@@ -4,18 +4,20 @@
       Revorite
   .header-right
     %ul
-      %li
-        = link_to('#') do
-          %i.fas.fa-user-check
-          かんたんログイン
-      %li
-        = link_to('#') do
-          %i.fas.fa-sign-in-alt
-          ログイン
-      %li
-        = link_to('#') do
-          %i.fas.fa-plus
-          新規登録
+      - if user_signed_in?
+      - else
+        %li
+          = link_to('#') do
+            %i.fas.fa-user-check
+            かんたんログイン
+        %li
+          = link_to new_user_session_path do
+            %i.fas.fa-sign-in-alt
+            ログイン
+        %li
+          = link_to new_user_registration_path do
+            %i.fas.fa-plus
+            新規登録
 .main
   .main-menu-outer
     .main-menu-inner
