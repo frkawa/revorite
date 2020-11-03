@@ -6,8 +6,10 @@
  */
 
 @font-face {
-  font-family: 'Kaushan Script';
-  src: font-url('KaushanScript-Regular.ttf') format('truetype');
+  font-family: 'Aclonica-Regular';
+  src: font-url('Aclonica-Regular.ttf') format('truetype');
 }
 
+@import "font-awesome-sprockets";
+@import "font-awesome";
 @import "posts";
