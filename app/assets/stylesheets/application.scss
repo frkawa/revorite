@@ -1,0 +1,15 @@
+@import "reset";
+
+/*
+ *= require_self
+ *= require_tree .
+ */
+
+@font-face {
+  font-family: 'Aclonica-Regular';
+  src: font-url('Aclonica-Regular.ttf') format('truetype');
+}
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import "posts";

@@ -1,0 +1,125 @@
+.header
+  .header-left
+    = link_to('#') do
+      Revorite
+  .header-right
+    %ul
+      %li
+        = link_to('#') do
+          %i.fas.fa-user-check
+          かんたんログイン
+      %li
+        = link_to('#') do
+          %i.fas.fa-sign-in-alt
+          ログイン
+      %li
+        = link_to('#') do
+          %i.fas.fa-plus
+          新規登録
+.main
+  .main-menu-outer
+    .main-menu-inner
+      .profile
+        .profile-image
+          = image_tag('sample/icon_1.JPG', alt: 'デフォルトアイコン')
+        .profile-name
+          えふけー
+        .profile-postcount
+          投稿数
+          = 1234.to_s(:delimited)
+        .profile-following
+          フォロー
+          = 12.to_s(:delimited)
+        .profile-follower
+          フォロワー
+          = 10.to_s(:delimited)
+        = link_to('#') do
+          .profile-config
+            %i.far.fa-id-card
+            プロフィールの変更
+        = link_to('#') do
+          .button-post
+            %i.fas.fa-feather-alt
+            投稿する
+      
+  .main-posts
+    .post
+      .post-left
+        = link_to('#') do
+          = image_tag('sample/icon_1.JPG', alt: 'デフォルトアイコン')
+      .post-right
+        .post-header
+          .post-header__name
+            = link_to('#') do
+              えふけー
+          .post-header__time
+            %i.far.fa-clock
+            30分前
+        .post-review
+          .post-review-star
+            = image_tag('star/full.png')
+            = image_tag('star/full.png')
+            = image_tag('star/full.png')
+            = image_tag('star/full.png')
+            = image_tag('star/half.png')
+          .post-review-title
+            Soundcore Motion+
+          .post-review-price
+            = "¥ " + 9499.to_s(:delimited)
+        .post-text
+          キッチンやお風呂に持ち込めるスピーカーが欲しくなり、初めてBlutoothスピーカーを購入。
+          %br
+          起動が早く、音質も良い。Blutoothはスピーカーに限らず接続が途切れないかの不安が常にありますが、購入して数ヶ月、途切れたことは一度も無いです。買ってよかった。防水性もあり。
+          %br
+          2つ買うとペアリングしてステレオ再生できるのですが安くないので迷っています。でももう一台欲しい。
+        .post-image
+          = image_tag('sample/1.JPG', height: '100%')
+        .post-action
+          .post-action__reply
+            = link_to('#') do
+              %i.far.fa-comment-dots
+              1
+          .post-action__repost
+            = link_to('#') do
+              %i.fas.fa-retweet
+              0
+          .post-action__fav
+            = link_to('#') do
+              %i.far.fa-star
+              0
+    %hr
+    .post
+      .post-left
+        = link_to('#') do
+          = image_tag('sample/icon_2.webp', alt: 'デフォルトアイコン')
+      .post-right
+        .post-header
+          .post-header__name
+            = link_to('#') do
+              古川
+          .post-header__time
+            %i.far.fa-clock
+            43分前
+        .post-review
+          .post-review-star
+          .post-review-title
+          .post-review-price
+        .post-text
+          てすと　レビュー無しで投稿も可能
+        -# .post-image
+        .post-action
+          .post-action__reply
+            = link_to('#') do
+              %i.far.fa-comment-dots
+              0
+          .post-action__repost
+            = link_to('#') do
+              %i.fas.fa-retweet
+              0
+          .post-action__fav
+            = link_to('#') do
+              %i.far.fa-star
+              0
+    %hr
+.footer
+  &copy; 2020 Revorite
