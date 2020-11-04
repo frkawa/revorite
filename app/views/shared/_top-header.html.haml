@@ -1,0 +1,24 @@
+.header
+  .header-left
+    = link_to('#') do
+      Revorite
+  .header-right
+    %ul
+      - if user_signed_in?
+        %li
+          = link_to destroy_user_session_path, method: :delete do
+            %i.fas.fa-sign-out-alt
+            ログアウト
+      - else
+        %li
+          = link_to('#') do
+            %i.fas.fa-user-check
+            かんたんログイン
+        %li
+          = link_to new_user_session_path do
+            %i.fas.fa-sign-in-alt
+            ログイン
+        %li
+          = link_to new_user_registration_path do
+            %i.fas.fa-plus
+            新規登録

@@ -1,23 +1,5 @@
-.header
-  .header-left
-    = link_to('#') do
-      Revorite
-  .header-right
-    %ul
-      - if user_signed_in?
-      - else
-        %li
-          = link_to('#') do
-            %i.fas.fa-user-check
-            かんたんログイン
-        %li
-          = link_to new_user_session_path do
-            %i.fas.fa-sign-in-alt
-            ログイン
-        %li
-          = link_to new_user_registration_path do
-            %i.fas.fa-plus
-            新規登録
+= render "shared/top-header"
+
 .main
   .main-menu-outer
     .main-menu-inner
@@ -35,7 +17,7 @@
         .profile-follower
           フォロワー
           = 10.to_s(:delimited)
-        = link_to('#') do
+        = link_to edit_user_registration_path do
           .profile-config
             %i.far.fa-id-card
             プロフィールの変更
