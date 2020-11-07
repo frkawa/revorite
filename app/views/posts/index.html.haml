@@ -1,46 +1,37 @@
-.header
-  .header-left
-    = link_to('#') do
-      Revorite
-  .header-right
-    %ul
-      %li
-        = link_to('#') do
-          %i.fas.fa-user-check
-          かんたんログイン
-      %li
-        = link_to('#') do
-          %i.fas.fa-sign-in-alt
-          ログイン
-      %li
-        = link_to('#') do
-          %i.fas.fa-plus
-          新規登録
+= render "shared/top-header"
+
 .main
   .main-menu-outer
     .main-menu-inner
       .profile
-        .profile-image
-          = image_tag('sample/icon_1.JPG', alt: 'デフォルトアイコン')
-        .profile-name
-          えふけー
-        .profile-postcount
-          投稿数
-          = 1234.to_s(:delimited)
-        .profile-following
-          フォロー
-          = 12.to_s(:delimited)
-        .profile-follower
-          フォロワー
-          = 10.to_s(:delimited)
-        = link_to('#') do
-          .profile-config
-            %i.far.fa-id-card
-            プロフィールの変更
-        = link_to('#') do
-          .button-post
-            %i.fas.fa-feather-alt
-            投稿する
+        - if user_signed_in?
+          .profile-image
+            - if current_user.image.attached? 
+              = image_tag(current_user.image, alt: 'デフォルトアイコン')
+            - else
+              = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+          .profile-name
+            = current_user.name
+          .profile-postcount
+            投稿数
+            = current_user.posts_count.to_s(:delimited)
+          .profile-following
+            フォロー
+            = current_user.following_count.to_s(:delimited)
+          .profile-follower
+            フォロワー
+            = current_user.followers_count.to_s(:delimited)
+          .profile-description
+            = simple_format(current_user.description)
+          = link_to edit_user_registration_path do
+            .profile-config
+              %i.far.fa-id-card
+              プロフィールの変更
+          = link_to('#') do
+            .button-post
+              %i.fas.fa-feather-alt
+              投稿する
+        - else
       
   .main-posts
     .post

@@ -119,6 +119,10 @@ a {
     font-weight: bold;
     margin: 8px 0;
   }
+  &-description {
+    margin: 10px;
+    text-align: left;
+  }
   &-config {
     margin: 10px 0;
     &:hover {
