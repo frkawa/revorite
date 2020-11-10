@@ -8,4 +8,5 @@ class User < ApplicationRecord
   validates :description, length: { maximum: 150 }
 
   has_one_attached :image
+  has_many :posts
 end

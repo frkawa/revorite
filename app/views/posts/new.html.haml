@@ -1,0 +1,8 @@
+= render "shared/top-header"
+
+.main
+  = form_with model: @post do |f|
+    .main-textarea
+      = f.text_area :text, size: "70x8"
+    .main-submit
+      = f.submit '投稿'
