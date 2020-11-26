@@ -1,0 +1,43 @@
+.flash {
+  opacity: 0;
+  position: fixed;
+  z-index: 10;
+  left: 50%;
+  top: 7px;
+  transform: translateX(-50%);
+  border-radius: 7px;
+  padding: 10px 50px; 
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  margin: 0 auto;
+
+  animation: fadeInOut 7s ease 1 normal;
+
+  &__notice {
+    background-color: cornflowerblue;
+  }
+
+  &__alert {
+    background-color: hotpink;
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    top: -30px;
+    opacity: 0;
+  }
+  15% {
+    top: 7px;
+    opacity: 1;
+  }
+  85% {
+    top: 7px;
+    opacity: 1;
+  }
+  100% {
+    top: -30px;
+    opacity: 0;
+  }
+}

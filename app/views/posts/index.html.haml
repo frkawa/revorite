@@ -7,14 +7,16 @@
         - if user_signed_in?
           .profile-image
             - if current_user.image.attached? 
-              = image_tag(current_user.image, alt: 'デフォルトアイコン')
+              = link_to(url_for(current_user.image)) do
+                = image_tag(current_user.image, alt: 'デフォルトアイコン')
             - else
               = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
           .profile-name
             = current_user.name
           .profile-postcount
             投稿数
-            = current_user.posts_count.to_s(:delimited)
+            -# = current_user.posts_count.to_s(:delimited)
+            = @post_count.to_s(:delimited)
           .profile-following
             フォロー
             = current_user.following_count.to_s(:delimited)
@@ -46,6 +48,8 @@
           .post-header__time
             %i.far.fa-clock
             30分前
+          .post-header__delete
+            %i.fas.fa-trash-alt
         .post-review
           .post-review-star
             = image_tag('star/full.png')
@@ -79,39 +83,6 @@
               %i.far.fa-star
               0
     %hr
-    .post
-      .post-left
-        = link_to('#') do
-          = image_tag('sample/icon_2.webp', alt: 'デフォルトアイコン')
-      .post-right
-        .post-header
-          .post-header__name
-            = link_to('#') do
-              古川
-          .post-header__time
-            %i.far.fa-clock
-            43分前
-        .post-review
-          .post-review-star
-          .post-review-title
-          .post-review-price
-        .post-text
-          てすと　レビュー無しで投稿も可能
-        -# .post-image
-        .post-action
-          .post-action__reply
-            = link_to('#') do
-              %i.far.fa-comment-dots
-              0
-          .post-action__repost
-            = link_to('#') do
-              %i.fas.fa-retweet
-              0
-          .post-action__fav
-            = link_to('#') do
-              %i.far.fa-star
-              0
-    %hr
     
     - if @posts.empty?
       投稿がまだありません
@@ -120,7 +91,10 @@
         .post
           .post-left
             = link_to('#') do
-              = image_tag(post.user.image, alt: 'デフォルトアイコン')
+              - if post.user.image.attached? 
+                = image_tag(post.user.image, alt: 'デフォルトアイコン')
+              - else
+                = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
           .post-right
             .post-header
               .post-header__name
@@ -129,13 +103,22 @@
               .post-header__time
                 %i.far.fa-clock
                 = post.created_at.to_s(:human)
+              - if user_signed_in?
+                - if post.user_id == current_user.id
+                  .post-header__delete
+                    = link_to("/posts/#{post.id}", method: :delete) do
+                      %i.fas.fa-trash-alt
             .post-review
               .post-review-star
               .post-review-title
               .post-review-price
             .post-text
               = simple_format(post.text)
-            -# .post-image
+            - if post.images.attached?
+              .post-image
+                - post.images.each do |image|
+                  = image_tag(image, height: '100%')
+            - else
             .post-action
               .post-action__reply
                 = link_to('#') do
