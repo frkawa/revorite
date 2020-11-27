@@ -1,0 +1,16 @@
+= render "shared/top-header"
+
+.main
+  = form_with model: @post, local: true do |f|
+    - if @post.errors.any?
+      .main-error
+        %ul
+        - @post.errors.full_messages.each do |message| 
+          %li= message
+          
+    .main-textarea
+      = f.text_area :text, size: "70x8"
+    .main-images
+      = f.file_field :images, multiple: true
+    .main-submit
+      = f.submit '投稿'
