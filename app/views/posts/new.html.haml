@@ -8,6 +8,9 @@
         - @post.errors.full_messages.each do |message| 
           %li= message
           
+    .main-rev__flg
+      = f.check_box :rev_flg
+      = f.label :rev_flg, 'レビューをする'
     .main-textarea
       = f.text_area :text, size: "70x8"
     .main-images
