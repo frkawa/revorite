@@ -4,7 +4,9 @@ class Post < ApplicationRecord
   validate :image_length, :image_type, :image_size
 
   belongs_to :user
-  has_many_attached :images
+  has_many_attached :images, dependent: :destroy
+  has_one :review, dependent: :destroy
+  accepts_nested_attributes_for :review
 
   def image_length
     if images.length > 4
