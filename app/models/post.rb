@@ -8,6 +8,8 @@ class Post < ApplicationRecord
   has_one :review, dependent: :destroy
   accepts_nested_attributes_for :review
 
+  attr_accessor :rev_flg
+
   def image_length
     if images.length > 4
       images.purge

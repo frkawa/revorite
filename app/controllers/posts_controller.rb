@@ -10,16 +10,14 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
-    @post.build_review
   end
 
   def create
-    if params[:post][:rev_flg] == '1'
-      post = Post.new(post_params_with_review)
-    else 
-      post = Post.new(post_params)
-    end
-    if post.save
+    @post = Post.new(post_params_with_review)
+    if @post.rev_flg == '0'
+      @post = Post.new(post_params)
+    end  
+    if @post.save
       redirect_to :root, notice: "投稿に成功しました"
     else
       render :new
@@ -41,11 +39,11 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:text, images: []).merge(user_id: current_user.id)
+    params.require(:post).permit(:rev_flg, :text, images: []).merge(user_id: current_user.id)
   end
 
   def post_params_with_review
-    params.require(:post).permit(:text, images: [], review_attributes:[:rate, :title, :price]).merge(user_id: current_user.id)
+    params.require(:post).permit(:rev_flg, :text, images: [], review_attributes:[:rate, :title, :price]).merge(user_id: current_user.id)
   end
 
 end
