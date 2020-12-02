@@ -12,6 +12,8 @@
       = f.check_box :rev_flg
       = f.label 'レビューをする'
     = f.fields_for :review, @post.build_review do |r|
+      .main-rev__rate#star
+        = r.hidden_field :rate
       .main-rev__title
         = r.text_field :title, size: "71", placeholder: "レビュー対象（商品名・タイトルなど）"
       .main-rev__price

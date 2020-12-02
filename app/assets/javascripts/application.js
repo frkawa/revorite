@@ -13,4 +13,18 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
+
+//= require jquery
+//= require jquery_ujs
 //= require_tree .
+
+$( function  () {
+  $('#star').raty({
+    size: 36,
+    starOff: '/assets/star/none.png',
+    starOn: "/assets/star/full.png",
+    starHalf: "/assets/star/half.png",
+    scoreName: "post[review_attributes][rate]",
+    half: true
+  });
+});

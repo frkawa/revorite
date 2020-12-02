@@ -10,6 +10,7 @@ ja:
         text: 本文
         images: 画像
       review:
+        rate: 評価（★）
         title: レビュー対象
         price: 価格
   errors:
