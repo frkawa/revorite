@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 
   def index
-    @posts = Post.all.includes(:user)
+    @posts = Post.all.includes([:user, :review])
     if user_signed_in?
       @post_count = Post.where(user_id: current_user.id).count
     else
@@ -13,8 +13,13 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
-    if @post.save 
+    if params[:post][:rev_flg] == '0'  # 「レビューをする」にチェックが無い場合
+      @post = Post.new(post_params)
+    else
+      @post = Post.new(post_params_with_review)
+    end  
+
+    if @post.save
       redirect_to :root, notice: "投稿に成功しました"
     else
       render :new
@@ -36,7 +41,11 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:name, :text, images: []).merge(user_id: current_user.id)
+    params.require(:post).permit(:rev_flg, :text, images: []).merge(user_id: current_user.id)
   end
-  
+
+  def post_params_with_review
+    params.require(:post).permit(:rev_flg, :text, images: [], review_attributes:[:rate, :title, :price]).merge(user_id: current_user.id)
+  end
+
 end

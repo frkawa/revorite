@@ -192,11 +192,15 @@ a {
     margin-bottom: 5px;
     &-star {
       margin-right: 10px;
+      min-width: 96px;
     }
     &-title {
       font-size: 1.1rem;
       font-weight: bold;
       margin-right: 10px;
+    }
+    &-price {
+      min-width: 85px;
     }
   }
   &-text {
