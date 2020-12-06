@@ -217,13 +217,19 @@ a {
     display: flex;
     justify-content: flex-end;
     i {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
     &__repost {
       margin-left: 8px;
     }
     &__fav {
       margin-left: 8px;
+      a:hover {
+        color: orange;
+      }
+      &--liked {
+        color: orange;
+      }
     }
   }
 }

@@ -15,7 +15,6 @@
             = current_user.name
           .profile-postcount
             投稿数
-            -# = current_user.posts_count.to_s(:delimited)
             = @post_count.to_s(:delimited)
           .profile-following
             フォロー
@@ -94,12 +93,11 @@
                 = link_to('#') do
                   %i.fas.fa-retweet
                   = post.repost_count
-              .post-action__fav
-                = link_to('#') do
-                  %i.far.fa-star
-                  = post.likes_count
-        - if i == 0
-        - else
+              .post-action__fav#like{ id: post.id }
+                = render partial: "likes/like", locals: {post: post}
+              -# = render partial: "likes/like", locals: {post: post}
+
+        - if i != 0
           %hr
 .footer
   &copy; 2020 Revorite

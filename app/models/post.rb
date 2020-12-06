@@ -7,6 +7,7 @@ class Post < ApplicationRecord
   has_many_attached :images, dependent: :destroy
   has_one :review, dependent: :destroy
   accepts_nested_attributes_for :review
+  has_many :likes, dependent: :destroy
 
   attr_accessor :rev_flg
 
