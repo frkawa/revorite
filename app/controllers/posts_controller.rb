@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 
   def index
-    @posts = Post.all.includes([:user, :review, :comments])
+    @posts = Post.with_attached_images.includes([:user, :review, :comments])
     if user_signed_in?
       @post_count = Post.where(user_id: current_user.id).count
     else
@@ -18,7 +18,6 @@ class PostsController < ApplicationController
     else
       @post = Post.new(post_params_with_review)
     end  
-
     if @post.save
       redirect_to :root, notice: "投稿に成功しました"
     else

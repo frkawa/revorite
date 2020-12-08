@@ -85,7 +85,7 @@
                   = image_tag(image, height: '100%')
             - else
             .post-action
-              .post-action__comment
+              .post-action__comment{id: "post-action__comment-#{post.id}"} 
                 = link_to('#') do
                   %i.far.fa-comment-dots
                   = post.comments.length
@@ -96,42 +96,55 @@
               .post-action__fav#like{ id: post.id }
                 = render partial: "likes/like", locals: {post: post}
             - if user_signed_in?
-              .post-comment
-                - if post.comments.present?
-                  - post.comments.each do |comment|
-                    .post-comment-list
-                      .post-comment-left
-                        - if comment.user.image.attached? 
-                          = link_to(url_for(comment.user.image)) do
-                            = image_tag(comment.user.image, alt: 'デフォルトアイコン')
-                        - else
-                          = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
-                      .post-comment-right
-                        .post-header
-                          .post-header__name
-                            = link_to('#') do
-                              = comment.user.name
-                          .post-header__time
-                            %i.far.fa-clock
-                            = comment.created_at.to_s(:human)
-                          - if comment.user_id == current_user.id
-                            .post-header__delete
-                              = link_to("/posts/#{comment.post_id}/comments/#{comment.id}", method: :delete) do
-                                %i.fas.fa-trash-alt
-                        .post-text
-                          = simple_format(comment.message)
-                    %hr
-                .post-comment-list
-                  .post-comment-left
-                    - if current_user.image.attached? 
-                      = link_to(url_for(current_user.image)) do
-                        = image_tag(current_user.image, alt: 'デフォルトアイコン')
-                    - else
-                      = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
-                  .post-comment-right
-                    = form_with model: [post, Comment.new], local: true do |f|
-                      = f.text_area :message
-                      = f.submit "投稿"
+              - if post.comments.present?
+                .comment-wrapper#post{ id: post.id}
+                  .post-comment
+                    - post.comments.each do |comment|
+                      .comment-list
+                        .comment-left
+                          - if comment.user.image.attached? 
+                            = link_to(url_for(comment.user.image)) do
+                              = image_tag(comment.user.image, alt: 'デフォルトアイコン')
+                          - else
+                            = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+                        .comment-right
+                          .comment-header
+                            .comment-header__name
+                              = link_to('#') do
+                                = comment.user.name
+                            .comment-header__time
+                              %i.far.fa-clock
+                              = comment.created_at.to_s(:human)
+                            - if comment.user_id == current_user.id
+                              .comment-header__delete
+                                = link_to("/posts/#{comment.post_id}/comments/#{comment.id}", method: :delete) do
+                                  %i.fas.fa-trash-alt
+                          .comment-text
+                            = simple_format(comment.message)
+                          - if comment.images.attached?
+                            .comment-image
+                              - comment.images.each do |image|
+                                = image_tag(image, height: '100%')
+                          - else
+                    
+                  .comment-write
+                    .comment-write-left
+                      - if current_user.image.attached? 
+                        = link_to(url_for(current_user.image)) do
+                          = image_tag(current_user.image, alt: 'デフォルトアイコン')
+                      - else
+                        = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+                    .comment-write-right
+                      = form_with model: [post, Comment.new], local: true do |f|
+                        .comment-write__textarea
+                          = f.text_area :message, placeholder: "コメントを入力"
+                        .comment-write__submit
+                          .comment-write__submit--img
+                            = f.label :images, class: "form-image" do
+                              %i.far.fa-image
+                              = f.file_field :images, multiple: true
+                          .comment-write__submit--btn
+                            = f.submit "コメント", class: "button-comment"
         - if i != 0
           %hr
 .footer

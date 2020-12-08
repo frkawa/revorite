@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
+    
     if @comment.save
       redirect_to :root, notice: "投稿にコメントしました"
     else
@@ -23,6 +24,6 @@ class CommentsController < ApplicationController
 
   private
   def comment_params
-    params.require(:comment).permit(:message).merge(user_id: current_user.id, post_id: params[:post_id])
+    params.require(:comment).permit(:message, images: []).merge(user_id: current_user.id, post_id: params[:post_id])
   end
 end
