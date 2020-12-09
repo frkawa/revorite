@@ -259,8 +259,17 @@ button, input, select, textarea {
     i {
       font-size: 1.1rem;
     }
+    &__comment {
+      :hover {
+        color: #b3642f;
+        cursor: pointer;
+      }
+    }
     &__repost {
       margin-left: 8px;
+      :hover {
+        color: green;
+      }
     }
     &__fav {
       margin-left: 8px;
@@ -275,10 +284,18 @@ button, input, select, textarea {
 }
 
 .comment {
+  &-wrapper {
+    display: none;
+    border-top : solid 1px #a1a1a1;
+  }
   &-list, &-write {
+    box-sizing: border-box;
+    width: calc(100% - 110px);
     display: flex;
     padding: 10px 0;
-    border-top : solid 1px #a1a1a1;
+  }
+  &-list {
+    border-bottom : solid 1px #a1a1a1;
   }
   &-left, &-write-left {
     margin-right: 10px;
@@ -290,8 +307,18 @@ button, input, select, textarea {
     }
   }
   &-right, &-write-right {
-    width: calc(100% - 170px);
+    width: 100%;
     box-sizing: border-box;
+    &#not-signed-in {
+      background-color: #ffe0cc;
+      padding: 5px;
+      a {
+        text-decoration: underline;
+        &:hover {
+          color: #b3642f;
+        }
+      }
+    }
   }
   &-header {
     @extend %post-comment-header;

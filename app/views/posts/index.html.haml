@@ -57,7 +57,7 @@
               - if user_signed_in?
                 - if post.user_id == current_user.id
                   .post-header__delete
-                    = link_to("/posts/#{post.id}", method: :delete) do
+                    = link_to("/posts/#{post.id}", method: :delete, data: {confirm: "投稿を削除してよろしいですか？"}) do
                       %i.fas.fa-trash-alt
             - if post.review.present?
               .post-review
@@ -86,7 +86,7 @@
             - else
             .post-action
               .post-action__comment{id: "post-action__comment-#{post.id}"} 
-                = link_to('#') do
+                %p
                   %i.far.fa-comment-dots
                   = post.comments.length
               .post-action__repost
@@ -95,56 +95,68 @@
                   = post.repost_count
               .post-action__fav#like{ id: post.id }
                 = render partial: "likes/like", locals: {post: post}
-            - if user_signed_in?
+            .comment-wrapper#comment{ id: post.id}
               - if post.comments.present?
-                .comment-wrapper#post{ id: post.id}
-                  .post-comment
-                    - post.comments.each do |comment|
-                      .comment-list
-                        .comment-left
-                          - if comment.user.image.attached? 
-                            = link_to(url_for(comment.user.image)) do
-                              = image_tag(comment.user.image, alt: 'デフォルトアイコン')
-                          - else
-                            = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
-                        .comment-right
-                          .comment-header
-                            .comment-header__name
-                              = link_to('#') do
-                                = comment.user.name
-                            .comment-header__time
-                              %i.far.fa-clock
-                              = comment.created_at.to_s(:human)
+                .post-comment
+                  - post.comments.each do |comment|
+                    .comment-list
+                      .comment-left
+                        - if comment.user.image.attached? 
+                          = link_to(url_for(comment.user.image)) do
+                            = image_tag(comment.user.image, alt: 'デフォルトアイコン')
+                        - else
+                          = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+                      .comment-right
+                        .comment-header
+                          .comment-header__name
+                            = link_to('#') do
+                              = comment.user.name
+                          .comment-header__time
+                            %i.far.fa-clock
+                            = comment.created_at.to_s(:human)
+                          - if user_signed_in?
                             - if comment.user_id == current_user.id
                               .comment-header__delete
-                                = link_to("/posts/#{comment.post_id}/comments/#{comment.id}", method: :delete) do
+                                = link_to("/posts/#{comment.post_id}/comments/#{comment.id}", method: :delete, data: {confirm: "コメントを削除してよろしいですか？"}) do
                                   %i.fas.fa-trash-alt
-                          .comment-text
-                            = simple_format(comment.message)
-                          - if comment.images.attached?
-                            .comment-image
-                              - comment.images.each do |image|
-                                = image_tag(image, height: '100%')
-                          - else
-                    
-                  .comment-write
-                    .comment-write-left
-                      - if current_user.image.attached? 
-                        = link_to(url_for(current_user.image)) do
-                          = image_tag(current_user.image, alt: 'デフォルトアイコン')
-                      - else
-                        = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
-                    .comment-write-right
-                      = form_with model: [post, Comment.new], local: true do |f|
-                        .comment-write__textarea
-                          = f.text_area :message, placeholder: "コメントを入力"
-                        .comment-write__submit
-                          .comment-write__submit--img
-                            = f.label :images, class: "form-image" do
-                              %i.far.fa-image
-                              = f.file_field :images, multiple: true
-                          .comment-write__submit--btn
-                            = f.submit "コメント", class: "button-comment"
+                        .comment-text
+                          = simple_format(comment.message)
+                        - if comment.images.attached?
+                          .comment-image
+                            - comment.images.each do |image|
+                              = image_tag(image, height: '100%')
+                        - else
+              .comment-write
+                - if user_signed_in?
+                  .comment-write-left
+                    - if current_user.image.attached? 
+                      = link_to(url_for(current_user.image)) do
+                        = image_tag(current_user.image, alt: 'デフォルトアイコン')
+                    - else
+                      = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+                  .comment-write-right
+                    = form_with model: [post, Comment.new], local: true do |f|
+                      .comment-write__textarea
+                        = f.text_area :message, placeholder: "コメントを入力"
+                      .comment-write__submit
+                        .comment-write__submit--img
+                          = f.label :images, class: "form-image" do
+                            %i.far.fa-image
+                            = f.file_field :images, multiple: true
+                        .comment-write__submit--btn
+                          = f.submit "コメント", class: "button-comment"
+                - else
+                  .comment-write-left
+                    = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+                  .comment-write-right#not-signed-in
+                    = link_to "ログイン", new_user_session_path 
+                    すると皆の投稿にコメントすることができます。
+                    %br 
+                    アカウントが無い方は
+                    = link_to "新規登録", new_user_registration_path 
+                    、または
+                    = link_to "かんたんログイン", new_user_registration_path 
+                    （ゲストユーザとしてワンクリックでログイン）してください。
         - if i != 0
           %hr
 .footer

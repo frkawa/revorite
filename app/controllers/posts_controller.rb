@@ -2,6 +2,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.with_attached_images.includes([:user, :review, :comments])
+    gon.posts = @posts
     if user_signed_in?
       @post_count = Post.where(user_id: current_user.id).count
     else
