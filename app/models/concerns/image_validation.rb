@@ -7,7 +7,7 @@ module ImageValidation
     def image_length
       if images.length > 4
         images.purge
-        errors.add(:images, "は4枚まで同時投稿が可能です。")
+        errors.add(:images, "は一度に4枚まで投稿可能です。")
       end
     end
 
@@ -24,7 +24,7 @@ module ImageValidation
       images.each do |image|
         if image.blob.byte_size > 3.megabytes
           image.purge
-          errors.add(:images, "は1つのファイル3MB以内にしてください")
+          errors.add(:images, "は1ファイルにつき3MB以内にしてください")
         end
       end
     end

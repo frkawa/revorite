@@ -82,7 +82,7 @@
             - if post.images.attached?
               .post-image
                 - post.images.each do |image|
-                  = image_tag(image, height: '100%')
+                  = image_tag(image)
             - else
             .post-action
               .post-action__comment{id: "post-action__comment-#{post.id}"} 
@@ -124,7 +124,7 @@
                         - if comment.images.attached?
                           .comment-image
                             - comment.images.each do |image|
-                              = image_tag(image, height: '100%')
+                              = image_tag(image)
                         - else
               .comment-write
                 - if user_signed_in?
@@ -137,14 +137,21 @@
                   .comment-write-right
                     = form_with model: [post, Comment.new], local: true do |f|
                       .comment-write__textarea
-                        = f.text_area :message, placeholder: "コメントを入力"
+                        = f.text_area :message, placeholder: "コメントを入力（300文字以内）", class: "comment-text", id: "comment-text#{post.id}"
                       .comment-write__submit
-                        .comment-write__submit--img
-                          = f.label :images, class: "form-image" do
-                            %i.far.fa-image
-                            = f.file_field :images, multiple: true
-                        .comment-write__submit--btn
-                          = f.submit "コメント", class: "button-comment"
+                        .comment-write__submit-upper
+                          .comment-write__submit-upper-left
+                            .comment-write__submit--img
+                              = f.label :images, for: "#{post.id}-comment-images" do
+                                %i.far.fa-image
+                                = f.file_field :images, class: "comment-image-files", id: "#{post.id}-comment-images", data: {id: "#comment-images-#{post.id}"}, multiple: true, accept: "image/jpeg, image/png"
+                          .comment-write__submit-upper-right
+                            .comment-write__submit--count{id: "comment-textcount#{post.id}"}
+                              300
+                            .comment-write__submit--btn
+                              = f.submit "コメント", class: "button-comment", id: "comment-button#{post.id}", disabled: true
+                        .comment-write__submit-downer
+                          .comment-write__submit-previewimages{id: "previewimages-#{post.id}"}
                 - else
                   .comment-write-left
                     = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
