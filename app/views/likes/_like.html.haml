@@ -1,5 +1,4 @@
 - if user_signed_in?
-  -# - if Like.find_by(user_id: current_user.id, post_id: post.id)
   - if current_user.liked_by?(post.id)
     = link_to "/posts/#{post.id}/likes/#{post.likes.ids}", method: :delete, remote: true do
       %i.fas.fa-star.post-action__fav--liked
@@ -11,21 +10,3 @@
 - else
   %i.far.fa-star
   = post.likes.length
-
-
-
--# - if user_signed_in?
--#   - if Like.find_by(user_id: current_user.id, post_id: post.id)
--#     .post-action__fav.post-action__fav--liked#like{ id: post.id }
--#       = link_to "/posts/#{post.id}/likes/#{post.likes.ids}", method: :delete, remote: true do
--#         %i.fas.fa-star
--#         = post.likes.length
--#   - else
--#     .post-action__fav#like{ id: post.id }
--#       = link_to "/posts/#{post.id}/likes", method: :post, remote: true do
--#         %i.far.fa-star
--#         = post.likes.length
--# - else
--#   .post-action__fav#like{ id: post.id }
--#     %i.far.fa-star
--#     = post.likes.length

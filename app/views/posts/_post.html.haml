@@ -1,0 +1,48 @@
+.post-header
+  .post-header__name
+    = link_to('#') do
+      = post.user.name
+  .post-header__time
+    %i.far.fa-clock
+    = post.created_at.to_s(:human)
+  - if user_signed_in?
+    - if post.user_id == current_user.id
+      .post-header__delete
+        = link_to("/posts/#{post.id}", method: :delete, data: {confirm: "投稿を削除してよろしいですか？"}) do
+          %i.fas.fa-trash-alt
+- if post.review.present?
+  .post-review
+    .post-review-star{id: "star-#{post.review.id}"}
+      :javascript
+        $('#star-#{post.review.id}').raty({
+          size: 36,
+          starOff: '/assets/star/none.png',
+          starOn: "/assets/star/full.png",
+          starHalf: "/assets/star/half.png",
+          score: "#{post.review.rate}",
+          half: true,
+          readOnly: true
+        });
+    .post-review-title
+      = post.review.title
+    .post-review-price
+      - if post.review.price.present?
+        = "¥ " + post.review.price.to_s(:delimited)
+.post-text
+  = simple_format(post.text)
+- if post.images.attached?
+  .post-image
+    - post.images.each do |image|
+      = image_tag(image)
+- else
+.post-action
+  .post-action__comment{id: "post-action__comment-#{post.id}"} 
+    %p
+      %i.far.fa-comment-dots
+      = post.comments.length
+  .post-action__repost
+    = link_to('#') do
+      %i.fas.fa-retweet
+      = post.repost_count
+  .post-action__fav#like{ id: post.id }
+    = render partial: "likes/like", locals: {post: post}
