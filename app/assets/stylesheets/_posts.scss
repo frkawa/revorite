@@ -1,6 +1,6 @@
 $header-h: 50px;
-$main-menu-w: 400px;
-$main-posts-w: 100%;
+$main-menu-w: 300px;
+$main-posts-w: 45vw;
 $footer-h: 40px;
 
 html {
@@ -35,17 +35,23 @@ a {
   color: white;
   background-color: #582300;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 66%;
-  padding: 0 17%;
+  width: 100%;
+  box-sizing: border-box;
   
   &-left {
+    width: $main-menu-w;
     font-size: 1.9rem;
     font-family: 'Aclonica-Regular';
+    a:hover {
+      opacity: 0.8;
+    }
   }
   
   &-right {
+    width: $main-posts-w;
+    text-align: right;
     li {
       display: inline;
       margin-left: 20px;
@@ -78,8 +84,6 @@ a {
 .main {
   display: flex;
   justify-content: center;
-  // height: 1500px;
-  padding: 0 17%;
   padding-top: $header-h;
   background-color: #fef6e4;
   a {
@@ -88,7 +92,6 @@ a {
   &-menu-outer {
     background-color: white;
     width: $main-menu-w;
-    box-sizing: border-box;
     padding: 10px 0;
   }
   &-menu-inner {
@@ -99,6 +102,52 @@ a {
   &-posts {
     background-color: white;
     width: $main-posts-w;
+    min-width: 500px;
+    &-header {
+      position: fixed;
+      width: calc(#{$main-posts-w} - 20px);
+      min-width: 480px;
+      margin: 0 10px;
+      border-bottom: solid 1px #a1a1a1;
+      background-color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+      ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        a {
+          width: 50%;
+          text-align: center;
+          padding: 10px 0px;
+          position: relative;
+          display: inline-block;
+          text-decoration: none;
+          &::after {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: #333881;
+            transform: scale(0, 1);
+            transform-origin: center top;
+            transition: transform .3s;
+          }
+          &:hover {
+            background-color: #d6e0ff;
+            transition: .4s;
+            &::after {
+              transform: scale(1, 1);
+            }
+          }
+        }
+      }
+    }
+    &-contents li:first-child {
+      padding-top: 46px;
+    }
   }
 }
 
