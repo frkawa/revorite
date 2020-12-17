@@ -1,0 +1,13 @@
+- posts.each_with_index.reverse_each do |post, i|
+  %li.post
+    .post-left
+      = link_to('#') do
+        - if post.user.image.attached? 
+          = image_tag(post.user.image, alt: 'デフォルトアイコン')
+        - else
+          = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+    .post-right
+      = render partial: "posts/post", locals: {post: post}
+      = render partial: "posts/comment", locals: {post: post}
+  - if i != 0
+    %hr

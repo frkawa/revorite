@@ -1,6 +1,6 @@
 .post-header
   .post-header__name
-    = link_to('#') do
+    = link_to user_path(post.user.id), "data-turbolinks": false do
       = post.user.name
   .post-header__time
     %i.far.fa-clock

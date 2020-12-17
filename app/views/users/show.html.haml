@@ -6,17 +6,19 @@
   .main-menu-outer
     .main-menu-inner
       .profile
-        - if user_signed_in?
-          = render partial: 'posts/profile', locals: {user: @user}
-        - else
+        = render partial: 'posts/profile', locals: {user: @user}
       
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
+        = link_to user_path(@user.id), remote: true do 
+          %li 投稿
+        = link_to likes_user_path(@user.id), remote: true, "data-turbolinks": false do 
+          %li お気に入り
         = link_to ('#') do 
-          %li タイムライン
+          %li フォロー
         = link_to ('#') do 
-          %li 人気の投稿
+          %li フォロワー
     - if @posts.empty?
       投稿がまだありません
     - else

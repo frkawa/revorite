@@ -1,0 +1,30 @@
+.profile-image
+  - if user.image.attached? 
+    = link_to(url_for(user.image)) do
+      = image_tag(user.image, alt: 'デフォルトアイコン')
+  - else
+    = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+.profile-name
+  = link_to user_path(user.id), "data-turbolinks": false do
+    = user.name
+.profile-postcount
+  投稿数
+  = user.postcount.to_s(:delimited)
+.profile-following
+  フォロー
+  = user.following_count.to_s(:delimited)
+.profile-follower
+  フォロワー
+  = user.followers_count.to_s(:delimited)
+.profile-description
+  = simple_format(user.description)
+- if user_signed_in?
+  - if user.id == current_user.id
+    = link_to edit_user_registration_path, "data-turbolinks": false do
+      .profile-config
+        %i.far.fa-id-card
+        プロフィールの変更
+  = link_to new_post_url, "data-turbolinks": false do
+    .button-post
+      %i.fas.fa-feather-alt
+      投稿する

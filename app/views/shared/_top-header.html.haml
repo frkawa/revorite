@@ -1,12 +1,32 @@
 .header
   .header-left
-    = link_to root_path, "data-turbolinks": false do
-      Revorite
+    .header-left-title
+      = link_to root_path, "data-turbolinks": false do
+        Revorite
+    .header-left-pagename
+      - case request.fullpath
+      - when /users\// 
+        - if user_signed_in?
+          - if @user.id == current_user.id
+            − プロフィール
+          - else
+            − ユーザ情報
+        - else
+          − ユーザ情報
+      - when "/posts/new"
+        − 新規投稿
+        
   .header-right
     %ul
       - if user_signed_in?
-        %li
-          = current_user.name
+        = link_to user_path(current_user.id), "data-turbolinks": false do
+          %li
+            - if current_user.image.attached? 
+              = image_tag(current_user.image, alt: 'デフォルトアイコン')
+            - else
+              = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+          %li#username
+            = current_user.name
         %li
           = link_to destroy_user_session_path, method: :delete do
             %i.fas.fa-sign-out-alt

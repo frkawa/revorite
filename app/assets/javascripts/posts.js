@@ -1,12 +1,12 @@
 $(function (){
   // 各投稿のコメントボタンを押すとコメント欄を開く、または折り畳む
-  $('.post-action__comment').click(function (){
+  $(document).on("click", ".post-action__comment", function(){
     var post_id = $(this).attr('id').replace(/post-action__comment-/g, '');
     $('#comment_' + post_id).slideToggle();
   })
   
   // コメント投稿時に画像を選択すると画像のプレビューを表示する
-  $('.comment-image-files').change(function (){
+  $(document).on("change", ".comment-image-files", function(){
     var post_id = $(this).attr('id').replace(/-comment-images/g, '');
     $("#previewimages-" + post_id).html("");
     var filecount = this.files.length;
@@ -47,17 +47,19 @@ $(function (){
       }
     }
 
-    // 画像を選択した時の画像枚数、文字数に応じてコメントボタンを活性/非活性化する
+    // 画像を選択した時の画像枚数、コメント欄文字数に応じてコメントボタンを活性/非活性化する
     buttononoff(post_id);
   })
 
-  // コメント欄を入力の文字数に応じてコメントボタンが活性化される
-  $(".comment-text").keyup(function (){
+  // コメント欄で文字入力する度にイベント発生
+  // $(".comment-text").keyup(function (){
+  $(document).on("keyup", ".comment-text", function(){
     var post_id = $(this).attr('id').replace(/comment-text/g, '');
     var textcount = $(this).val().length;
+    // 残り入力可能文字数を更新する
     $("#comment-textcount" + post_id).text(300 - textcount);
 
-    // 文字を入力した時の文字数、画像枚数に応じてコメントボタンを活性/非活性化する
+    // コメント欄の文字数、画像枚数に応じてコメントボタンを活性/非活性化する
     buttononoff (post_id)
   })
 
