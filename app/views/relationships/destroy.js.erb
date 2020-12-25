@@ -1,10 +1,10 @@
 var active_menu = $('.active').attr('href').replace(/\/users\/[0-9]+/g, '');
 switch(active_menu){
   case "/followings":
-  $(".main-posts-contents").html("<%= j(render partial: "users/users", locals: {users: @referer_user.followings}) %>");
+  $(".main-posts-contents").html("<%= j(render partial: "users/users", locals: {users: @referer_user.followings.order('relationships.created_at')}) %>");
   break;
   case "/followers":
-  $(".main-posts-contents").html("<%= j(render partial: "users/users", locals: {users: @referer_user.followers}) %>");
+  $(".main-posts-contents").html("<%= j(render partial: "users/users", locals: {users: @referer_user.followers.order('relationships.created_at')}) %>");
   break;
 }
 $(".profile").html("<%= j(render partial: "posts/profile", locals: {user: @referer_user}) %>");
