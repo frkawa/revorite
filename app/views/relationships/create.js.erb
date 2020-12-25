@@ -1,0 +1,10 @@
+var active_menu = $('.active').attr('href').replace(/\/users\/[0-9]+/g, '');
+switch(active_menu){
+  case "/followings":
+  $(".main-posts-contents").html("<%= j(render partial: "users/users", locals: {users: @referer_user.followings}) %>");
+  break;
+  case "/followers":
+  $(".main-posts-contents").html("<%= j(render partial: "users/users", locals: {users: @referer_user.followers}) %>");
+  break;
+}
+$(".profile").html("<%= j(render partial: "posts/profile", locals: {user: @referer_user}) %>");

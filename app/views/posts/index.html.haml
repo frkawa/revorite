@@ -5,20 +5,38 @@
 .main
   .main-menu-outer
     .main-menu-inner
-      .profile
-        - if user_signed_in?
+      - if user_signed_in?
+        .profile
           = render partial: 'posts/profile', locals: {user: @user}
-        - else
+        = link_to new_post_url, "data-turbolinks": false do
+          .button-post
+            %i.fas.fa-feather-alt
+            投稿する
+      - else
+        .profile
       
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
-        = link_to ('#') do 
-          %li タイムライン
-        = link_to ('#') do 
-          %li 人気の投稿
+        = link_to root_path, class: 'active', remote: true do
+          .main-posts-header-list-box
+            - if user_signed_in?
+              %li タイムライン
+              %i.fas.fa-question-circle
+                .fukidashi
+                  フォローしているユーザの投稿を見ることができます
+            - else
+              %li 最新の投稿
+        = link_to trend_posts_path, class: 'non-active', remote: true do 
+          .main-posts-header-list-box
+            %li 人気の投稿
+            %i.fas.fa-question-circle
+              .fukidashi
+                お気に入りに多く登録されている投稿を見ることができます
     - if @posts.empty?
-      投稿がまだありません
+      %ul.main-posts-contents
+        %li.post
+          投稿がまだありません
     - else
       %ul.main-posts-contents
         = render partial: "posts/posts", locals: {posts: @posts}

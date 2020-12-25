@@ -8,13 +8,13 @@
       - when /users\// 
         - if user_signed_in?
           - if @user.id == current_user.id
-            − プロフィール
+            ｜ マイページ
           - else
-            − ユーザ情報
+            ｜ ユーザ情報
         - else
-          − ユーザ情報
+          ｜ ユーザ情報
       - when "/posts/new"
-        − 新規投稿
+        ｜ 新規投稿
         
   .header-right
     %ul

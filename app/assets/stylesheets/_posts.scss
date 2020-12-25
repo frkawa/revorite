@@ -17,7 +17,6 @@ body {
     "Hiragino Sans",
     Meiryo,
     sans-serif;
-  // font-family: "游ゴシック体", "Yu Gothic", YuGothic;
   font-weight: 500;
 }
 
@@ -138,6 +137,52 @@ a {
       background-color: white;
       font-weight: bold;
       font-size: 1.1rem;
+      &-list {
+        &-box {
+          display: flex;
+          justify-content: center;
+          i {
+            position: relative;
+            font-size: 0.85em;
+            margin-left: 5px;
+            padding-top: 2px;
+            color: cornflowerblue;
+            & .fukidashi {
+              visibility: hidden;
+              opacity: 0;
+              background: cornflowerblue;
+              position: absolute;
+              top: 30px;
+              left: -10px;
+              font-size: 0.9rem;
+              font-family: "游ゴシック体";
+              color: white;
+              font-weight: normal;
+              padding: 10px;
+              z-index: 1;
+              border-radius: 5px;
+              width: 200px;
+              text-align: left;
+              line-height: 15px;
+              &:before {
+                content: "";
+                position: absolute;
+                top: -10px;
+                left: 12%;
+                margin-left: -20px;
+                border: 10px solid transparent;
+                border-bottom: 15px solid cornflowerblue;
+                border-top: 0px;
+              }
+            }
+            &:hover .fukidashi {
+              visibility: visible;
+              opacity: 1;
+              transition: .2s;
+            }
+          }
+        }
+      }
       ul {
         list-style: none;
         display: flex;
@@ -149,6 +194,7 @@ a {
           position: relative;
           display: inline-block;
           text-decoration: none;
+          color: #333881;
           &::after {
             position: absolute;
             bottom: -1px;
@@ -156,16 +202,25 @@ a {
             content: '';
             width: 100%;
             height: 2px;
-            background: #333881;
-            transform: scale(0, 1);
-            transform-origin: center top;
-            transition: transform .3s;
+            background-color: #333881;
           }
-          &:hover {
+          &.active {
             background-color: #d6e0ff;
-            transition: .4s;
+          }
+          &.non-active {
             &::after {
-              transform: scale(1, 1);
+              transform: scale(0, 1);
+              transform-origin: center top;
+              transition: transform .3s;
+              
+            }
+            &:hover {
+              background-color: #ebf0ff;
+              transition: .4s;
+              &::after {
+                background-color: #9498cc;
+                transform: scale(1, 1);
+              }
             }
           }
         }
@@ -193,13 +248,17 @@ a {
     font-size: 1.3rem;
     font-weight: bold;
     margin: 8px 10px;
+    a:hover {
+      text-decoration: underline;
+    }
   }
   &-description {
     margin: 10px;
     text-align: left;
   }
   &-config {
-    margin: 10px 0;
+    margin: 20px 0;
+    text-align: center;
     &:hover {
       text-decoration: underline;
     }
@@ -220,7 +279,6 @@ button, input, select, textarea {
     font-weight: bold;
     border: solid 1px #b3642f;
     border-radius: 5px;
-    // box-shadow:2px 2px #555;
     padding: 13px 7px;
     margin: 30px 30px 0 30px;
     transition: .2s;
@@ -249,6 +307,44 @@ button, input, select, textarea {
       cursor: default;
     }
   }
+  &-follow {
+    text-align: center;
+    margin: 0 auto;
+    width: 160px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: solid 1px #333881;
+    border-radius: 5px;
+    padding: 5px 0px;
+    margin-top: 30px;
+    transition: .2s;
+    &.follow {
+      background-color: white;
+      color: #333881;
+      &:hover {
+        background-color: #333881;
+        color: white;
+      }
+    }
+    &.unfollow {
+      background-color: #333881;
+      color: white;
+      & .switch-hover {
+        display: none;
+      }
+      &:hover {
+        background-color: #f079ba;
+        color: white;
+        border: solid 1px #f079ba;
+        & .switch-normal {
+          display: none;
+        }
+        & .switch-hover {
+          display: inline;
+        }
+      }
+    }
+  }
 }
 
 
@@ -260,6 +356,9 @@ button, input, select, textarea {
   font-size: 1.1rem;
   font-weight: bold;
   margin-right: 20px;
+  a:hover {
+    text-decoration: underline;
+  }
 }
 %post-comment-header__time {
   font-size: 0.9rem;
@@ -283,7 +382,7 @@ button, input, select, textarea {
   }
 }
 
-.post {
+.post, .user {
   display: flex;
   line-height: 1.5rem;
   padding: 10px;
@@ -365,6 +464,30 @@ button, input, select, textarea {
   }
 }
 
+.user {
+  &-header {
+    margin-bottom: 2px;
+    &__name {
+      padding-top: 2px;
+    }
+    &__button {
+      padding: 1px 0px;
+      width: 120px;
+      font-size: 0.9rem;
+      margin-top: 0px;
+    }
+  }
+  &-data {
+    display: flex;
+    margin-bottom: 5px;
+    &__postscount, &__followingscount, &__followerscount {
+      margin-right: 8px;
+      font-size: 0.9rem;
+      color: #a1a1a1;
+    }
+  }
+}
+
 .comment {
   &-wrapper {
     display: none;
@@ -438,8 +561,6 @@ button, input, select, textarea {
       }
     }
     &__submit {
-      // display: flex;
-      // justify-content: space-between;
       &-upper {
         display: flex;
         justify-content: space-between;

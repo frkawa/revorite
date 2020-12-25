@@ -52,7 +52,6 @@ $(function (){
   })
 
   // コメント欄で文字入力する度にイベント発生
-  // $(".comment-text").keyup(function (){
   $(document).on("keyup", ".comment-text", function(){
     var post_id = $(this).attr('id').replace(/comment-text/g, '');
     var textcount = $(this).val().length;
@@ -61,6 +60,13 @@ $(function (){
 
     // コメント欄の文字数、画像枚数に応じてコメントボタンを活性/非活性化する
     buttononoff (post_id)
+  })
+
+  // タブメニューの切り替え機能
+  $(document).on("mouseup", ".main-posts-header-list a", function(){
+    $('.active').attr('class', 'non-active');
+    $(this).attr('class', 'active');
+    // console.log($('.active').attr('href').replace(/\/users\/[0-9]+/g, ''));
   })
 
   

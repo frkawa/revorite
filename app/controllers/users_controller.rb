@@ -7,7 +7,12 @@ class UsersController < ApplicationController
   end
 
   def likes
-    
+  end
+
+  def followings
+  end
+
+  def followers
   end
 
   private

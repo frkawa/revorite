@@ -7,23 +7,24 @@
     .main-menu-inner
       .profile
         = render partial: 'posts/profile', locals: {user: @user}
-      
+        - if @user.id == current_user.id
+          = link_to edit_user_registration_path, "data-turbolinks": false do
+            .profile-config
+              %i.fas.fa-user-edit
+              プロフィールの変更
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
-        = link_to user_path(@user.id), remote: true do 
+        = link_to "/users/#{@user.id}", remote: true, "data-turbolinks": false, class: "active" do 
           %li 投稿
-        = link_to likes_user_path(@user.id), remote: true, "data-turbolinks": false do 
+        = link_to "/users/#{@user.id}/likes", remote: true, "data-turbolinks": false, class: "non-active" do 
           %li お気に入り
-        = link_to ('#') do 
+        = link_to "/users/#{@user.id}/followings", remote: true, "data-turbolinks": false, class: "non-active" do 
           %li フォロー
-        = link_to ('#') do 
+        = link_to "/users/#{@user.id}/followers", remote: true, "data-turbolinks": false, class: "non-active" do 
           %li フォロワー
-    - if @posts.empty?
-      投稿がまだありません
-    - else
-      %ul.main-posts-contents
-        = render partial: "posts/posts", locals: {posts: @posts}
+    %ul.main-posts-contents
+      = render partial: "posts/posts", locals: {posts: @posts}
         
 .footer
   &copy; 2020 Revorite

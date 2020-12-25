@@ -5,10 +5,14 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show] do
     member do
-      get :likes
+      get :likes, :followings, :followers
     end
+    resources :relationships, only: [:create, :destroy]
   end
   resources :posts, only: [:index, :new, :create, :destroy] do
+    collection do
+      get :trend
+    end
     resources :likes, only: [:create, :destroy]
     resources :comments, only: [:create, :destroy]
   end
