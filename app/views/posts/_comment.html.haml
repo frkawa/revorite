@@ -12,7 +12,7 @@
           .comment-right
             .comment-header
               .comment-header__name
-                = link_to('#') do
+                = link_to user_path(comment.user.id), "data-turbolinks": false do
                   = comment.user.name
               .comment-header__time
                 %i.far.fa-clock

@@ -1,6 +1,6 @@
 .post-header
   .post-header__name
-    = link_to('#') do
+    = link_to user_path(post.user.id), "data-turbolinks": false do
       = post.user.name
   .post-header__time
     %i.far.fa-clock
@@ -8,7 +8,7 @@
   - if user_signed_in?
     - if post.user_id == current_user.id
       .post-header__delete
-        = link_to("/posts/#{post.id}", method: :delete, data: {confirm: "投稿を削除してよろしいですか？"}) do
+        = link_to("/posts/#{post.id}", method: :delete, title: "投稿を削除する", data: {confirm: "投稿を削除してよろしいですか？"}) do
           %i.fas.fa-trash-alt
 - if post.review.present?
   .post-review
@@ -27,7 +27,19 @@
       = post.review.title
     .post-review-price
       - if post.review.price.present?
-        = "¥ " + post.review.price.to_s(:delimited)
+        = "¥" + post.review.price.to_s(:delimited)
+    .post-review-google.review-img
+      = link_to "http://www.google.co.jp/search?q=#{CGI.escape(post.review.title)}", target: "_blank" do
+        = image_tag("/assets/google2.png", title: "Googleで検索する", size: "20x20")
+    .post-review-amazon.review-img
+      = link_to "https://www.amazon.co.jp/s?k=#{CGI.escape(post.review.title)}", target: "_blank" do
+        = image_tag("/assets/amazon2.png", title: "Amazonで検索する", size: "20x20")
+    .post-review-rakuten.review-img
+      = link_to "https://search.rakuten.co.jp/search/mall/#{CGI.escape(post.review.title)}", target: "_blank" do
+        = image_tag("/assets/rakuten.png", title: "楽天で検索する", size: "20x20")
+    .post-review-kakakudotcom.review-img
+      = link_to "https://kakaku.com/search_results/#{CGI.escape(post.review.title.encode(Encoding::Shift_JIS))}", target: "_blank" do
+        = image_tag("/assets/kakakudotcom.png", title: "価格.comで検索する", size: "20x20")
 .post-text
   = simple_format(post.text)
 - if post.images.attached?

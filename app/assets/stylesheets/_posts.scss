@@ -1,6 +1,6 @@
 $header-h: 50px;
-$main-menu-w: 400px;
-$main-posts-w: 100%;
+$main-menu-w: 300px;
+$main-posts-w: 47vw;
 $footer-h: 40px;
 
 html {
@@ -17,7 +17,6 @@ body {
     "Hiragino Sans",
     Meiryo,
     sans-serif;
-  // font-family: "游ゴシック体", "Yu Gothic", YuGothic;
   font-weight: 500;
 }
 
@@ -35,20 +34,48 @@ a {
   color: white;
   background-color: #582300;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 66%;
-  padding: 0 17%;
+  width: 100%;
+  box-sizing: border-box;
   
   &-left {
-    font-size: 1.9rem;
-    font-family: 'Aclonica-Regular';
+    width: $main-menu-w;
+    display: flex;
+    &-title {
+      font-size: 1.9rem;
+      font-family: 'Aclonica-Regular';
+      a:hover {
+        opacity: 0.8;
+        transition: .2s;
+      }
+    }
+    &-pagename {
+      margin-left: 15px;
+      padding-top: 5px;
+      font-size: 1.2rem;
+    }
+    
   }
   
   &-right {
+    width: $main-posts-w;
+    min-width: 500px;
+    text-align: right;
+    img {
+      border-radius: 25%;
+      height: 100%;
+      max-height: 18px;
+      max-width: 18px;
+      object-fit: cover;
+    }
     li {
+      vertical-align: middle;
       display: inline;
       margin-left: 20px;
+      &:first-child {
+        margin-left: 0px;
+      }
     }
     a {
       position: relative;
@@ -74,12 +101,13 @@ a {
     }
   }
 }
+#username {
+  margin-left: 2px;
+}
 
 .main {
   display: flex;
   justify-content: center;
-  // height: 1500px;
-  padding: 0 17%;
   padding-top: $header-h;
   background-color: #fef6e4;
   a {
@@ -88,7 +116,6 @@ a {
   &-menu-outer {
     background-color: white;
     width: $main-menu-w;
-    box-sizing: border-box;
     padding: 10px 0;
   }
   &-menu-inner {
@@ -99,6 +126,109 @@ a {
   &-posts {
     background-color: white;
     width: $main-posts-w;
+    min-width: 500px;
+    min-height: calc(100vh - #{$header-h} - #{$footer-h});
+    &-header {
+      position: fixed;
+      width: calc(#{$main-posts-w} - 20px);
+      min-width: 480px;
+      margin: 0 10px;
+      border-bottom: solid 1px #a1a1a1;
+      background-color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+      &-list {
+        &-box {
+          display: flex;
+          justify-content: center;
+          i {
+            position: relative;
+            font-size: 0.85em;
+            margin-left: 5px;
+            padding-top: 2px;
+            color: cornflowerblue;
+            & .fukidashi {
+              visibility: hidden;
+              opacity: 0;
+              background: cornflowerblue;
+              position: absolute;
+              top: 30px;
+              left: -10px;
+              font-size: 0.9rem;
+              font-family: "游ゴシック体";
+              color: white;
+              font-weight: normal;
+              padding: 10px;
+              z-index: 1;
+              border-radius: 5px;
+              width: 200px;
+              text-align: left;
+              line-height: 15px;
+              &:before {
+                content: "";
+                position: absolute;
+                top: -10px;
+                left: 12%;
+                margin-left: -20px;
+                border: 10px solid transparent;
+                border-bottom: 15px solid cornflowerblue;
+                border-top: 0px;
+              }
+            }
+            &:hover .fukidashi {
+              visibility: visible;
+              opacity: 1;
+              transition: .2s;
+            }
+          }
+        }
+      }
+      ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        a {
+          width: 50%;
+          text-align: center;
+          padding: 10px 0px;
+          position: relative;
+          display: inline-block;
+          text-decoration: none;
+          color: #333881;
+          &::after {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            content: '';
+            width: 100%;
+            height: 2px;
+            background-color: #333881;
+          }
+          &.active {
+            background-color: #d6e0ff;
+          }
+          &.non-active {
+            &::after {
+              transform: scale(0, 1);
+              transform-origin: center top;
+              transition: transform .3s;
+              
+            }
+            &:hover {
+              background-color: #ebf0ff;
+              transition: .4s;
+              &::after {
+                background-color: #9498cc;
+                transform: scale(1, 1);
+              }
+            }
+          }
+        }
+      }
+    }
+    &-contents li:first-child {
+      padding-top: 46px;
+    }
   }
 }
 
@@ -118,13 +248,17 @@ a {
     font-size: 1.3rem;
     font-weight: bold;
     margin: 8px 10px;
+    a:hover {
+      text-decoration: underline;
+    }
   }
   &-description {
     margin: 10px;
     text-align: left;
   }
   &-config {
-    margin: 10px 0;
+    margin: 20px 0;
+    text-align: center;
     &:hover {
       text-decoration: underline;
     }
@@ -145,7 +279,6 @@ button, input, select, textarea {
     font-weight: bold;
     border: solid 1px #b3642f;
     border-radius: 5px;
-    // box-shadow:2px 2px #555;
     padding: 13px 7px;
     margin: 30px 30px 0 30px;
     transition: .2s;
@@ -174,6 +307,44 @@ button, input, select, textarea {
       cursor: default;
     }
   }
+  &-follow {
+    text-align: center;
+    margin: 0 auto;
+    width: 160px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: solid 1px #333881;
+    border-radius: 5px;
+    padding: 5px 0px;
+    margin-top: 30px;
+    transition: .2s;
+    &.follow {
+      background-color: white;
+      color: #333881;
+      &:hover {
+        background-color: #333881;
+        color: white;
+      }
+    }
+    &.unfollow {
+      background-color: #333881;
+      color: white;
+      & .switch-hover {
+        display: none;
+      }
+      &:hover {
+        background-color: #f079ba;
+        color: white;
+        border: solid 1px #f079ba;
+        & .switch-normal {
+          display: none;
+        }
+        & .switch-hover {
+          display: inline;
+        }
+      }
+    }
+  }
 }
 
 
@@ -185,6 +356,9 @@ button, input, select, textarea {
   font-size: 1.1rem;
   font-weight: bold;
   margin-right: 20px;
+  a:hover {
+    text-decoration: underline;
+  }
 }
 %post-comment-header__time {
   font-size: 0.9rem;
@@ -193,6 +367,9 @@ button, input, select, textarea {
 }
 %post-comment-header__delete {
   color: #6d6d6d;
+  & a:hover {
+    opacity: 0.7;
+  }
 }
 %post-comment-text {
   margin-bottom: 10px;
@@ -208,7 +385,7 @@ button, input, select, textarea {
   }
 }
 
-.post {
+.post, .user {
   display: flex;
   line-height: 1.5rem;
   padding: 10px;
@@ -239,18 +416,25 @@ button, input, select, textarea {
   &-review {
     display: flex;
     margin-bottom: 5px;
-    &-star {
+    & div {
       margin-right: 10px;
+    }
+    & .review-img {
+      margin-right: 4px;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+    &-star {
+      padding-top: 2px;
       min-width: 96px;
     }
     &-title {
       font-size: 1.1rem;
       font-weight: bold;
-      margin-right: 10px;
+      // max-width: 300px;
     }
-    &-price {
-      min-width: 85px;
-    }
+    
   }
   &-text {
     @extend %post-comment-text;
@@ -286,6 +470,30 @@ button, input, select, textarea {
       &--liked {
         color: orange;
       }
+    }
+  }
+}
+
+.user {
+  &-header {
+    margin-bottom: 2px;
+    &__name {
+      padding-top: 2px;
+    }
+    &__button {
+      padding: 1px 0px;
+      width: 120px;
+      font-size: 0.9rem;
+      margin-top: 0px;
+    }
+  }
+  &-data {
+    display: flex;
+    margin-bottom: 5px;
+    &__postscount, &__followingscount, &__followerscount {
+      margin-right: 8px;
+      font-size: 0.9rem;
+      color: #a1a1a1;
     }
   }
 }
@@ -341,7 +549,6 @@ button, input, select, textarea {
   }
   &-text {
     @extend %post-comment-text;
-    margin-bottom: 3px;
   }
   &-image {
     @extend %post-comment-image;
@@ -364,8 +571,6 @@ button, input, select, textarea {
       }
     }
     &__submit {
-      // display: flex;
-      // justify-content: space-between;
       &-upper {
         display: flex;
         justify-content: space-between;

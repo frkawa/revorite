@@ -1,12 +1,19 @@
 class PostsController < ApplicationController
 
   def index
-    @posts = Post.with_attached_images.includes([:user, :review, :comments])
-    gon.posts = @posts
+    posts_all = Post.with_attached_images.includes([:user, :review, :comments, :likes])
     if user_signed_in?
+      @user = User.find(current_user.id)
+      @posts = posts_all.where(user_id: @user.followings).or(posts_all.where(user_id: current_user))
       @post_count = Post.where(user_id: current_user.id).count
     else
+      @posts = posts_all
     end
+  end
+
+  def trend
+    counts = Post.joins(:likes).group(:id).order('count_all').count
+    @posts = Post.with_attached_images.includes([:user, :review, :comments, :likes]).find(counts.map{|id, count| id})
   end
 
   def new
