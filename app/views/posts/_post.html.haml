@@ -34,6 +34,9 @@
     .post-review-amazon.review-img
       = link_to "https://www.amazon.co.jp/s?k=#{CGI.escape(post.review.title)}", target: "_blank" do
         = image_tag("/assets/amazon2.png", title: "Amazonで検索する", size: "20x20")
+    .post-review-rakuten.review-img
+      = link_to "https://search.rakuten.co.jp/search/mall/#{CGI.escape(post.review.title)}", target: "_blank" do
+        = image_tag("/assets/rakuten.png", title: "楽天で検索する", size: "20x20")
     .post-review-kakakudotcom.review-img
       = link_to "https://kakaku.com/search_results/#{CGI.escape(post.review.title.encode(Encoding::Shift_JIS))}", target: "_blank" do
         = image_tag("/assets/kakakudotcom.png", title: "価格.comで検索する", size: "20x20")
