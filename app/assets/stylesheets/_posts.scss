@@ -449,6 +449,7 @@ button, input, select, textarea {
     margin-bottom: 5px;
     i {
       font-size: 1.1rem;
+      &.nonactive { color: #a1a1a1 }
     }
     &__comment {
       :hover {
@@ -458,18 +459,13 @@ button, input, select, textarea {
     }
     &__repost {
       margin-left: 8px;
-      :hover {
-        color: green;
-      }
+      a:hover { color: green; }
+      &--reposted { color: green; }
     }
     &__fav {
       margin-left: 8px;
-      a:hover {
-        color: orange;
-      }
-      &--liked {
-        color: orange;
-      }
+      a:hover { color: orange; }
+      &--liked { color: orange; }
     }
   }
 }

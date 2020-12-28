@@ -52,9 +52,7 @@
     %p
       %i.far.fa-comment-dots
       = post.comments.length
-  .post-action__repost{ title: "リポストする" }
-    = link_to('#') do
-      %i.fas.fa-retweet
-      = post.repost_count
-  .post-action__fav#like{ id: post.id, title: "お気に入りに登録する" }
+  .post-action__repost#repost{ id: post.id}
+    = render partial: "reposts/repost", locals: {post: post}
+  .post-action__fav#like{ id: post.id }
     = render partial: "likes/like", locals: {post: post}

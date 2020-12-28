@@ -24,8 +24,12 @@ class User < ApplicationRecord
     Post.where(user_id: id).count
   end
 
-  def liked_by?(post_id)
-    likes.where(post_id: post_id).exists?
+  def reposted?(post_id)
+    self.reposts.where(post_id: post_id).exists?
+  end
+
+  def liked?(post_id)
+    self.likes.where(post_id: post_id).exists?
   end
 
   def follow(other_user)
