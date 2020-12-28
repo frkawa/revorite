@@ -48,13 +48,13 @@
       = image_tag(image)
 - else
 .post-action
-  .post-action__comment{id: "post-action__comment-#{post.id}"} 
+  .post-action__comment{id: "post-action__comment-#{post.id}", title: "コメントをする・見る" } 
     %p
       %i.far.fa-comment-dots
       = post.comments.length
-  .post-action__repost
+  .post-action__repost{ title: "リポストする" }
     = link_to('#') do
       %i.fas.fa-retweet
       = post.repost_count
-  .post-action__fav#like{ id: post.id }
+  .post-action__fav#like{ id: post.id, title: "お気に入りに登録する" }
     = render partial: "likes/like", locals: {post: post}
