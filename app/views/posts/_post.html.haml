@@ -30,10 +30,10 @@
         = "¥" + post.review.price.to_s(:delimited)
     .post-review-google.review-img
       = link_to "http://www.google.co.jp/search?q=#{CGI.escape(post.review.title)}", target: "_blank" do
-        = image_tag("/assets/google2.png", title: "Googleで検索する", size: "20x20")
+        = image_tag("/assets/google.png", title: "Googleで検索する", size: "20x20")
     .post-review-amazon.review-img
       = link_to "https://www.amazon.co.jp/s?k=#{CGI.escape(post.review.title)}", target: "_blank" do
-        = image_tag("/assets/amazon2.png", title: "Amazonで検索する", size: "20x20")
+        = image_tag("/assets/amazon.png", title: "Amazonで検索する", size: "20x20")
     .post-review-rakuten.review-img
       = link_to "https://search.rakuten.co.jp/search/mall/#{CGI.escape(post.review.title)}", target: "_blank" do
         = image_tag("/assets/rakuten.png", title: "楽天で検索する", size: "20x20")

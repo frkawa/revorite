@@ -24,7 +24,7 @@
         = link_to "/users/#{@user.id}/followers", remote: true, "data-turbolinks": false, class: "non-active" do 
           %li フォロワー
     %ul.main-posts-contents
-      = render partial: "posts/posts", locals: {posts: @posts}
+      = render partial: "posts/posts_with_reposts", locals: {posts: @posts, user: @user}
         
 .footer
   &copy; 2020 Revorite

@@ -227,7 +227,7 @@ a {
       }
     }
     &-contents li:first-child {
-      padding-top: 46px;
+      padding-top: 36px;
     }
   }
 }
@@ -386,9 +386,12 @@ button, input, select, textarea {
 }
 
 .post, .user {
-  display: flex;
-  line-height: 1.5rem;
-  padding: 10px;
+  list-style: none;
+  &-container {
+    display: flex;
+    line-height: 1.5rem;
+    padding: 10px;
+  }
   &-left {
     margin-right: 10px;
     img {
@@ -466,6 +469,17 @@ button, input, select, textarea {
       margin-left: 8px;
       a:hover { color: orange; }
       &--liked { color: orange; }
+    }
+  }
+}
+
+.post {
+  &-repost {
+    color: gray;
+    padding: 10px 10px 0px 45px;
+    i { 
+      color: green;
+      padding-right: 5px;
     }
   }
 }

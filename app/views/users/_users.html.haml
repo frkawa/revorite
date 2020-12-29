@@ -8,13 +8,14 @@
 - else
   - users.each_with_index.reverse_each do |user, i|
     %li.user
-      .user-left
-        = link_to "/users/#{user.id}" do
-          - if user.image.attached? 
-            = image_tag(user.image, alt: 'デフォルトアイコン')
-          - else
-            = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
-      .user-right{id: "user-right-#{user.id}"}
-        = render partial: "users/user", locals: {user: user}
+      .user-container
+        .user-left
+          = link_to "/users/#{user.id}" do
+            - if user.image.attached? 
+              = image_tag(user.image, alt: 'デフォルトアイコン')
+            - else
+              = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+        .user-right{id: "user-right-#{user.id}"}
+          = render partial: "users/user", locals: {user: user}
     - if i != 0
       %hr

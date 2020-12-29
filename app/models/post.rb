@@ -13,7 +13,4 @@ class Post < ApplicationRecord
 
   attr_accessor :rev_flg
 
-  # def reposted_by?(user_id)
-  #   self.reposts.find_by(user_id: user_id)
-  # end
 end

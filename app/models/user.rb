@@ -24,6 +24,15 @@ class User < ApplicationRecord
     Post.where(user_id: id).count
   end
 
+  def posts_with_reposts
+    relation = Post.joins("LEFT OUTER JOIN reposts ON posts.id = reposts.post_id AND reposts.user_id = '#{self.id}'")
+    relation.where(user_id: self.id)
+            .or(relation.where(id: Repost.where(user_id: self.id).pluck(:post_id)))
+            .with_attached_images
+            .includes([:user, :review, :comments, :likes])
+            .order(Arel.sql("CASE WHEN reposts.created_at IS NULL THEN posts.created_at ELSE reposts.created_at END"))
+  end
+
   def reposted?(post_id)
     self.reposts.where(post_id: post_id).exists?
   end
