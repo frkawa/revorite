@@ -2,9 +2,11 @@
   %li.user
     - case request.fullpath.gsub(/\/users\/[0-9]+/, '')
     - when '/followings'
-      まだ誰もフォローしていません。
+      .user-container
+        まだ誰もフォローしていません。
     - when '/followers'
-      まだ誰にもフォローされていません。
+      .user-container
+        まだ誰にもフォローされていません。
 - else
   - users.each_with_index.reverse_each do |user, i|
     %li.user

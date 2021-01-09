@@ -481,6 +481,11 @@ button, input, select, textarea {
       color: green;
       padding-right: 5px;
     }
+    a {
+      margin-right: -3px;
+      color: gray;
+      &:hover { text-decoration: underline; }
+    }
   }
 }
 
