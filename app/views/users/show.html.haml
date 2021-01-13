@@ -7,11 +7,12 @@
     .main-menu-inner
       .profile
         = render partial: 'posts/profile', locals: {user: @user}
-        - if @user.id == current_user.id
-          = link_to edit_user_registration_path, "data-turbolinks": false do
-            .profile-config
-              %i.fas.fa-user-edit
-              プロフィールの変更
+        - if user_signed_in?
+          - if @user.id == current_user.id
+            = link_to edit_user_registration_path, "data-turbolinks": false do
+              .profile-config
+                %i.fas.fa-user-edit
+                プロフィールの変更
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
@@ -24,7 +25,7 @@
         = link_to "/users/#{@user.id}/followers", remote: true, "data-turbolinks": false, class: "non-active" do 
           %li フォロワー
     %ul.main-posts-contents
-      = render partial: "posts/posts_with_reposts", locals: {posts: @posts, user: @user}
+      = render partial: "posts/posts", locals: {posts: @posts}
         
 .footer
   &copy; 2020 Revorite

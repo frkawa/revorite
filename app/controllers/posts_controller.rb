@@ -1,13 +1,11 @@
 class PostsController < ApplicationController
 
   def index
-    posts_all = Post.with_attached_images.includes([:user, :review, :comments, :likes])
     if user_signed_in?
       @user = User.find(current_user.id)
-      @posts = posts_all.where(user_id: @user.followings).or(posts_all.where(user_id: current_user))
-      @post_count = Post.where(user_id: current_user.id).count
+      @posts = @user.followings_posts_with_reposts
     else
-      @posts = posts_all
+      @posts = Post.with_attached_images.includes([:user, :review, :comments, :likes])
     end
   end
 
