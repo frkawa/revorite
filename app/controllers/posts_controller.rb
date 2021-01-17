@@ -1,17 +1,17 @@
 class PostsController < ApplicationController
 
-  def index
-    if user_signed_in?
-      @user = User.find(current_user.id)
-      @posts = @user.followings_posts_with_reposts
-    else
-      @posts = Post.with_attached_images.includes([:user, :review, :comments, :likes])
-    end
+def index
+  if user_signed_in?
+    @user = User.find(current_user.id)
+    @posts = @user.followings_posts_with_reposts
+  else
+    @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes)
   end
+end
 
   def trend
     counts = Post.joins(:likes).group(:id).order('count_all').count
-    @posts = Post.with_attached_images.includes([:user, :review, :comments, :likes]).find(counts.map{|id, count| id})
+    @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes).find(counts.map{|id, count| id})
   end
 
   def new

@@ -20,7 +20,7 @@ class RepostsController < ApplicationController
 
   private
   def set_post
-    @post = Post.find_by(id: params[:post_id])
+    @post = Post.find(params[:post_id])
     if @post.nil?
       redirect_to root_path, alert: '該当の投稿が見つかりません'
     end
