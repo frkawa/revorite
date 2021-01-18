@@ -30,10 +30,10 @@
         = "¥" + post.review.price.to_s(:delimited)
     .post-review-google.review-img
       = link_to "http://www.google.co.jp/search?q=#{CGI.escape(post.review.title)}", target: "_blank" do
-        = image_tag("/assets/google2.png", title: "Googleで検索する", size: "20x20")
+        = image_tag("/assets/google.png", title: "Googleで検索する", size: "20x20")
     .post-review-amazon.review-img
       = link_to "https://www.amazon.co.jp/s?k=#{CGI.escape(post.review.title)}", target: "_blank" do
-        = image_tag("/assets/amazon2.png", title: "Amazonで検索する", size: "20x20")
+        = image_tag("/assets/amazon.png", title: "Amazonで検索する", size: "20x20")
     .post-review-rakuten.review-img
       = link_to "https://search.rakuten.co.jp/search/mall/#{CGI.escape(post.review.title)}", target: "_blank" do
         = image_tag("/assets/rakuten.png", title: "楽天で検索する", size: "20x20")
@@ -48,13 +48,11 @@
       = image_tag(image)
 - else
 .post-action
-  .post-action__comment{id: "post-action__comment-#{post.id}"} 
+  .post-action__comment{id: "post-action__comment-#{post.id}", title: "コメントをする・見る" } 
     %p
       %i.far.fa-comment-dots
       = post.comments.length
-  .post-action__repost
-    = link_to('#') do
-      %i.fas.fa-retweet
-      = post.repost_count
+  .post-action__repost#repost{ id: post.id}
+    = render partial: "reposts/repost", locals: {post: post}
   .post-action__fav#like{ id: post.id }
     = render partial: "likes/like", locals: {post: post}

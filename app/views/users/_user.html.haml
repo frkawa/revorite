@@ -2,21 +2,22 @@
   .user-header__name
     = link_to user_path(user.id), "data-turbolinks": false do
       = user.name
-  - if user.id != current_user.id
-    - if current_user.following?(user)
-      = link_to "/users/#{user.id}/relationships/#{user.relationships.ids}", method: :delete, "data-turbolinks": false, remote: true do
-        .user-header__button.button-follow.unfollow
-          %span.switch-normal
-            %i.fas.fa-user-check
-            フォロー中
-          %span.switch-hover
-            %i.fas.fa-user-minus
-            フォロー解除
-    - else
-      = link_to "/users/#{user.id}/relationships", method: :post, "data-turbolinks": false, remote: true do
-        .user-header__button.button-follow.follow
-          %i.fas.fa-user-plus
-          フォローする
+  - if user_signed_in?
+    - if user.id != current_user.id
+      - if current_user.following?(user)
+        = link_to "/users/#{user.id}/relationships/#{user.relationships.ids}", method: :delete, "data-turbolinks": false, remote: true do
+          .user-header__button.button-follow.unfollow
+            %span.switch-normal
+              %i.fas.fa-user-check
+              フォロー中
+            %span.switch-hover
+              %i.fas.fa-user-minus
+              フォロー解除
+      - else
+        = link_to "/users/#{user.id}/relationships", method: :post, "data-turbolinks": false, remote: true do
+          .user-header__button.button-follow.follow
+            %i.fas.fa-user-plus
+            フォローする
 .user-data
   .user-data__postscount
     投稿数

@@ -1,12 +1,12 @@
 - if user_signed_in?
-  - if current_user.liked_by?(post.id)
-    = link_to "/posts/#{post.id}/likes/#{post.likes.ids}", method: :delete, remote: true do
+  - if current_user.liked?(post.id)
+    = link_to "/posts/#{post.id}/likes/#{post.likes.ids}", method: :delete, title: "お気に入りを解除する", remote: true do
       %i.fas.fa-star.post-action__fav--liked
       = post.likes.length
   - else
-    = link_to "/posts/#{post.id}/likes", method: :post, remote: true do
+    = link_to "/posts/#{post.id}/likes", method: :post, title: "お気に入りに登録する", remote: true do
       %i.far.fa-star
       = post.likes.length
 - else
-  %i.far.fa-star
+  %i.far.fa-star.nonactive
   = post.likes.length

@@ -1,0 +1,16 @@
+- if user_signed_in?
+  - unless post.user.id == current_user.id
+    - if current_user.reposted?(post.id)
+      = link_to "/posts/#{post.id}/reposts/#{post.reposts.ids}", method: :delete, title: "リポストを取り消す", remote: true do
+        %i.fas.fa-retweet.post-action__repost--reposted
+        = post.reposts.length
+    - else
+      = link_to "/posts/#{post.id}/reposts", method: :post, title: "リポストする", data: {confirm: "この投稿をリポストしますか？"}, remote: true do
+        %i.fas.fa-retweet
+      = post.reposts.length
+  - else
+    %i.fas.fa-retweet.nonactive
+    = post.reposts.length
+- else
+  %i.fas.fa-retweet.nonactive
+  = post.reposts.length

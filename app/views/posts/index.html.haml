@@ -36,7 +36,8 @@
     - if @posts.empty?
       %ul.main-posts-contents
         %li.post
-          投稿がまだありません
+          .post-container
+            投稿はまだありません。
     - else
       %ul.main-posts-contents
         = render partial: "posts/posts", locals: {posts: @posts}

@@ -13,7 +13,8 @@ Rails.application.routes.draw do
     collection do
       get :trend
     end
-    resources :likes, only: [:create, :destroy]
     resources :comments, only: [:create, :destroy]
+    resources :reposts, only: [:create, :destroy]
+    resources :likes, only: [:create, :destroy]
   end
 end

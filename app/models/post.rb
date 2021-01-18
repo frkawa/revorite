@@ -9,6 +9,7 @@ class Post < ApplicationRecord
   accepts_nested_attributes_for :review
   has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :reposts, dependent: :destroy
 
   attr_accessor :rev_flg
 

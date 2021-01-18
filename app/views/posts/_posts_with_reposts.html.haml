@@ -1,12 +1,12 @@
 - if posts.empty?
   %li.post
-    - case request.fullpath
-    - when /\/users\/[0-9]+\/likes/ then
-      .post-container
-        お気に入りはまだありません。
-    - else
-      .post-container
-        まだ投稿はありません。
+    .post-container
+      投稿はまだありません。
+
+
+
+
+
 - else
   - posts.each_with_index.reverse_each do |post, i|
     %li.post
