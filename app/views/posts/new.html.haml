@@ -1,6 +1,6 @@
 - content_for :no_turbolink, true
 
-= render "shared/top-header"
+= render "shared/header"
 
 .main
   = form_with model: @post, local: true do |f|
@@ -29,3 +29,5 @@
       = f.file_field :images, accept: "image/jpeg, image/png", multiple: true
     .main-submit
       = f.submit '投稿'
+
+= render "shared/footer"

@@ -1,6 +1,6 @@
 - content_for :no_turbolink, true
 
-= render "shared/top-header"
+= render "shared/header"
 
 .main
   .main-menu-outer
@@ -42,5 +42,4 @@
       %ul.main-posts-contents
         = render partial: "posts/posts", locals: {posts: @posts}
         
-.footer
-  &copy; 2020 Revorite
+= render "shared/footer"
