@@ -13,6 +13,11 @@ ja:
         rate: 評価（★）
         title: レビュー対象
         price: 価格
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        
   errors:
     messages:
       expired: "有効期限切れです。新規登録してください"

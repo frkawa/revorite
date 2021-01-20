@@ -52,7 +52,7 @@
                 .comment-write__submit--count{id: "comment-textcount#{post.id}"}
                   300
                 .comment-write__submit--btn
-                  = f.submit "コメント", class: "button-comment", id: "comment-button#{post.id}", disabled: true
+                  = f.submit "コメント", class: "button-submit", id: "comment-button#{post.id}", disabled: true
             .comment-write__submit-downer
               .comment-write__submit-previewimages{id: "previewimages-#{post.id}"}
     - else

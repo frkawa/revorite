@@ -1,30 +1,34 @@
 = render "shared/header"
 
 .main
-  %h2 Sign up
-  = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-    = render "devise/shared/error_messages", resource: resource
-    .field
-      = f.label :name
-      %br/
-      = f.text_field :name, autofocus: true, autocomplete: "name"
-    .field
-      = f.label :email
-      %br/
-      = f.email_field :email, autocomplete: "email"
-    .field
-      = f.label :password
-      - if @minimum_password_length
-        %em
-          (#{@minimum_password_length} characters minimum)
-      %br/
-      = f.password_field :password, autocomplete: "new-password"
-    .field
-      = f.label :password_confirmation
-      %br/
-      = f.password_field :password_confirmation, autocomplete: "new-password"
-    .actions
-      = f.submit "Sign up"
-  = render "devise/shared/links"
+  .signup
+    .signup-header
+      新規ユーザ登録
+    .signup-items
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = render "devise/shared/error_messages", resource: resource
+        .signup-items__label
+          = f.label :name
+        .signup-items__field
+          = f.text_field :name, autofocus: true, autocomplete: "name"
+        .signup-items__label
+          = f.label :email
+        .signup-items__field
+          = f.email_field :email, autocomplete: "email"
+        .signup-items__label
+          = f.label :password
+          - if @minimum_password_length
+            %em
+              (#{@minimum_password_length} characters minimum)
+        .signup-items__field
+          = f.password_field :password, autocomplete: "new-password"
+        .signup-items__label
+          = f.label :password_confirmation
+        .signup-items__field
+          = f.password_field :password_confirmation, autocomplete: "new-password"
+        .signup-items__submit
+          = f.submit "登録する", class: "button-submit user-registration"
+          = link_to("トップに戻る", root_path)
+          
 
 = render "shared/footer"
