@@ -5,6 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable
 
   validates :name, presence: true, length: { maximum: 30 }
+  VALID_EMAIL_REGEX = /\A[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\z/
+  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
+  validates :password, presence: true, length: { minimum: 6, maximum: 30 }, format: { with: /\A[a-z\d]+\z/i }
   validates :description, length: { maximum: 150 }
 
   has_one_attached :image

@@ -59,11 +59,11 @@
       .comment-write-left
         = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
       .comment-write-right#not-signed-in
-        = link_to "ログイン", new_user_session_path 
+        = link_to "ログイン", new_user_session_path, "data-turbolinks": false
         すると皆の投稿にコメントできるようになります。また気に入ったユーザをフォローしたり、良いと思った投稿をお気に入りに登録することもできます。
         %br 
         アカウントが無い方は
-        = link_to "新規登録", new_user_registration_path 
+        = link_to "新規登録", new_user_registration_path, "data-turbolinks": false
         、または
         = link_to "かんたんログイン", new_user_registration_path 
         （ゲストユーザとしてワンクリックでログイン）してください。
