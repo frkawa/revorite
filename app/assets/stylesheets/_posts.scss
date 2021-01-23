@@ -636,9 +636,13 @@ button, input, select, textarea {
     background-color: #f3ede1;
     border: 2px solid #d2c9b7;
     width: 400px;
-    margin-bottom: 30px;
     &__label {
       margin-bottom: 5px;
+      
+      span.note {
+        font-size: 0.8em;
+        color: gray;
+      }
     }
     &__field {
       margin-bottom: 20px;
@@ -654,12 +658,27 @@ button, input, select, textarea {
           background-color: #ffe0cc;
         }
       }
+      &--caution {
+        margin-top: 5px;
+        font-size: 0.9em;
+        color: red;
+      }
     }
     &__submit {
       text-align: center;
       margin: 40px 0 20px 0;
       input {
         display: inline-block;
+      }
+    }
+  }
+  &-footer {
+    margin: 30px 0;
+    text-align: center;
+    a {
+      text-decoration: underline;
+      &:hover {
+        color: #b3642f;
       }
     }
   }
