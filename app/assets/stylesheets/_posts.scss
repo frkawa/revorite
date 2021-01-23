@@ -663,6 +663,9 @@ button, input, select, textarea {
         font-size: 0.9em;
         color: red;
       }
+      & .input-caution {
+        border: solid 1px red;
+      }
     }
     &__submit {
       text-align: center;
