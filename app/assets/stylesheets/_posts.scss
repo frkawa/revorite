@@ -636,6 +636,10 @@ button, input, select, textarea {
     background-color: #f3ede1;
     border: 2px solid #d2c9b7;
     width: 400px;
+    #error_explanation {
+      margin: 0 0 20px 0;
+      color: red;
+    }
     &__label {
       margin-bottom: 5px;
       

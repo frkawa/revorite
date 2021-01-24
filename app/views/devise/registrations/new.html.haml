@@ -31,7 +31,7 @@
           = f.password_field :password_confirmation, autocomplete: "new-password", id: "signup-input-password_confirmation"
           .signup-items__field--caution#signup-caution-password_confirmation
         .signup-items__submit
-          = f.submit "登録する", class: "button-submit user-registration"
+          = f.submit "登録する", class: "button-submit user-registration", id: "signup-button-submit" #, disabled: true
     .signup-footer
       = link_to("<< トップに戻る", root_path)
           
