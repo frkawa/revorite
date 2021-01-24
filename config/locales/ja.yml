@@ -17,7 +17,7 @@ ja:
         name: 名前
         email: メールアドレス
         password: パスワード
-        password_confirmation: （確認用）パスワードをもう一度入力
+        password_confirmation: 確認用のパスワード
   errors:
     messages:
       expired: "有効期限切れです。新規登録してください"

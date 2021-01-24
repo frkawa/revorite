@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
-  before_action :set_user
+  before_action :set_user, except: [:index]
+
+  def index
+    redirect_to new_user_registration_path
+  end
 
   def show
     @posts = @user.posts_with_reposts
