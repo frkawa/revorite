@@ -5,7 +5,7 @@
         Revorite
     .header-left-pagename
       - case request.fullpath
-      - when /users\// 
+      - when /\/users\/[0-9]+/ 
         - if user_signed_in?
           - if @user.id == current_user.id
             ｜ マイページ
@@ -13,6 +13,8 @@
             ｜ ユーザ情報
         - else
           ｜ ユーザ情報
+      - when "/users/sign_up"
+        ｜ 新規ユーザ登録
       - when "/posts/new"
         ｜ 新規投稿
         
@@ -36,11 +38,21 @@
           = link_to('#') do
             %i.fas.fa-user-check
             かんたんログイン
-        %li
-          = link_to new_user_session_path do
+        - if current_page?(new_user_session_path)
+          %li{style: "font-weight: bold;"}
             %i.fas.fa-sign-in-alt
-            ログイン
-        %li
-          = link_to new_user_registration_path do
+            ログイン 
+        - else
+          %li
+            = link_to new_user_session_path, "data-turbolinks": false do
+              %i.fas.fa-sign-in-alt
+              ログイン
+        - if current_page?(new_user_registration_path)
+          %li{style: "font-weight: bold;"}
             %i.fas.fa-plus
-            新規登録
+            新規登録 
+        - else
+          %li
+            = link_to new_user_registration_path, "data-turbolinks": false do
+              %i.fas.fa-plus
+              新規登録

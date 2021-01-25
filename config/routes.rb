@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
   root 'posts#index'
 
-  resources :users, only: [:show] do
+  resources :users, only: [:index, :show] do
     member do
       get :likes, :followings, :followers
     end

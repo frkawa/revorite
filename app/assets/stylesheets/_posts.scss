@@ -110,6 +110,7 @@ a {
   justify-content: center;
   padding-top: $header-h;
   background-color: #fef6e4;
+  min-height: calc(100vh - #{$header-h} - #{$footer-h});
   a {
     color: black;
   }
@@ -127,7 +128,6 @@ a {
     background-color: white;
     width: $main-posts-w;
     min-width: 500px;
-    min-height: calc(100vh - #{$header-h} - #{$footer-h});
     &-header {
       position: fixed;
       width: calc(#{$main-posts-w} - 20px);
@@ -290,14 +290,17 @@ button, input, select, textarea {
       color: white;
     }
   }
-  &-comment {
+  &-submit {
     color: white;
     border: none;
     outline: none;
     background-color: #b3642f;;
     border-radius: 30px;
-    padding: 3px 8px;
+    padding: 5px 10px;
     transition: .1s;
+    &.user-registration {
+      padding: 10px 80px;
+    }
     &:hover {
       background-color: #dfa57e;
       cursor: pointer;
@@ -619,6 +622,73 @@ button, input, select, textarea {
     }
   }
   
+}
+
+.signup {
+  &-header {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 30px 0;
+    font-weight: bold;
+  }
+  &-items {
+    padding: 20px 30px;
+    background-color: #f3ede1;
+    border: 2px solid #d2c9b7;
+    width: 400px;
+    #error_explanation {
+      margin: 0 0 20px 0;
+      color: red;
+    }
+    &__label {
+      margin-bottom: 5px;
+      
+      span.note {
+        font-size: 0.8em;
+        color: gray;
+      }
+    }
+    &__field {
+      margin-bottom: 20px;
+      input {
+        box-sizing: border-box;
+        
+        width: 100%;
+        padding: 8px;
+        border : solid 1px #a1a1a1;
+        resize: none;
+        &:focus {
+          outline: none;
+          background-color: #ffe0cc;
+        }
+      }
+      &--caution {
+        margin-top: 5px;
+        font-size: 0.9em;
+        color: red;
+      }
+      & .input-caution {
+        border: solid 1px red;
+      }
+    }
+    &__submit {
+      text-align: center;
+      margin: 40px 0 20px 0;
+      input {
+        display: inline-block;
+      }
+    }
+  }
+  &-footer {
+    margin: 30px 0;
+    text-align: center;
+    a {
+      text-decoration: underline;
+      &:hover {
+        color: #b3642f;
+      }
+    }
+  }
 }
 
 hr {
