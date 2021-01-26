@@ -298,7 +298,7 @@ button, input, select, textarea {
     border-radius: 30px;
     padding: 5px 10px;
     transition: .1s;
-    &.user-registration {
+    &.user-registration, &.user-login {
       padding: 10px 80px;
     }
     &:hover {
@@ -624,7 +624,13 @@ button, input, select, textarea {
   
 }
 
-.signup {
+.signup, .login {
+  a {
+    text-decoration: underline;
+    &:hover {
+      color: #b3642f;
+    }
+  }
   &-header {
     font-size: 1.5rem;
     text-align: center;
@@ -671,6 +677,41 @@ button, input, select, textarea {
         border: solid 1px red;
       }
     }
+    &__checkbox {
+      margin-top: 30px;
+      .checkbox {
+        display: none;
+      }
+      .checkbox-parts{
+        padding-left: 22px;
+        position:relative;
+        padding-top: 1px;
+        &:hover { cursor: pointer; }
+      }
+      .checkbox-parts::before{
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 15px;
+        height: 15px;
+        border: 1px solid #999;
+        background-color: #fff;
+      }
+      .checkbox:checked + .checkbox-parts::after{
+        content: "";
+        display: block;
+        position: absolute;
+        top: -5px;
+        left: 5px;
+        width: 6px;
+        height: 15px;
+        transform: rotate(40deg);
+        border-bottom: 2px solid #b36430;
+        border-right: 2px solid #b36430;
+      }
+    }
     &__submit {
       text-align: center;
       margin: 40px 0 20px 0;
@@ -679,15 +720,13 @@ button, input, select, textarea {
       }
     }
   }
+  &-links {
+    line-height: 25px;
+    margin: 50px 0 20px 0;
+  }
   &-footer {
     margin: 30px 0;
     text-align: center;
-    a {
-      text-decoration: underline;
-      &:hover {
-        color: #b3642f;
-      }
-    }
   }
 }
 

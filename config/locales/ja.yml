@@ -18,6 +18,7 @@ ja:
         email: メールアドレス
         password: パスワード
         password_confirmation: 確認用のパスワード
+        remember_me: ログイン状態を維持する
   errors:
     messages:
       expired: "有効期限切れです。新規登録してください"
@@ -39,7 +40,7 @@ ja:
       timeout: '一定時間が経過したため、再度ログインが必要です'
       inactive: 'アカウントがまだ有効になっていません'
       user:
-        not_found_in_database: 'ユーザが見つかりません'
+        not_found_in_database: 'メールアドレスまたはパスワードが違います'
     sessions:
       signed_in: 'ログインしました'
       signed_out: 'ログアウトしました'
