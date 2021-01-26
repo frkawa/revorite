@@ -3,7 +3,7 @@
 .main
   .signup
     .signup-header
-      新規ユーザ登録
+      新規登録
     .signup-items
       = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {novalidate: true}) do |f|
         = render "devise/shared/error_messages", resource: resource
@@ -32,6 +32,8 @@
           .signup-items__field--caution#signup-caution-password_confirmation
         .signup-items__submit
           = f.submit "登録する", class: "button-submit user-registration", id: "signup-button-submit", disabled: true
+      .signup-links
+        = link_to(">> ログイン", new_user_session_path)
     .signup-footer
       = link_to("<< トップに戻る", root_path)
           
