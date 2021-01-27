@@ -9,17 +9,17 @@
         .login-items__label
           = f.label :email
         .login-items__field
-          = f.email_field :email, autofocus: true, autocomplete: "email", id: "login-input-email"
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "user-input-email", id: "login-input-email"
         .login-items__label
           = f.label :password
         .login-items__field
-          = f.password_field :password, autocomplete: "current-password", id: "login-input-password"
+          = f.password_field :password, autocomplete: "current-password", class: "user-input-password", id: "login-input-password"
         - if devise_mapping.rememberable?
           .login-items__checkbox
             = f.check_box :remember_me, class: "checkbox"
             = f.label :remember_me, class: "checkbox-parts"
         .login-items__submit
-          = f.submit "ログイン", class: "button-submit user-login", id: "login-button-submit", disabled: true
+          = f.submit "ログイン", class: "button-submit user-login user-button-submit", id: "login-button-submit", disabled: true
       .login-links
         = link_to(">> 新規登録", new_user_registration_path)
         %br

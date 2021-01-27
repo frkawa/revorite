@@ -1,10 +1,11 @@
 $(function (){
-  // 各項目のバリデーションチェック用フラグ項目。これらが全てokとなると登録ボタンを活性化する処理をコールする
+  // 各項目のバリデーションチェック用フラグ項目
   var name_available_flg = "ng";
   var email_available_flg = "ng";
   var password_available_flg = "ng";
   var password_confirmation_available_flg = "ng";
 
+  // ユーザ登録画面 START -----------------------------------------------------------------------------------------------------------
   // 名前欄が入力された・変更された場合にチェック処理をコールする。
   // フロントのバリデーションチェックでOK、バックの同チェックでNGとなった場合は全項目のチェックフラグが初期化（ng）されるため、
   // 値が入っている場合は他の項目も併せてチェックする
@@ -77,99 +78,116 @@ $(function (){
 
     buttonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg);
   })
+  // ユーザ登録画面 END -------------------------------------------------------------------------------------------------------------
 
 
+  // ログイン画面 START -------------------------------------------------------------------------------------------------------------
+  // メールアドレスとパスワードが入力されたらログインボタンを活性化する
+  // 新規登録ではないのでメールアドレス・パスワードどちらもバリデーションチェックは不要。両方が入力されてさえいればOK
+  $("#login-input-email, #login-input-password").change(function (){
+    if($("#login-input-email").val().length != 0 && $("#login-input-password").val().length != 0){
+      buttonToggle("ok", "ok", "ok", "ok");
+    }
+  })
+  // ログイン画面 END ---------------------------------------------------------------------------------------------------------------
 
+
+  // プロフィール編集画面 START ------------------------------------------------------------------------------------------------------
+  // プロフィール編集画面 END --------------------------------------------------------------------------------------------------------
+
+
+  // 関数集 START ------------------------------------------------------------------------------------------------------------------
   // 名前の入力文字数が1文字以上30文字以内かをチェック
   function name_check() {
-    var namelength = $("#signup-input-name").val().length;
+    var namelength = $(".user-input-name").val().length;
     
     if(namelength > 30){
-      $("#signup-input-name").addClass("input-caution");
-      $("#signup-caution-name").text("名前は30文字以内で入力してください");
+      $(".user-input-name").addClass("input-caution");
+      $(".user-caution-name").text("名前は30文字以内で入力してください");
       name_available_flg = "ng";
     } else if(namelength == 0){
-      $("#signup-input-name").addClass("input-caution");
-      $("#signup-caution-name").text("名前を入力してください");
+      $(".user-input-name").addClass("input-caution");
+      $(".user-caution-name").text("名前を入力してください");
       name_available_flg = "ng";
     } else {
-      $("#signup-input-name").removeClass("input-caution");
-      $("#signup-caution-name").text("");
+      $(".user-input-name").removeClass("input-caution");
+      $(".user-caution-name").text("");
       name_available_flg = "ok";
     }
   }
 
   // メールアドレスが1文字以上255文字以内か、メールアドレスとしてのフォーマットを満たしているかをチェック
   function email_check() {
-    var emaillength = $("#signup-input-email").val().length;
+    var emaillength = $(".user-input-email").val().length;
     var VALID_EMAIL_REGEX_EMAIL = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
     if(emaillength == 0){
-      $("#signup-input-email").addClass("input-caution");
-      $("#signup-caution-email").text("メールアドレスを入力してください");
+      $(".user-input-email").addClass("input-caution");
+      $(".user-caution-email").text("メールアドレスを入力してください");
       email_available_flg = "ng";
     } else if(emaillength > 255) {
-      $("#signup-input-email").addClass("input-caution");
-      $("#signup-caution-email").text("メールアドレスは255文字以内で入力してください");
+      $(".user-input-email").addClass("input-caution");
+      $(".user-caution-email").text("メールアドレスは255文字以内で入力してください");
       email_available_flg = "ng";  
-    } else if(!$("#signup-input-email").val().match(VALID_EMAIL_REGEX_EMAIL)) {
-      $("#signup-input-email").addClass("input-caution");
-      $("#signup-caution-email").text("不正なフォーマットです");
+    } else if(!$(".user-input-email").val().match(VALID_EMAIL_REGEX_EMAIL)) {
+      $(".user-input-email").addClass("input-caution");
+      $(".user-caution-email").text("不正なフォーマットです");
       email_available_flg = "ng";
     } else {
-      $("#signup-input-email").removeClass("input-caution");
-      $("#signup-caution-email").text("");
+      $(".user-input-email").removeClass("input-caution");
+      $(".user-caution-email").text("");
       email_available_flg = "ok";
     }
   }
 
   // パスワードが6文字以上30文字以内か、また半角英数字以外の文字が使われていないかをチェック
   function password_check() {
-    var passwordlength = $("#signup-input-password").val().length;
+    var passwordlength = $(".user-input-password").val().length;
     var VALID_EMAIL_REGEX_PASSWORD = /^[a-zA-Z\d]+$/
 
     if(passwordlength == 0){
-      $("#signup-input-password").addClass("input-caution");
-      $("#signup-caution-password").text("パスワードを入力してください");
+      $(".user-input-password").addClass("input-caution");
+      $(".user-caution-password").text("パスワードを入力してください");
       password_available_flg = "ng";
     } else if(passwordlength < 6 || passwordlength > 30){
-      $("#signup-input-password").addClass("input-caution");
-      $("#signup-caution-password").text("パスワードは6文字以上30文字以内で入力してください");
+      $(".user-input-password").addClass("input-caution");
+      $(".user-caution-password").text("パスワードは6文字以上30文字以内で入力してください");
       password_available_flg = "ng";
-    } else if(!$("#signup-input-password").val().match(VALID_EMAIL_REGEX_PASSWORD)) {
-      $("#signup-input-password").addClass("input-caution");
-      $("#signup-caution-password").text("半角英数字以外の文字は利用できません");
+    } else if(!$(".user-input-password").val().match(VALID_EMAIL_REGEX_PASSWORD)) {
+      $(".user-input-password").addClass("input-caution");
+      $(".user-caution-password").text("半角英数字以外の文字は利用できません");
       password_available_flg = "ng";
     } else {
-      $("#signup-input-password").removeClass("input-caution");
-      $("#signup-caution-password").text("");
+      $(".user-input-password").removeClass("input-caution");
+      $(".user-caution-password").text("");
       password_available_flg = "ok";
     }
   }
 
   // 確認用パスワードがパスワードと一致しているかをチェック
   function password_confirmation_check() {
-    if($("#signup-input-password_confirmation").val().length == 0){
-      $("#signup-input-password_confirmation").addClass("input-caution");
-      $("#signup-caution-password_confirmation").text("確認用にパスワードをもう一度入力してください");
+    if($(".user-input-password_confirmation").val().length == 0){
+      $(".user-input-password_confirmation").addClass("input-caution");
+      $(".user-caution-password_confirmation").text("確認用にパスワードをもう一度入力してください");
       password_confirmation_available_flg = "ng";
-    } else if($("#signup-input-password_confirmation").val() != $("#signup-input-password").val()){
-      $("#signup-input-password_confirmation").addClass("input-caution");
-      $("#signup-caution-password_confirmation").text("パスワードと一致していません");
+    } else if($(".user-input-password_confirmation").val() != $(".user-input-password").val()){
+      $(".user-input-password_confirmation").addClass("input-caution");
+      $(".user-caution-password_confirmation").text("パスワードと一致していません");
       password_confirmation_available_flg = "ng";
     } else {
-      $("#signup-input-password_confirmation").removeClass("input-caution");
-      $("#signup-caution-password_confirmation").text("");
+      $(".user-input-password_confirmation").removeClass("input-caution");
+      $(".user-caution-password_confirmation").text("");
       password_confirmation_available_flg = "ok";
     }
   }
 
-  // 全ての入力値が問題無ければ、登録ボタンを活性化。そうでなければ非活性化する
+  // 各項目チェックで設定したフラグに応じてボタンの活性化/非活性化を行う
   function buttonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg) {
     if(name_available_flg == "ok" && email_available_flg == "ok" && password_available_flg == "ok" && password_confirmation_available_flg == "ok") {
-      $("#signup-button-submit").removeAttr("disabled");
+      $(".user-button-submit").removeAttr("disabled");
     } else {
-      $("#signup-button-submit").attr("disabled", true);
+      $(".user-button-submit").attr("disabled", true);
     }
   }
+  // 関数集 END --------------------------------------------------------------------------------------------------------------------
 })

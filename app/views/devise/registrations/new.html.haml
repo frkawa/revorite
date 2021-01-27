@@ -11,26 +11,26 @@
           = f.label :name
           %span.note （30文字以内）
         .signup-items__field
-          = f.text_field :name, autocomplete: "name", placeholder: "例）レボリテ太郎", id: "signup-input-name"
-          .signup-items__field--caution#signup-caution-name
+          = f.text_field :name, autocomplete: "name", placeholder: "例）レボリテ太郎", class: "user-input-name", id: "signup-input-name"
+          .signup-items__field--caution.user-caution-name
         .signup-items__label
           = f.label :email
         .signup-items__field
-          = f.email_field :email, autocomplete: "email", placeholder: "例）example@example.com", id: "signup-input-email"
-          .signup-items__field--caution#signup-caution-email
+          = f.email_field :email, autocomplete: "email", placeholder: "例）example@example.com", class: "user-input-email", id: "signup-input-email"
+          .signup-items__field--caution.user-caution-email
         .signup-items__label
           = f.label :password
           %span.note （半角英数字6文字以上、30文字以内）
         .signup-items__field
-          = f.password_field :password, autocomplete: "new-password", id: "signup-input-password"
-          .signup-items__field--caution#signup-caution-password
+          = f.password_field :password, autocomplete: "new-password", class: "user-input-password", id: "signup-input-password"
+          .signup-items__field--caution.user-caution-password
         .signup-items__label
           = f.label :password_confirmation, "（確認用）パスワードをもう一度入力"
         .signup-items__field
-          = f.password_field :password_confirmation, autocomplete: "new-password", id: "signup-input-password_confirmation"
-          .signup-items__field--caution#signup-caution-password_confirmation
+          = f.password_field :password_confirmation, autocomplete: "new-password", class: "user-input-password_confirmation", id: "signup-input-password_confirmation"
+          .signup-items__field--caution.user-caution-password_confirmation
         .signup-items__submit
-          = f.submit "登録する", class: "button-submit user-registration", id: "signup-button-submit", disabled: true
+          = f.submit "登録する", class: "button-submit user-registration user-button-submit", disabled: true
       .signup-links
         = link_to(">> ログイン", new_user_session_path)
     .signup-footer
