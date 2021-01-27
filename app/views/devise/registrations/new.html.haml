@@ -15,7 +15,6 @@
           .signup-items__field--caution#signup-caution-name
         .signup-items__label
           = f.label :email
-          %span.note （架空のアドレスでOK、ログイン時に使用）
         .signup-items__field
           = f.email_field :email, autocomplete: "email", placeholder: "例）example@example.com", id: "signup-input-email"
           .signup-items__field--caution#signup-caution-email
