@@ -648,10 +648,15 @@ button, input, select, textarea {
     }
     &__label {
       margin-bottom: 5px;
-      
+      display: flex;
       span.note {
         font-size: 0.8em;
         color: gray;
+        padding-top: 1px;
+      }
+      span.textcount {
+        margin-left: auto;
+        color: #a1a1a1;
       }
     }
     &__field {

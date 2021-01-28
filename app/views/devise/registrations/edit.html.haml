@@ -16,6 +16,7 @@
         .edituser-items__label
           = f.label :description
           %span.note （150文字以内）
+          %span.textcount#edituser-input-description__textcount
         .edituser-items__field
           = f.text_area :description, autocomplete: "description", class: "user-input-description", id: "edituser-input-description"
           .edituser-items__field--caution.user-caution-description
