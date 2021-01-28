@@ -11,12 +11,14 @@
           = f.label :name
           %span.note （30文字以内）
         .edituser-items__field
-          = f.text_field :name, autocomplete: "name", id: "useredit-input-name"
+          = f.text_field :name, autocomplete: "name", class: "user-input-name", id: "edituser-input-name"
+          .edituser-items__field--caution.user-caution-name
         .edituser-items__label
           = f.label :description
           %span.note （150文字以内）
         .edituser-items__field
-          = f.text_area :description, autocomplete: "description"
+          = f.text_area :description, autocomplete: "description", class: "user-input-description", id: "edituser-input-description"
+          .edituser-items__field--caution.user-caution-description
         .edituser-items__label
           = f.label :image
         .edituser-items__field
@@ -48,7 +50,7 @@
         -#   %br/
         -#   = f.password_field :current_password, autocomplete: "current-password"
         .edituser-items__submit
-          = f.submit "更新する", class: "button-submit user-edit", id: "useredit-button-submit"#, disabled: true
+          = f.submit "更新する", class: "button-submit user-edit user-button-submit", id: "edituser-button-submit", disabled: true
       %h3 Cancel my account
       %p
         Unhappy? #{button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}

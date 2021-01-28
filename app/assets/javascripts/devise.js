@@ -93,6 +93,16 @@ $(function (){
 
 
   // プロフィール編集画面 START ------------------------------------------------------------------------------------------------------
+  $("#edituser-input-name").change(function (){
+    name_check();
+    console.log(name_available_flg);
+
+    // if($("#signup-input-email").val().length != 0){
+    //   email_check();
+    // }
+
+    buttonToggle(name_available_flg, "ok", "ok", "ok");
+  })
   // プロフィール編集画面 END --------------------------------------------------------------------------------------------------------
 
 
