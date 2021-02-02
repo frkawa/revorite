@@ -11,18 +11,19 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, on: :create
   validates :description, length: { maximum: 150 }
 
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :like_posts, through: :likes, source: :post
   has_many :comments, dependent: :destroy
 
   has_many :reposts, dependent: :destroy
+  has_many :reposted_posts, through: :reposts, source: :post
 
   has_many :relationships, dependent: :destroy
-  has_many :followings, through: :relationships, source: :follow
+  has_many :followings, through: :relationships, source: :follow, dependent: :destroy
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id'
-  has_many :followers, through: :reverse_of_relationships, source: :user 
+  has_many :followers, through: :reverse_of_relationships, source: :user, dependent: :destroy
 
   def postcount
     Post.where(user_id: id).count

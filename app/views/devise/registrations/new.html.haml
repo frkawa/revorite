@@ -32,7 +32,7 @@
         .signup-items__submit
           = f.submit "登録する", class: "button-submit user-registration user-button-submit", disabled: true
       .signup-links
-        = link_to(">> ログイン", new_user_session_path)
+        = link_to(">> ログイン", new_user_session_path, "data-turbolinks": false)
     .signup-footer
       = link_to("<< トップに戻る", root_path)
           

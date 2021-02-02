@@ -646,14 +646,31 @@ button, input, select, textarea {
       margin: 0 0 20px 0;
       color: red;
     }
+    span.note {
+      font-size: 0.8em;
+      color: gray;
+      padding-top: 1px;
+    }
+    &__image {
+      text-align: center;
+      margin-bottom: 30px;
+      img {
+        border-radius: 25%;
+        width: 100px;
+        height: 100px;
+        border: 1px solid #ffffff;
+        margin-bottom: 5px;
+      }
+      .file_field { display: none; }
+      label:hover {
+        color: #b3642f;
+        border-bottom: 1px solid #b3642f;
+        cursor: pointer;
+      }
+    }
     &__label {
       margin-bottom: 5px;
       display: flex;
-      span.note {
-        font-size: 0.8em;
-        color: gray;
-        padding-top: 1px;
-      }
       span.textcount {
         margin-left: auto;
         color: #a1a1a1;
@@ -740,8 +757,15 @@ button, input, select, textarea {
   &-links {
     line-height: 25px;
     margin: 50px 0 20px 0;
+    .warning {
+      color: red;
+      &:hover {
+        color: palevioletred;
+      }
+    }
   }
   &-footer {
+    line-height: 25px;
     margin: 30px 0;
     text-align: center;
   }

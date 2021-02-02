@@ -21,9 +21,9 @@
         .login-items__submit
           = f.submit "ログイン", class: "button-submit user-login user-button-submit", id: "login-button-submit", disabled: true
       .login-links
-        = link_to(">> 新規登録", new_user_registration_path)
+        = link_to(">> 新規登録", new_user_registration_path, "data-turbolinks": false)
         %br
-        = link_to(">> パスワードを忘れた場合", new_user_password_path)
+        = link_to(">> パスワードを忘れた場合", new_user_password_path, "data-turbolinks": false)
     .login-footer
       = link_to("<< トップに戻る", root_path)
 

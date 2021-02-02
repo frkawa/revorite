@@ -4,6 +4,7 @@ $(function (){
   var email_available_flg = "ng";
   var password_available_flg = "ng";
   var password_confirmation_available_flg = "ng";
+  var image_available_flg = "ng";
   var description_available_flg = "ng";
 
   // ユーザ登録画面 START -----------------------------------------------------------------------------------------------------------
@@ -23,7 +24,7 @@ $(function (){
       password_confirmation_check();
     }
 
-    buttonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg, "ok");
+    signuploginButtonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg);
   })
 
   // メールアドレス欄が入力された・変更された場合にチェック処理をコールする。
@@ -41,7 +42,7 @@ $(function (){
       password_confirmation_check();
     }
 
-    buttonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg, "ok");
+    signuploginButtonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg);
   })
 
   // パスワード欄が入力された・変更された場合にチェック処理をコールする。
@@ -59,7 +60,7 @@ $(function (){
       password_confirmation_check();
     }
 
-    buttonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg, "ok");
+    signuploginButtonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg);
   })
 
   // パスワード（確認用）欄が入力された・変更された場合にチェック処理をコールする。
@@ -77,7 +78,7 @@ $(function (){
       password_check();
     }
 
-    buttonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg, "ok");
+    signuploginButtonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg);
   })
   // ユーザ登録画面 END -------------------------------------------------------------------------------------------------------------
 
@@ -85,9 +86,11 @@ $(function (){
   // ログイン画面 START -------------------------------------------------------------------------------------------------------------
   // メールアドレスとパスワードが入力されたらログインボタンを活性化する
   // 新規登録ではないのでメールアドレス・パスワードどちらもバリデーションチェックは不要。両方が入力されてさえいればOK
-  $("#login-input-email, #login-input-password").change(function (){
+  $("#login-input-email, #login-input-password").keyup(function (){
     if($("#login-input-email").val().length != 0 && $("#login-input-password").val().length != 0){
-      buttonToggle("ok", "ok", "ok", "ok", "ok");
+      signuploginButtonToggle("ok", "ok", "ok", "ok");
+    } else {
+      signuploginButtonToggle("ng", "ng", "ng", "ng");
     }
   })
   // ログイン画面 END ---------------------------------------------------------------------------------------------------------------
@@ -99,29 +102,68 @@ $(function (){
     $("#edituser-input-description__textcount").text(150 - $("#edituser-input-description").val().length);
   }
 
+  // 変更するアイコンを選択時、バリデーションチェックを行い、問題無ければ現在のアイコンをプレビュー画像に差し替える
+  var current_image_src = $(".edituser-items__image img").attr("src");
+  $("#edituser-file_field").change(function() {
+    // キャンセルボタンを押したら元の画像に戻す
+    if(this.files.length == 0){
+      $(".edituser-items__image img").attr("src", current_image_src);
+      return;
+    }
+
+    // 複数画像は許容しない
+    if(this.files.length > 1){
+      alert("複数画像を選択することはできません");
+      return;
+    }
+
+    // 画像形式はJPEG、PNGのみ許容する
+    if (this.files[0].type != "image/jpeg" && this.files[0].type != "image/png") {
+      alert("画像はjpegまたはpng形式でアップロードしてください");
+      return;
+    }
+
+    // 画像は3MB以下のみを許容する
+    if (this.files[0].size > 3145728) {
+      alert("画像は1ファイルにつき3MB以内にしてください");
+      return;
+    }
+
+    var fr = new FileReader();
+    fr.onload = function() {
+      $(".edituser-items__image img").attr("src", fr.result);
+    };
+    fr.readAsDataURL(this.files[0]);
+    
+    if($("#edituser-input-name").val().length != 0){
+      name_check();
+    }
+    description_check();
+
+    edituserButtonToggle("ok", name_available_flg, description_available_flg);
+  });
+
+  // 名前欄が入力された・変更された場合にチェック処理をコールする。
+  $("#edituser-input-name").change(function (){
+    name_check();
+    description_check();
+
+    edituserButtonToggle("ok", name_available_flg, description_available_flg);
+  })
+
   // 自己紹介文を変更する毎に残り記入可能文字数を更新し、併せてチェック処理をコールする
   $("#edituser-input-description").keyup(function (){
     var description_textcount = $("#edituser-input-description").val().length;
     $("#edituser-input-description__textcount").text(150 - description_textcount);
     
     description_check();
-
     if($("#edituser-input-name").val().length != 0){
       name_check();
     }
 
-    buttonToggle(name_available_flg, "ok", "ok", "ok", description_available_flg);
+    edituserButtonToggle("ok", name_available_flg, description_available_flg);
   })
 
-  $("#edituser-input-name").change(function (){
-    name_check();
-    
-    if($("#edituser-input-description").val().length != 0){
-      description_check();
-    }
-
-    buttonToggle(name_available_flg, "ok", "ok", "ok", description_available_flg);
-  })
   // プロフィール編集画面 END --------------------------------------------------------------------------------------------------------
 
 
@@ -223,9 +265,18 @@ $(function (){
     }
   }
 
-  // 各項目チェックで設定したフラグに応じてボタンの活性化/非活性化を行う
-  function buttonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg, description_available_flg) {
-    if(name_available_flg == "ok" && email_available_flg == "ok" && password_available_flg == "ok" && password_confirmation_available_flg == "ok" && description_available_flg == "ok") {
+  // 各項目チェックで設定したフラグに応じて新規登録・ログイン画面のボタンの活性化/非活性化を行う
+  function signuploginButtonToggle(name_available_flg, email_available_flg, password_available_flg, password_confirmation_available_flg) {
+    if(name_available_flg == "ok" && email_available_flg == "ok" && password_available_flg == "ok" && password_confirmation_available_flg == "ok") {
+      $(".user-button-submit").removeAttr("disabled");
+    } else {
+      $(".user-button-submit").attr("disabled", true);
+    }
+  }
+
+  // 各項目チェックで設定したフラグに応じてプロフィール編集画面のボタンの活性化/非活性化を行う
+  function edituserButtonToggle(image_available_flg, name_available_flg, description_available_flg) {
+    if(image_available_flg == "ok" && name_available_flg == "ok" && description_available_flg == "ok") {
       $(".user-button-submit").removeAttr("disabled");
     } else {
       $(".user-button-submit").attr("disabled", true);
