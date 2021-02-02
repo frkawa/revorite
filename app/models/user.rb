@@ -7,22 +7,23 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { maximum: 30 }
   VALID_EMAIL_REGEX = /\A[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\z/
   validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
-  validates :password, presence: true, length: { minimum: 6, maximum: 30 }, format: { with: /\A[a-z\d]+\z/i }, confirmation: true
-  validates :password_confirmation, presence: true
+  validates :password, presence: true, length: { minimum: 6, maximum: 30 }, format: { with: /\A[a-z\d]+\z/i }, confirmation: true, on: :create
+  validates :password_confirmation, presence: true, on: :create
   validates :description, length: { maximum: 150 }
 
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :like_posts, through: :likes, source: :post
   has_many :comments, dependent: :destroy
 
   has_many :reposts, dependent: :destroy
+  has_many :reposted_posts, through: :reposts, source: :post
 
   has_many :relationships, dependent: :destroy
-  has_many :followings, through: :relationships, source: :follow
+  has_many :followings, through: :relationships, source: :follow, dependent: :destroy
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id'
-  has_many :followers, through: :reverse_of_relationships, source: :user 
+  has_many :followers, through: :reverse_of_relationships, source: :user, dependent: :destroy
 
   def postcount
     Post.where(user_id: id).count

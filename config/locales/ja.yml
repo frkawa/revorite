@@ -16,6 +16,7 @@ ja:
       user:
         name: 名前
         email: メールアドレス
+        description: 自己紹介
         password: パスワード
         password_confirmation: 確認用のパスワード
         remember_me: ログイン状態を維持する

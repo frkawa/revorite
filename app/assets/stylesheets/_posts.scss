@@ -53,7 +53,7 @@ a {
     &-pagename {
       margin-left: 15px;
       padding-top: 5px;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
     
   }
@@ -298,7 +298,7 @@ button, input, select, textarea {
     border-radius: 30px;
     padding: 5px 10px;
     transition: .1s;
-    &.user-registration, &.user-login {
+    &.user-registration, &.user-login, &.user-edit {
       padding: 10px 80px;
     }
     &:hover {
@@ -624,7 +624,7 @@ button, input, select, textarea {
   
 }
 
-.signup, .login {
+.signup, .login, .edituser {
   a {
     text-decoration: underline;
     &:hover {
@@ -646,12 +646,34 @@ button, input, select, textarea {
       margin: 0 0 20px 0;
       color: red;
     }
+    span.note {
+      font-size: 0.8em;
+      color: gray;
+      padding-top: 1px;
+    }
+    &__image {
+      text-align: center;
+      margin-bottom: 30px;
+      img {
+        border-radius: 25%;
+        width: 100px;
+        height: 100px;
+        border: 1px solid #ffffff;
+        margin-bottom: 5px;
+      }
+      .file_field { display: none; }
+      label:hover {
+        color: #b3642f;
+        border-bottom: 1px solid #b3642f;
+        cursor: pointer;
+      }
+    }
     &__label {
       margin-bottom: 5px;
-      
-      span.note {
-        font-size: 0.8em;
-        color: gray;
+      display: flex;
+      span.textcount {
+        margin-left: auto;
+        color: #a1a1a1;
       }
     }
     &__field {
@@ -660,6 +682,18 @@ button, input, select, textarea {
         box-sizing: border-box;
         
         width: 100%;
+        padding: 8px;
+        border : solid 1px #a1a1a1;
+        resize: none;
+        &:focus {
+          outline: none;
+          background-color: #ffe0cc;
+        }
+      }
+      textarea {
+        box-sizing: border-box;
+        width: 100%;
+        height: 200px;
         padding: 8px;
         border : solid 1px #a1a1a1;
         resize: none;
@@ -723,8 +757,15 @@ button, input, select, textarea {
   &-links {
     line-height: 25px;
     margin: 50px 0 20px 0;
+    .warning {
+      color: red;
+      &:hover {
+        color: palevioletred;
+      }
+    }
   }
   &-footer {
+    line-height: 25px;
     margin: 30px 0;
     text-align: center;
   }
