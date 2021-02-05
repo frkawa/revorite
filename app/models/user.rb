@@ -8,7 +8,9 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\z/
   validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6, maximum: 30 }, format: { with: /\A[a-z\d]+\z/i }, confirmation: true, on: :create
+  validates :password, presence: true, length: { minimum: 6, maximum: 30 }, format: { with: /\A[a-z\d]+\z/i }, confirmation: true, on: :update, if: :edit_password_path?
   validates :password_confirmation, presence: true, on: :create
+  validates :password_confirmation, presence: true, on: :update, if: :edit_password_path?
   validates :description, length: { maximum: 150 }
 
   has_one_attached :image, dependent: :destroy
@@ -75,6 +77,12 @@ class User < ApplicationRecord
 
   def following?(other_user)
     self.followings.include?(other_user)
+  end
+
+  def edit_password_path?
+    # binding.pry
+    # path = Rails.application.routes.recognize_path(request.referer)
+    Thread.current[:request].fullpath.include?("/users/password")
   end
 
 end

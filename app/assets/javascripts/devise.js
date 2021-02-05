@@ -167,6 +167,46 @@ $(function (){
   // プロフィール編集画面 END --------------------------------------------------------------------------------------------------------
 
 
+  // パスワード再発行画面 START ------------------------------------------------------------------------------------------------------
+  // メールアドレスが入力されたらログインボタンを活性化する
+  // 新規登録ではないのでバリデーションチェックは不要。入力されてさえいればOK
+  $("#newpassword-input-email").keyup(function (){
+    if($(this).val().length != 0){
+      signuploginButtonToggle("ok", "ok", "ok", "ok");
+    } else {
+      signuploginButtonToggle("ng", "ng", "ng", "ng");
+    }
+  })
+  // パスワード再発行画面 END --------------------------------------------------------------------------------------------------------
+
+
+  // パスワード変更画面 START --------------------------------------------------------------------------------------------------------
+  // パスワード欄が入力された・変更された場合にチェック処理をコールする。
+  // 名前欄のチェックと同様に、値が入っている場合は他の項目も併せてチェックする。
+  $("#editpassword-input-password").change(function (){
+    password_check();
+
+    if($("#editpassword-input-password_confirmation").val().length != 0){
+      password_confirmation_check();
+    }
+
+    signuploginButtonToggle("ok", "ok", password_available_flg, password_confirmation_available_flg);
+  })
+
+  // パスワード（確認用）欄が入力された・変更された場合にチェック処理をコールする。
+  // 名前欄のチェックと同様に、値が入っている場合は他の項目も併せてチェックする。
+  $("#editpassword-input-password_confirmation").change(function (){
+    password_confirmation_check();
+
+    if($("#editpassword-input-password").val().length != 0){
+      password_check();
+    }
+
+    signuploginButtonToggle("ok", "ok", password_available_flg, password_confirmation_available_flg);
+  })
+  // パスワード変更画面 END ----------------------------------------------------------------------------------------------------------
+
+
   // 関数集 START ------------------------------------------------------------------------------------------------------------------
   // 名前の入力文字数が1文字以上30文字以内かをチェック
   function name_check() {

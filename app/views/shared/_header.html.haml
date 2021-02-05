@@ -19,7 +19,9 @@
         ｜ ログイン
       - when "/users/edit"
         ｜ プロフィールの編集
-      - when "/users/password/new"
+      - when "/users"
+        ｜ プロフィールの編集
+      - when /\/users\/password.*/
         ｜ パスワードの再発行
       - when "/posts/new"
         ｜ 新規投稿
