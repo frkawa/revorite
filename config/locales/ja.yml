@@ -20,9 +20,10 @@ ja:
         password: パスワード
         password_confirmation: 確認用のパスワード
         remember_me: ログイン状態を維持する
+        reset_password_token: パスワード再発行用のトークンの
   errors:
     messages:
-      expired: "有効期限切れです。新規登録してください"
+      expired: "有効期限が切れています。「ログイン->パスワードを忘れた場合」より再発行してください"
       not_found: "は見つかりませんでした"
       already_confirmed: "は既に登録済みです。ログインしてください"
       not_locked: "ロックされていません"
@@ -45,8 +46,10 @@ ja:
     sessions:
       signed_in: 'ログインしました'
       signed_out: 'ログアウトしました'
+      user:
+        already_signed_out: "ログインしていません"
     passwords:
-      send_instructions: 'パスワードのリセット方法を数分以内にメールでご連絡します'
+      send_instructions: 'パスワード再発行のご案内のメールを数分以内に送信します'
       updated: 'パスワードを変更しました。ログイン済みです'
       updated_not_active: 'パスワードを変更しました'
       send_paranoid_instructions: "ご登録のメールアドレスが保存されている場合、パスワード復旧用のリンク先をメールでご連絡します"
@@ -74,6 +77,6 @@ ja:
       confirmation_instructions:
         subject: 'アカウントの登録方法'
       reset_password_instructions:
-        subject: 'パスワードの再設定'
+        subject: '【Revorite】パスワード再発行のご案内'
       unlock_instructions:
         subject: 'アカウントのロック解除'

@@ -298,7 +298,7 @@ button, input, select, textarea {
     border-radius: 30px;
     padding: 5px 10px;
     transition: .1s;
-    &.user-registration, &.user-login, &.user-edit {
+    &.user-registration, &.user-login, &.user-edit, &.user-newpassword, &.user-editpassword {
       padding: 10px 80px;
     }
     &:hover {
@@ -624,7 +624,7 @@ button, input, select, textarea {
   
 }
 
-.signup, .login, .edituser {
+.signup, .login, .edituser, .newpassword, .editpassword {
   a {
     text-decoration: underline;
     &:hover {
