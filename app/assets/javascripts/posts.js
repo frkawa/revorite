@@ -1,8 +1,15 @@
 $(function (){
+  // 新規投稿画面 START -------------------------------------------------------------------------------------------------------------
+  $("#newpost-rev_flg").change(function (){
+    $(".newpost-items__review").slideToggle('fast');
+  })
+  // 新規投稿画面 END ---------------------------------------------------------------------------------------------------------------
+
+
   // 各投稿のコメントボタンを押すとコメント欄を開く、または折り畳む
   $(document).on("click", ".post-action__comment", function(){
     var post_id = $(this).attr('id').replace(/post-action__comment-/g, '');
-    $('#comment_' + post_id).slideToggle();
+    $('#comment_' + post_id).slideToggle('fast');
   })
   
   // コメント投稿時に画像を選択すると画像のプレビューを表示する

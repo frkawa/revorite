@@ -14,8 +14,8 @@
             - @post.errors.full_messages.each do |message| 
               %li= message
         .newpost-items__checkbox
-          = f.check_box :rev_flg, class: "checkbox"
-          = f.label :rev_flg, "レビューをする", class: "checkbox-parts"
+          = f.check_box :rev_flg, class: "checkbox", id: "newpost-rev_flg"
+          = f.label :rev_flg, "レビューをする", class: "checkbox-parts", for: "newpost-rev_flg"
         .newpost-items__review
           = f.fields_for :review, @post.build_review do |r|
             .newpost-items__label
@@ -38,7 +38,6 @@
         .newpost-items__field
           = f.text_area :text
         .newpost-items__image
-          -# = f.file_field :images, accept: "image/jpeg, image/png", multiple: true
           = f.label :images, for: "newpost-file_field" do
             %i.far.fa-image
             画像の投稿

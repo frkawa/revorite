@@ -780,7 +780,11 @@ button, input, select, textarea {
   &-items {
     width: 600px;
     &__checkbox { margin-top: 0px; }
-    &__image { text-align: left; }
+    &__image { 
+      text-align: left;
+      label { color: #b36430; }
+    }
+    &__review { display: none; }
   }
 }
 
