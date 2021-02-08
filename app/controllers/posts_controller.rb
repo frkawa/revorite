@@ -1,13 +1,14 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, only: :new
 
-def index
-  if user_signed_in?
-    @user = User.find(current_user.id)
-    @posts = @user.followings_posts_with_reposts
-  else
-    @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes)
+  def index
+    if user_signed_in?
+      @user = User.find(current_user.id)
+      @posts = @user.followings_posts_with_reposts
+    else
+      @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes)
+    end
   end
-end
 
   def trend
     counts = Post.joins(:likes).group(:id).order('count_all').count

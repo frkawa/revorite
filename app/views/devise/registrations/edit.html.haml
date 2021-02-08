@@ -16,9 +16,9 @@
           = f.label :image, for: "edituser-file_field" do
             %i.fas.fa-camera
             アイコンの変更
-            = f.file_field :image, autocomplete: "image", class: "file_field", id: "edituser-file_field"
+            = f.file_field :image, autocomplete: "image", class: "file_field", id: "edituser-file_field", accept: "image/jpeg, image/png"
           %br
-          %span.note （3MB以内 推奨サイズ：100px × 100px）
+          %span.note （JPEGまたはPNG形式、3MB以内 推奨サイズ：100px × 100px）
         .edituser-items__label
           = f.label :name
           %span.note （30文字以内）

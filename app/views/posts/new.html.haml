@@ -3,31 +3,50 @@
 = render "shared/header"
 
 .main
-  = form_with model: @post, local: true do |f|
-    - if @post.errors.any?
-      .main-error
-        %ul
-        - @post.errors.full_messages.each do |message| 
-          %li= message
-          
-    .main-rev__flg
-      = f.check_box :rev_flg
-      = f.label 'レビューをする'
-    = f.fields_for :review, @post.build_review do |r|
-      .main-rev__rate#star
-        = r.hidden_field :rate
-      .main-rev__title
-        = r.text_field :title, size: "71", placeholder: "レビュー対象（商品名・タイトルなど）"
-      .main-rev__price
-        = r.text_field :price, size: "71", placeholder: "価格（任意）"
-
-    .main-textarea
-      本文
-      %br
-      = f.text_area :text, size: "70x8"
-    .main-images
-      = f.file_field :images, accept: "image/jpeg, image/png", multiple: true
-    .main-submit
-      = f.submit '投稿'
+  .newpost
+    .newpost-header
+      新規投稿
+    .newpost-items
+      = form_with model: @post, local: true do |f|
+        - if @post.errors.any?
+          .main-error
+            %ul
+            - @post.errors.full_messages.each do |message| 
+              %li= message
+        .newpost-items__checkbox
+          = f.check_box :rev_flg, class: "checkbox"
+          = f.label :rev_flg, "レビューをする", class: "checkbox-parts"
+        .newpost-items__review
+          = f.fields_for :review, @post.build_review do |r|
+            .newpost-items__label
+              評価
+            .newpost-items__field#star
+              = r.hidden_field :rate
+            .newpost-items__label
+              レビュー対象
+              %span.note （50文字以内）
+            .newpost-items__field
+              = r.text_field :title, placeholder: "商品名・タイトルなど"
+            .newpost-items__label
+              価格
+              %span.note （任意）
+            .newpost-items__field
+              = r.text_field :price, id: "price"
+        .newpost-items__label
+          本文
+          %span.note （500文字以内）
+        .newpost-items__field
+          = f.text_area :text
+        .newpost-items__image
+          -# = f.file_field :images, accept: "image/jpeg, image/png", multiple: true
+          = f.label :images, for: "newpost-file_field" do
+            %i.far.fa-image
+            画像の投稿
+            = f.file_field :images, class: "file_field", id: "newpost-file_field", accept: "image/jpeg, image/png", multiple: true
+          %span.note （JPEGまたはPNG形式、4枚まで　1枚当たり3MB以内）
+        .newpost-items__submit
+          = f.submit '投稿', class: "button-submit post-newpost post-button-submit"
+    .newpost-footer
+      = link_to("<< トップに戻る", root_path)
 
 = render "shared/footer"
