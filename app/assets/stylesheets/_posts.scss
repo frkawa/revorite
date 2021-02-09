@@ -785,6 +785,14 @@ button, input, select, textarea {
       label { color: #b36430; }
     }
     &__review { display: none; }
+    &__previewimages {
+      img {
+        width: 145px;
+        border-radius: 3%;
+        vertical-align: top;
+        margin-right: 5px;
+      }
+    }
   }
 }
 

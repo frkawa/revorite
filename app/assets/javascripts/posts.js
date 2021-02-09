@@ -1,8 +1,11 @@
 $(function (){
   // 各項目のバリデーションチェック用フラグ項目
+  var rev_flg = $("#newpost-rev_flg").prop("checked");
+  var rate_available_flg = "ng";
   var title_available_flg = "ng";
   var price_available_flg = "ng";
-  var name_available_flg = "ng";
+  var text_available_flg = "ng";
+  var filecount = 0;
 
   // 新規投稿画面 START -------------------------------------------------------------------------------------------------------------
   // 新規投稿画面を読み込んだ時、本文の残り記入可能文字数を記述する
@@ -10,14 +13,23 @@ $(function (){
     $("#newpost-input-text__textcount").text(500 - $("#newpost-input-text").val().length);
   }
 
+  // 新規投稿画面を読み込んだ時、「レビューする」にチェックが付いていたらレビュー欄を開いておく
+  if(rev_flg) {
+    $(".newpost-items__review").css("display", "block");
+  }
+
   // 「レビューをする」をチェックするとレビューに必要な入力項目を表示する、チェックを外すと隠す
   $("#newpost-rev_flg").change(function (){
     $(".newpost-items__review").slideToggle('fast');
+    rev_flg = $("#newpost-rev_flg").prop("checked");
+    console.log("rev_flg = " + rev_flg);
+    postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg);
   })
 
   // レビュー対象が入力・変更された時、バリデーションチェックを行う
   $("#newpost-input-title").change(function (){
     title_check();
+    postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg);
   })
 
   // 価格が入力・変更された時、バリデーションチェックを行う
@@ -31,7 +43,56 @@ $(function (){
     $("#newpost-input-text__textcount").text(500 - textcount);
     
     text_check();
+    postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg);
   })
+
+  // 投稿する画像を選択した時、バリデーションチェックを行い、問題無ければプレビュー画像を表示する
+  $("#newpost-file_field").change(function() {
+    $(".newpost-items__previewimages").html("");
+    filecount = this.files.length;
+
+    // バリデーション：一度に投稿できる画像は4枚まで、4枚以上を選択している場合はアラートを出して中断する
+    if(this.files.length > 4){
+      alert("一度に投稿できる画像は4枚までです");
+      filecount = 0;
+      return;
+    }
+
+    for(i = 0; i < filecount; i++){
+      // バリデーション：ファイル形式がjpeg, jpg, png以外の場合はアラートを出して中断する
+      if(this.files[i].type != "image/jpeg" && this.files[i].type != "image/png"){
+        alert("画像はjpegまたはpng形式でアップロードしてください");
+        filecount = 0;
+        return;
+      }
+      // バリデーション：3MBを超える画像を選択した場合はアラートを出して中断する
+      if(this.files[i].size > 3145728){
+        alert("画像は1ファイルにつき3MB以内にしてください");
+        filecount = 0;
+        return;
+      }
+    }
+
+    // プレビューを画面に表示する
+    for(i = 0; i < filecount; i++){
+      var reader = new FileReader();
+      reader.name = this.files[i].name;
+
+      $(reader).on("load", function (){
+        $("<img>").appendTo(".newpost-items__previewimages")
+        .prop({"src": this.result, "title": this.name});
+      });
+
+      if (this.files[i]) {
+        reader.readAsDataURL(this.files[i]);
+      }
+    }
+
+    // 画像を投稿する場合は本文入力は任意のため、text_checkを行う
+    text_check();
+
+    postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg);
+  });
   
   // 新規投稿画面 END ---------------------------------------------------------------------------------------------------------------
 
@@ -50,7 +111,7 @@ $(function (){
 
     // バリデーション：選択画像が4枚より多い場合はアラートを出して中断する
     if (filecount > 4){
-      var cancelstr = '画像は一度に4枚まで投稿可能です';
+      var cancelstr = '一度に投稿できる画像は4枚までです';
       cancelupload(post_id, cancelstr);
       return;
     }
@@ -156,14 +217,31 @@ $(function (){
       $(".post-input-text").addClass("input-caution");
       $(".post-caution-text").text("本文は500文字以内で入力してください");
       text_available_flg = "ng";
-    } else if(textcount == 0) {
+    } else if(textcount == 0 && filecount == 0) {
       $(".post-input-text").addClass("input-caution");
-      $(".post-caution-text").text("本文を入力してください");
+      $(".post-caution-text").text("本文を入力してください（画像投稿をする場合は入力任意）");
       text_available_flg = "ng";
     } else {
       $(".post-input-text").removeClass("input-caution");
       $(".post-caution-text").text("");
       text_available_flg = "ok";
+    }
+  }
+
+  // 各項目チェックで設定したフラグに応じて新規投稿画面のボタンの活性化/非活性化を行う
+  function postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg){
+    if(rev_flg){
+      if(rate_available_flg == "ok" && title_available_flg == "ok" && price_available_flg == "ok" && text_available_flg == "ok"){
+        $(".post-button-submit").removeAttr("disabled");
+      } else {
+        $(".post-button-submit").attr("disabled", true);
+      }
+    } else {
+      if(text_available_flg == "ok"){
+        $(".post-button-submit").removeAttr("disabled");
+      } else {
+        $(".post-button-submit").attr("disabled", true);
+      }
     }
   }
   

@@ -47,6 +47,7 @@
             画像の投稿
             = f.file_field :images, class: "file_field", id: "newpost-file_field", accept: "image/jpeg, image/png", multiple: true
           %span.note （JPEGまたはPNG形式、4枚まで　1枚当たり3MB以内）
+        .newpost-items__previewimages
         .newpost-items__submit
           = f.submit '投稿', class: "button-submit post-newpost post-button-submit"
     .newpost-footer
