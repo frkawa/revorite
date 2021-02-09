@@ -1,8 +1,16 @@
 $(function (){
   // 新規投稿画面 START -------------------------------------------------------------------------------------------------------------
+  // 「レビューをする」をチェックするとレビューに必要な入力項目を表示する、チェックを外すと隠す
   $("#newpost-rev_flg").change(function (){
     $(".newpost-items__review").slideToggle('fast');
   })
+
+  // レビュー対象が入力・変更された時、バリデーションチェックを行う
+  $("#newpost-input-title").change(function (){
+    title_check();
+  })
+
+  
   // 新規投稿画面 END ---------------------------------------------------------------------------------------------------------------
 
 
@@ -76,7 +84,29 @@ $(function (){
     // console.log($('.active').attr('href').replace(/\/users\/[0-9]+/g, ''));
   })
 
+
+  // 関数集 START ------------------------------------------------------------------------------------------------------------------
+  // 新規投稿画面でレビュー対象が1文字以上50文字以内かをチェック
+  function title_check() {
+    var titlelength = $("#newpost-input-title").val().length;
+    
+    if(titlelength > 50){
+      $(".post-input-title").addClass("input-caution");
+      $(".post-caution-title").text("レビュー対象は50文字以内で入力してください");
+      title_available_flg = "ng";
+    } else if(titlelength == 0){
+      $(".post-input-title").addClass("input-caution");
+      $(".post-caution-title").text("レビュー対象を入力してください");
+      title_available_flg = "ng";
+    } else {
+      $(".post-input-title").removeClass("input-caution");
+      $(".post-caution-title").text("");
+      title_available_flg = "ok";
+    }
+  }
   
+
+
   // buttononoff関数：コメントの入力文字数及び画像枚数より、コメントボタンを活性化/非活性化する
   function buttononoff (post_id) {
     var filecount = document.getElementById(post_id + "-comment-images").files.length;
@@ -106,4 +136,5 @@ $(function (){
     $("#previewimages-" + post_id).html('');
     buttononoff(post_id);
   }
+  // 関数集 END --------------------------------------------------------------------------------------------------------------------
 })

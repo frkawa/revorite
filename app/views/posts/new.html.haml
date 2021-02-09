@@ -26,17 +26,20 @@
               レビュー対象
               %span.note （50文字以内）
             .newpost-items__field
-              = r.text_field :title, placeholder: "商品名・タイトルなど"
+              = r.text_field :title, placeholder: "商品名・タイトルなど", class: "post-input-title", id: "newpost-input-title"
+              .newpost-items__field--caution.post-caution-title
             .newpost-items__label
               価格
               %span.note （任意）
             .newpost-items__field
               = r.text_field :price, id: "price"
+              .newpost-items__field--caution.post-caution-price
         .newpost-items__label
           本文
           %span.note （500文字以内）
         .newpost-items__field
           = f.text_area :text
+          .newpost-items__field--caution.post-caution-text
         .newpost-items__image
           = f.label :images, for: "newpost-file_field" do
             %i.far.fa-image
