@@ -1,5 +1,14 @@
 $(function (){
+  // 各項目のバリデーションチェック用フラグ項目
+  var title_available_flg = "ng";
+  var price_available_flg = "ng";
+  var name_available_flg = "ng";
+
   // 新規投稿画面 START -------------------------------------------------------------------------------------------------------------
+  // 新規投稿画面を読み込んだ時、本文の残り記入可能文字数を記述する
+  if($("#newpost-input-text").length){
+    $("#newpost-input-text__textcount").text(500 - $("#newpost-input-text").val().length);
+  }
 
   // 「レビューをする」をチェックするとレビューに必要な入力項目を表示する、チェックを外すと隠す
   $("#newpost-rev_flg").change(function (){
@@ -14,6 +23,14 @@ $(function (){
   // 価格が入力・変更された時、バリデーションチェックを行う
   $("#newpost-input-price").change(function (){
     price_check();
+  })
+
+  // 本文を入力・変更する毎に残り記入可能文字数を更新し、併せてバリデーションチェックを行う
+  $("#newpost-input-text").keyup(function (){
+    var textcount = $("#newpost-input-text").val().length;
+    $("#newpost-input-text__textcount").text(500 - textcount);
+    
+    text_check();
   })
   
   // 新規投稿画面 END ---------------------------------------------------------------------------------------------------------------
@@ -110,7 +127,7 @@ $(function (){
     }
   }
   
-  // 新規投稿画面でレビュー対象が1文字以上50文字以内かをチェック
+  // 新規投稿画面で価格が0〜99,999,999の範囲内かをチェック
   function price_check() {
     var price = Number($("#newpost-input-price").val());
     
@@ -130,6 +147,28 @@ $(function (){
       price_available_flg = "ng";
     }
   }
+
+  // 新規投稿画面で本文が1文字以上500文字以内かをチェック
+  function text_check() {
+    var textcount = $(".post-input-text").val().length
+
+    if(textcount > 500){
+      $(".post-input-text").addClass("input-caution");
+      $(".post-caution-text").text("本文は500文字以内で入力してください");
+      text_available_flg = "ng";
+    } else if(textcount == 0) {
+      $(".post-input-text").addClass("input-caution");
+      $(".post-caution-text").text("本文を入力してください");
+      text_available_flg = "ng";
+    } else {
+      $(".post-input-text").removeClass("input-caution");
+      $(".post-caution-text").text("");
+      text_available_flg = "ok";
+    }
+  }
+  
+
+  
   
 
 
