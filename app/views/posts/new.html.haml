@@ -32,13 +32,14 @@
               価格
               %span.note （任意）
             .newpost-items__field
-              = r.text_field :price, id: "price"
+              = r.text_field :price, class: "post-input-price", id: "newpost-input-price"
               .newpost-items__field--caution.post-caution-price
         .newpost-items__label
           本文
           %span.note （500文字以内）
+          %span.textcount#newpost-input-text__textcount
         .newpost-items__field
-          = f.text_area :text
+          = f.text_area :text, class: "post-input-text", id: "newpost-input-text"
           .newpost-items__field--caution.post-caution-text
         .newpost-items__image
           = f.label :images, for: "newpost-file_field" do

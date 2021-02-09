@@ -1,5 +1,6 @@
 $(function (){
   // 新規投稿画面 START -------------------------------------------------------------------------------------------------------------
+
   // 「レビューをする」をチェックするとレビューに必要な入力項目を表示する、チェックを外すと隠す
   $("#newpost-rev_flg").change(function (){
     $(".newpost-items__review").slideToggle('fast');
@@ -10,6 +11,10 @@ $(function (){
     title_check();
   })
 
+  // 価格が入力・変更された時、バリデーションチェックを行う
+  $("#newpost-input-price").change(function (){
+    price_check();
+  })
   
   // 新規投稿画面 END ---------------------------------------------------------------------------------------------------------------
 
@@ -102,6 +107,27 @@ $(function (){
       $(".post-input-title").removeClass("input-caution");
       $(".post-caution-title").text("");
       title_available_flg = "ok";
+    }
+  }
+  
+  // 新規投稿画面でレビュー対象が1文字以上50文字以内かをチェック
+  function price_check() {
+    var price = Number($("#newpost-input-price").val());
+    
+    if(Number.isInteger(price)){
+      if(price < 0 || price >= 100000000){
+        $(".post-input-price").addClass("input-caution");
+        $(".post-caution-price").text("価格は半角数字で0〜99,999,999の整数値で入力してください");
+        price_available_flg = "ng";
+      } else {
+        $(".post-input-price").removeClass("input-caution");
+        $(".post-caution-price").text("");
+        price_available_flg = "ok";
+      }
+    } else {
+      $(".post-input-price").addClass("input-caution");
+      $(".post-caution-price").text("価格は半角数字で0〜99,999,999の整数値で入力してください");
+      price_available_flg = "ng";
     }
   }
   
