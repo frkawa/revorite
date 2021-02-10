@@ -45,7 +45,8 @@
 - if post.images.attached?
   .post-image
     - post.images.each do |image|
-      = image_tag(image)
+      = link_to(url_for(image), class: "luminous-post-#{post.id}") do
+        = image_tag(image)
 - else
 .post-action
   .post-action__comment{id: "post-action__comment-#{post.id}", title: "コメントをする・見る" } 

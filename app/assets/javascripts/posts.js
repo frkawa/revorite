@@ -1,10 +1,135 @@
 $(function (){
-// 各項目のバリデーションチェック用フラグ項目
+  // 各項目のバリデーションチェック用フラグ項目
   var rev_flg = $("#newpost-rev_flg").prop("checked");
   var title_available_flg = "ng";
   var price_available_flg = "ng";
   var text_available_flg = "ng";
   var filecount = 0;
+
+  // 投稿一覧画面（タイムライン、最新の投稿、人気の投稿） START ----------------------------------------------------------------------------
+  // Luminousを用いた投稿画像をクリックで拡大表示するための設定
+  var post_previous_class = "none";
+  var post_hash_images = {};
+
+  $("[class^='luminous-post-']").each(function (i, elm){
+    if($(elm).attr("class") != post_previous_class){
+      post_hash_images[$(elm).attr("class")] = "single";
+    } else {
+      post_hash_images[$(elm).attr("class")] = "multiple";
+    }
+    post_previous_class = $(elm).attr("class");
+  })
+
+  Object.keys(post_hash_images).forEach(function(key){
+    if(post_hash_images[key] == "multiple") {
+      var luminousTrigger = document.querySelectorAll('.' + key);
+      new LuminousGallery(luminousTrigger);
+    } else if(post_hash_images[key] == "single"){
+      var luminousTrigger = document.querySelector('.' + key);
+      new Luminous(luminousTrigger);
+    }
+  });
+
+  // Luminousを用いたコメント画像をクリックで拡大表示するための設定
+  var comment_previous_class = "none";
+  var comment_hash_images = {};
+
+  $("[class^='luminous-comment-']").each(function (i, elm){
+    if($(elm).attr("class") != comment_previous_class){
+      comment_hash_images[$(elm).attr("class")] = "single";
+    } else {
+      comment_hash_images[$(elm).attr("class")] = "multiple";
+    }
+    comment_previous_class = $(elm).attr("class");
+  })
+
+  Object.keys(comment_hash_images).forEach(function(key){
+    if(comment_hash_images[key] == "multiple") {
+      var luminousTrigger = document.querySelectorAll('.' + key);
+      new LuminousGallery(luminousTrigger);
+    } else if(comment_hash_images[key] == "single"){
+      var luminousTrigger = document.querySelector('.' + key);
+      new Luminous(luminousTrigger);
+    }
+  });
+
+  // Luminousを用いたプロフィール画像をクリックで拡大表示するための設定
+  var luminousTrigger = document.querySelector('.luminous-profile');
+  if( luminousTrigger !== null ) {
+    new Luminous(luminousTrigger);
+  }
+
+  // 各投稿のコメントボタンを押すとコメント欄を開く、または折り畳む
+  $(document).on("click", ".post-action__comment", function(){
+    var post_id = $(this).attr('id').replace(/post-action__comment-/g, '');
+    $('#comment_' + post_id).slideToggle('fast');
+  })
+  
+  // コメント投稿時に画像を選択すると画像のプレビューを表示する
+  $(document).on("change", ".comment-image-files", function(){
+    var post_id = $(this).attr('id').replace(/-comment-images/g, '');
+    $("#previewimages-" + post_id).html("");
+    var filecount = this.files.length;
+
+    // バリデーション：選択画像が4枚より多い場合はアラートを出して中断する
+    if (filecount > 4){
+      var cancelstr = '一度に投稿できる画像は4枚までです';
+      cancelupload(post_id, cancelstr);
+      return;
+    }
+    
+    for(i = 0; i < filecount; i++){
+      // バリデーション：ファイル形式がjpeg, jpg, png以外の場合はアラートを出して中断する
+      if (this.files[i].type != "image/jpeg" && this.files[i].type != "image/png") {
+        var cancelstr = '画像はjpegまたはpng形式でアップロードしてください';
+        cancelupload(post_id, cancelstr);
+        return;
+      }
+      // バリデーション：3MBを超える画像を選択した場合はアラートを出して中断する
+      if (this.files[i].size > 3145728) {
+        var cancelstr = '画像は1ファイルにつき3MB以内にしてください';
+        cancelupload(post_id, cancelstr);
+        return;
+      }
+    }
+
+    for(i = 0; i < filecount; i++){
+      var reader = new FileReader();
+      reader.name = this.files[i].name;
+
+      $(reader).on("load", function (){
+        $("<img>").appendTo("#previewimages-" + post_id)
+        .prop({"src": this.result, "title": this.name});
+      });
+
+      if (this.files[i]) {
+        reader.readAsDataURL(this.files[i]);
+      }
+    }
+
+    // 画像を選択した時の画像枚数、コメント欄文字数に応じてコメントボタンを活性/非活性化する
+    buttononoff(post_id);
+  })
+
+  // コメント欄で文字入力する度にイベント発生
+  $(document).on("keyup", ".comment-text", function(){
+    var post_id = $(this).attr('id').replace(/comment-text/g, '');
+    var textcount = $(this).val().length;
+    // 残り入力可能文字数を更新する
+    $("#comment-textcount" + post_id).text(300 - textcount);
+
+    // コメント欄の文字数、画像枚数に応じてコメントボタンを活性/非活性化する
+    buttononoff (post_id)
+  })
+
+  // タブメニューの切り替え機能
+  $(document).on("mouseup", ".main-posts-header-list a", function(){
+    $('.active').attr('class', 'non-active');
+    $(this).attr('class', 'active');
+    // console.log($('.active').attr('href').replace(/\/users\/[0-9]+/g, ''));
+  })
+  // 投稿一覧画面（タイムライン、最新の投稿、人気の投稿） END ------------------------------------------------------------------------------
+
 
   // 新規投稿画面 START -------------------------------------------------------------------------------------------------------------
   // 新規投稿画面を読み込んだ時、本文の残り記入可能文字数を記述する
@@ -104,76 +229,6 @@ $(function (){
   
   // 新規投稿画面 END ---------------------------------------------------------------------------------------------------------------
 
-
-  // 各投稿のコメントボタンを押すとコメント欄を開く、または折り畳む
-  $(document).on("click", ".post-action__comment", function(){
-    var post_id = $(this).attr('id').replace(/post-action__comment-/g, '');
-    $('#comment_' + post_id).slideToggle('fast');
-  })
-  
-  // コメント投稿時に画像を選択すると画像のプレビューを表示する
-  $(document).on("change", ".comment-image-files", function(){
-    var post_id = $(this).attr('id').replace(/-comment-images/g, '');
-    $("#previewimages-" + post_id).html("");
-    var filecount = this.files.length;
-
-    // バリデーション：選択画像が4枚より多い場合はアラートを出して中断する
-    if (filecount > 4){
-      var cancelstr = '一度に投稿できる画像は4枚までです';
-      cancelupload(post_id, cancelstr);
-      return;
-    }
-    
-    for(i = 0; i < filecount; i++){
-      // バリデーション：ファイル形式がjpeg, jpg, png以外の場合はアラートを出して中断する
-      if (this.files[i].type != "image/jpeg" && this.files[i].type != "image/png") {
-        var cancelstr = '画像はjpegまたはpng形式でアップロードしてください';
-        cancelupload(post_id, cancelstr);
-        return;
-      }
-      // バリデーション：3MBを超える画像を選択した場合はアラートを出して中断する
-      if (this.files[i].size > 3145728) {
-        var cancelstr = '画像は1ファイルにつき3MB以内にしてください';
-        cancelupload(post_id, cancelstr);
-        return;
-      }
-    }
-
-    for(i = 0; i < filecount; i++){
-      var reader = new FileReader();
-      reader.name = this.files[i].name;
-
-      $(reader).on("load", function (){
-        $("<img>").appendTo("#previewimages-" + post_id)
-        .prop({"src": this.result, "title": this.name});
-      });
-
-      if (this.files[i]) {
-        reader.readAsDataURL(this.files[i]);
-      }
-    }
-
-    // 画像を選択した時の画像枚数、コメント欄文字数に応じてコメントボタンを活性/非活性化する
-    buttononoff(post_id);
-  })
-
-  // コメント欄で文字入力する度にイベント発生
-  $(document).on("keyup", ".comment-text", function(){
-    var post_id = $(this).attr('id').replace(/comment-text/g, '');
-    var textcount = $(this).val().length;
-    // 残り入力可能文字数を更新する
-    $("#comment-textcount" + post_id).text(300 - textcount);
-
-    // コメント欄の文字数、画像枚数に応じてコメントボタンを活性/非活性化する
-    buttononoff (post_id)
-  })
-
-  // タブメニューの切り替え機能
-  $(document).on("mouseup", ".main-posts-header-list a", function(){
-    $('.active').attr('class', 'non-active');
-    $(this).attr('class', 'active');
-    // console.log($('.active').attr('href').replace(/\/users\/[0-9]+/g, ''));
-  })
 
 
   // 関数集 START ------------------------------------------------------------------------------------------------------------------

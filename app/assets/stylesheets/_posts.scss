@@ -605,13 +605,11 @@ button, input, select, textarea {
         color: #a1a1a1;
       }
       &--img {
-        i {
-          font-size: 1.4rem;
+        color: #b3642f;
+        label:hover {
           color: #b3642f;
-          &:hover {
-            color: #dfa57e;
-            cursor: pointer;
-          }
+          border-bottom: 1px solid #b3642f;
+          cursor: pointer;
         }
         input {display: none;}
       }
