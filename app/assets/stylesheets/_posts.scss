@@ -779,6 +779,12 @@ button, input, select, textarea {
 .newpost {
   &-items {
     width: 600px;
+    &__field {
+      #star {
+        background-color: #fff;
+      }
+      
+    }
     &__checkbox { margin-top: 0px; }
     &__image { 
       text-align: left;

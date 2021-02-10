@@ -25,6 +25,7 @@ $( function  () {
     starOn: "/assets/star/full.png",
     starHalf: "/assets/star/half.png",
     scoreName: "post[review_attributes][rate]",
-    half: true
+    half: true,
+    score: 3
   });
 });

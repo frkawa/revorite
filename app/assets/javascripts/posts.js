@@ -1,7 +1,6 @@
 $(function (){
-  // 各項目のバリデーションチェック用フラグ項目
+// 各項目のバリデーションチェック用フラグ項目
   var rev_flg = $("#newpost-rev_flg").prop("checked");
-  var rate_available_flg = "ng";
   var title_available_flg = "ng";
   var price_available_flg = "ng";
   var text_available_flg = "ng";
@@ -13,7 +12,7 @@ $(function (){
     $("#newpost-input-text__textcount").text(500 - $("#newpost-input-text").val().length);
   }
 
-  // 新規投稿画面を読み込んだ時、「レビューする」にチェックが付いていたらレビュー欄を開いておく
+  // 新規投稿画面を読み込んだ時、「レビューする」にチェックが付いていたらレビューに必要な入力項目を表示しておく
   if(rev_flg) {
     $(".newpost-items__review").css("display", "block");
   }
@@ -22,19 +21,28 @@ $(function (){
   $("#newpost-rev_flg").change(function (){
     $(".newpost-items__review").slideToggle('fast');
     rev_flg = $("#newpost-rev_flg").prop("checked");
-    console.log("rev_flg = " + rev_flg);
-    postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg);
+    if($("#newpost-input-text").val().length != 0){
+      text_check();
+    }
+    postButtonToggle(rev_flg, title_available_flg, price_available_flg, text_available_flg);
   })
 
   // レビュー対象が入力・変更された時、バリデーションチェックを行う
   $("#newpost-input-title").change(function (){
     title_check();
-    postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg);
+    if($("#newpost-input-text").val().length != 0){
+      text_check();
+    }
+    postButtonToggle(rev_flg, title_available_flg, price_available_flg, text_available_flg);
   })
 
   // 価格が入力・変更された時、バリデーションチェックを行う
   $("#newpost-input-price").change(function (){
     price_check();
+    if($("#newpost-input-text").val().length != 0){
+      text_check();
+    }
+    postButtonToggle(rev_flg, title_available_flg, price_available_flg, text_available_flg);
   })
 
   // 本文を入力・変更する毎に残り記入可能文字数を更新し、併せてバリデーションチェックを行う
@@ -43,7 +51,7 @@ $(function (){
     $("#newpost-input-text__textcount").text(500 - textcount);
     
     text_check();
-    postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg);
+    postButtonToggle(rev_flg, title_available_flg, price_available_flg, text_available_flg);
   })
 
   // 投稿する画像を選択した時、バリデーションチェックを行い、問題無ければプレビュー画像を表示する
@@ -88,10 +96,10 @@ $(function (){
       }
     }
 
-    // 画像を投稿する場合は本文入力は任意のため、text_checkを行う
+    // 画像を投稿する場合は本文入力は任意のため、text_checkを再度行う
     text_check();
 
-    postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg);
+    postButtonToggle(rev_flg, title_available_flg, price_available_flg, text_available_flg);
   });
   
   // 新規投稿画面 END ---------------------------------------------------------------------------------------------------------------
@@ -218,8 +226,6 @@ $(function (){
       $(".post-caution-text").text("本文は500文字以内で入力してください");
       text_available_flg = "ng";
     } else if(textcount == 0 && filecount == 0) {
-      $(".post-input-text").addClass("input-caution");
-      $(".post-caution-text").text("本文を入力してください（画像投稿をする場合は入力任意）");
       text_available_flg = "ng";
     } else {
       $(".post-input-text").removeClass("input-caution");
@@ -229,9 +235,9 @@ $(function (){
   }
 
   // 各項目チェックで設定したフラグに応じて新規投稿画面のボタンの活性化/非活性化を行う
-  function postButtonToggle(rev_flg, rate_available_flg, title_available_flg, price_available_flg, text_available_flg){
+  function postButtonToggle(rev_flg, title_available_flg, price_available_flg, text_available_flg){
     if(rev_flg){
-      if(rate_available_flg == "ok" && title_available_flg == "ok" && price_available_flg == "ok" && text_available_flg == "ok"){
+      if(title_available_flg == "ok" && price_available_flg == "ok" && text_available_flg == "ok"){
         $(".post-button-submit").removeAttr("disabled");
       } else {
         $(".post-button-submit").attr("disabled", true);

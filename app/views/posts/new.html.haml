@@ -9,7 +9,7 @@
     .newpost-items
       = form_with model: @post, local: true do |f|
         - if @post.errors.any?
-          .main-error
+          .newpost-items__error#error_explanation
             %ul
             - @post.errors.full_messages.each do |message| 
               %li= message
@@ -21,7 +21,7 @@
             .newpost-items__label
               評価
             .newpost-items__field#star
-              = r.hidden_field :rate
+              = r.hidden_field :rate, id: "newpost-input-rate"
             .newpost-items__label
               レビュー対象
               %span.note （50文字以内）
@@ -49,7 +49,7 @@
           %span.note （JPEGまたはPNG形式、4枚まで　1枚当たり3MB以内）
         .newpost-items__previewimages
         .newpost-items__submit
-          = f.submit '投稿', class: "button-submit post-newpost post-button-submit"
+          = f.submit '投稿', class: "button-submit post-newpost post-button-submit", disabled: true
     .newpost-footer
       = link_to("<< トップに戻る", root_path)
 
