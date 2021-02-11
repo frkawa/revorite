@@ -43,7 +43,7 @@
             ログアウト
       - else
         %li
-          = link_to('#') do
+          = link_to(users_guest_sign_in_path, method: :post) do
             %i.fas.fa-user-check
             かんたんログイン
         - if current_page?(new_user_session_path)
