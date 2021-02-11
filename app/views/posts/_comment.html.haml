@@ -27,7 +27,8 @@
             - if comment.images.attached?
               .comment-image
                 - comment.images.each do |image|
-                  = image_tag(image)
+                  = link_to(url_for(image), class: "luminous-comment-#{comment.id}") do
+                    = image_tag(image)
             - else
   .comment-write
     - if user_signed_in?
@@ -47,6 +48,8 @@
                 .comment-write__submit--img
                   = f.label :images, for: "#{post.id}-comment-images" do
                     %i.far.fa-image
+                    画像の投稿
+                    %span.note
                     = f.file_field :images, class: "comment-image-files", id: "#{post.id}-comment-images", multiple: true, accept: "image/jpeg, image/png"
               .comment-write__submit-upper-right
                 .comment-write__submit--count{id: "comment-textcount#{post.id}"}

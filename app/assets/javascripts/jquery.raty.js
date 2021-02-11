@@ -30,7 +30,7 @@
     click:        undefined,
     half:         false,
     halfShow:     true,
-    hints:        ['bad', 'poor', 'regular', 'good', 'gorgeous'],
+    hints:        ['BAD', 'POOR', 'REGULAR', 'GOOD', 'GREAT'],
     iconRange:    undefined,
     mouseout:     undefined,
     mouseover:    undefined,
@@ -105,6 +105,7 @@
           this._lock();
         } else {
           this.element.style.cursor = 'pointer';
+          this.element.style.display = 'inline-block';
 
           this._binds();
         }

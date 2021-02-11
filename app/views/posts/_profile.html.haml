@@ -1,6 +1,6 @@
 .profile-image
   - if user.image.attached? 
-    = link_to(url_for(user.image)) do
+    = link_to(url_for(user.image), class: "luminous-profile") do
       = image_tag(user.image, alt: 'デフォルトアイコン')
   - else
     = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
