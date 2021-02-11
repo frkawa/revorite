@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   def index
     if user_signed_in?
       @user = User.find(current_user.id)
-      @posts = @user.followings_posts_with_reposts
+      @posts = @user.followings_posts_with_reposts.page(params[:page]).without_count.per(3)
     else
       @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes)
     end

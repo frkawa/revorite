@@ -41,5 +41,8 @@
     - else
       %ul.main-posts-contents
         = render partial: "posts/posts", locals: {posts: @posts}
+    .main-posts-pagenation
+      = link_to_prev_page @posts, '前のページ', class: "prev", "data-turbolinks": false
+      = link_to_next_page @posts, '次のページ', class: "next", "data-turbolinks": false
         
 = render "shared/footer"
