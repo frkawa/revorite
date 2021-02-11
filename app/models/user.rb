@@ -50,7 +50,7 @@ class User < ApplicationRecord
             .or(relation.where("reposts.user_id = ?", self.id))
             .with_attached_images
             .preload(:user, :review, :comments, :likes, :reposts)
-            .order(Arel.sql("CASE WHEN reposts.created_at IS NULL THEN posts.created_at ELSE reposts.created_at END"))
+            .order(Arel.sql("CASE WHEN reposts.created_at IS NULL THEN posts.created_at ELSE reposts.created_at END DESC"))
   end
 
   def followings_posts_with_reposts
@@ -61,7 +61,7 @@ class User < ApplicationRecord
             .where("NOT EXISTS(SELECT 1 FROM reposts sub WHERE reposts.post_id = sub.post_id AND reposts.created_at < sub.created_at)")
             .with_attached_images
             .preload(:user, :review, :comments, :likes, :reposts)
-            .order(Arel.sql("CASE WHEN reposts.created_at IS NULL THEN posts.created_at ELSE reposts.created_at END"))
+            .order(Arel.sql("CASE WHEN reposts.created_at IS NULL THEN posts.created_at ELSE reposts.created_at END DESC"))
   end
 
   def reposted?(post_id)

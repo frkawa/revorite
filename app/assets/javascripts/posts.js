@@ -7,57 +7,70 @@ $(function (){
   var filecount = 0;
 
   // 投稿一覧画面（タイムライン、最新の投稿、人気の投稿） START ----------------------------------------------------------------------------
+  $('.jscroll').jscroll({
+    contentSelector: '.main-posts-contents', 
+    nextSelector: 'a.next-page',
+    loadingHtml: '読込中…'
+  });
+
+  luminous();
   // Luminousを用いた投稿画像をクリックで拡大表示するための設定
-  var post_previous_class = "none";
-  var post_hash_images = {};
-
-  $("[class^='luminous-post-']").each(function (i, elm){
-    if($(elm).attr("class") != post_previous_class){
-      post_hash_images[$(elm).attr("class")] = "single";
-    } else {
-      post_hash_images[$(elm).attr("class")] = "multiple";
-    }
-    post_previous_class = $(elm).attr("class");
-  })
-
-  Object.keys(post_hash_images).forEach(function(key){
-    if(post_hash_images[key] == "multiple") {
-      var luminousTrigger = document.querySelectorAll('.' + key);
-      new LuminousGallery(luminousTrigger);
-    } else if(post_hash_images[key] == "single"){
-      var luminousTrigger = document.querySelector('.' + key);
+  function luminous() {
+    var post_previous_class = "none";
+    var post_hash_images = {};
+  
+    $("[class^='luminous-post-']").each(function (i, elm){
+      if($(elm).attr("class") != post_previous_class){
+        post_hash_images[$(elm).attr("class")] = "single";
+      } else {
+        post_hash_images[$(elm).attr("class")] = "multiple";
+      }
+      post_previous_class = $(elm).attr("class");
+    })
+  
+    Object.keys(post_hash_images).forEach(function(key){
+      if(post_hash_images[key] == "multiple") {
+        var luminousTrigger = document.querySelectorAll('.' + key);
+        new LuminousGallery(luminousTrigger);
+      } else if(post_hash_images[key] == "single"){
+        var luminousTrigger = document.querySelector('.' + key);
+        new Luminous(luminousTrigger);
+      }
+    });
+  
+    // Luminousを用いたコメント画像をクリックで拡大表示するための設定
+    var comment_previous_class = "none";
+    var comment_hash_images = {};
+  
+    $("[class^='luminous-comment-']").each(function (i, elm){
+      if($(elm).attr("class") != comment_previous_class){
+        comment_hash_images[$(elm).attr("class")] = "single";
+      } else {
+        comment_hash_images[$(elm).attr("class")] = "multiple";
+      }
+      comment_previous_class = $(elm).attr("class");
+    })
+  
+    Object.keys(comment_hash_images).forEach(function(key){
+      if(comment_hash_images[key] == "multiple") {
+        var luminousTrigger = document.querySelectorAll('.' + key);
+        new LuminousGallery(luminousTrigger);
+      } else if(comment_hash_images[key] == "single"){
+        var luminousTrigger = document.querySelector('.' + key);
+        new Luminous(luminousTrigger);
+      }
+    });
+  
+    // Luminousを用いたプロフィール画像をクリックで拡大表示するための設定
+    var luminousTrigger = document.querySelector('.luminous-profile');
+    if( luminousTrigger !== null ) {
       new Luminous(luminousTrigger);
     }
-  });
-
-  // Luminousを用いたコメント画像をクリックで拡大表示するための設定
-  var comment_previous_class = "none";
-  var comment_hash_images = {};
-
-  $("[class^='luminous-comment-']").each(function (i, elm){
-    if($(elm).attr("class") != comment_previous_class){
-      comment_hash_images[$(elm).attr("class")] = "single";
-    } else {
-      comment_hash_images[$(elm).attr("class")] = "multiple";
-    }
-    comment_previous_class = $(elm).attr("class");
-  })
-
-  Object.keys(comment_hash_images).forEach(function(key){
-    if(comment_hash_images[key] == "multiple") {
-      var luminousTrigger = document.querySelectorAll('.' + key);
-      new LuminousGallery(luminousTrigger);
-    } else if(comment_hash_images[key] == "single"){
-      var luminousTrigger = document.querySelector('.' + key);
-      new Luminous(luminousTrigger);
-    }
-  });
-
-  // Luminousを用いたプロフィール画像をクリックで拡大表示するための設定
-  var luminousTrigger = document.querySelector('.luminous-profile');
-  if( luminousTrigger !== null ) {
-    new Luminous(luminousTrigger);
   }
+
+
+
+
 
   // 各投稿のコメントボタンを押すとコメント欄を開く、または折り畳む
   $(document).on("click", ".post-action__comment", function(){

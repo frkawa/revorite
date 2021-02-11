@@ -230,6 +230,12 @@ a {
     &-contents li:first-child {
       padding-top: 36px;
     }
+    &-pagenation {
+      display: none;
+    }
+    .jscroll-loading {
+      margin: 10px;
+    }
   }
 }
 
