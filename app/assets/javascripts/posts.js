@@ -7,70 +7,65 @@ $(function (){
   var filecount = 0;
 
   // 投稿一覧画面（タイムライン、最新の投稿、人気の投稿） START ----------------------------------------------------------------------------
+  // 無限スクロール。最初はコントローラで指定した件数のみ投稿を読み込み、スクロールする度に追加で指定件数の投稿を取得してくる
   $('.jscroll').jscroll({
     contentSelector: '.main-posts-contents', 
-    nextSelector: 'a.next-page',
-    loadingHtml: '読込中…'
+    nextSelector: 'a.next-page'
   });
 
-  luminous();
-  // Luminousを用いた投稿画像をクリックで拡大表示するための設定
-  function luminous() {
-    var post_previous_class = "none";
-    var post_hash_images = {};
-  
-    $("[class^='luminous-post-']").each(function (i, elm){
-      if($(elm).attr("class") != post_previous_class){
-        post_hash_images[$(elm).attr("class")] = "single";
-      } else {
-        post_hash_images[$(elm).attr("class")] = "multiple";
+  // 最初に読み込んだ投稿の画像に対し、Luminousを適用する
+  var initial_tagert = ".jscroll-inner";
+  luminous(initial_tagert);
+
+  // 最初に読み込んだ投稿のレビューに対し、評価の星を表示する
+  if(typeof gon != "undefined"){
+    $.each(gon.posts, function (i, elm){
+      if(elm.reviews_rate != null){ 
+        display_rate(elm.id, elm.reviews_rate)
       }
-      post_previous_class = $(elm).attr("class");
     })
-  
-    Object.keys(post_hash_images).forEach(function(key){
-      if(post_hash_images[key] == "multiple") {
-        var luminousTrigger = document.querySelectorAll('.' + key);
-        new LuminousGallery(luminousTrigger);
-      } else if(post_hash_images[key] == "single"){
-        var luminousTrigger = document.querySelector('.' + key);
-        new Luminous(luminousTrigger);
-      }
-    });
-  
-    // Luminousを用いたコメント画像をクリックで拡大表示するための設定
-    var comment_previous_class = "none";
-    var comment_hash_images = {};
-  
-    $("[class^='luminous-comment-']").each(function (i, elm){
-      if($(elm).attr("class") != comment_previous_class){
-        comment_hash_images[$(elm).attr("class")] = "single";
-      } else {
-        comment_hash_images[$(elm).attr("class")] = "multiple";
-      }
-      comment_previous_class = $(elm).attr("class");
-    })
-  
-    Object.keys(comment_hash_images).forEach(function(key){
-      if(comment_hash_images[key] == "multiple") {
-        var luminousTrigger = document.querySelectorAll('.' + key);
-        new LuminousGallery(luminousTrigger);
-      } else if(comment_hash_images[key] == "single"){
-        var luminousTrigger = document.querySelector('.' + key);
-        new Luminous(luminousTrigger);
-      }
-    });
-  
-    // Luminousを用いたプロフィール画像をクリックで拡大表示するための設定
-    var luminousTrigger = document.querySelector('.luminous-profile');
-    if( luminousTrigger !== null ) {
-      new Luminous(luminousTrigger);
-    }
   }
 
+  // プロフィール画像にもLuminousを適用する
+  var luminousTrigger = document.querySelector('.luminous-profile');
+  if( luminousTrigger !== null ) {
+    new Luminous(luminousTrigger);
+  }
 
+  // スクロールで追加の投稿を読み込んだ際、MutationObserverでそれを検知し、①追加で読み込んだ投稿の画像にもLuminousを適用する、②レビューがある投稿の評価の星を表示する
+  var observer = new MutationObserver(function() {
+    // 無限ループを防ぐ為にDOM変化の監視を一時停止する
+    observer.disconnect();
 
+    next_target = ".jscroll-added:last-child";
+    // Luminousを適用
+    luminous(next_target);
 
+    // 評価の星を表示
+    $(next_target + " .post-review-star").each(function (i, elm){
+      var id = $(elm).attr('id').replace(/star-/g, '');
+      var rate = $(elm).attr('rate');
+      display_rate(id, rate);
+      console.log("星");
+    })
+
+    // DOM変化の監視を再開する
+    observer.observe(elem, config);
+  });
+
+  // MutationObserverの監視対象、オプション
+  const elem = document.getElementsByClassName("jscroll-inner")[0];
+  const config = { 
+    attributes: true, 
+    childList: true, 
+    characterData: true,
+    subtree: true
+  };
+
+  // MutationObserverの実行
+  if(elem){
+    observer.observe(elem, config);
+  }
 
   // 各投稿のコメントボタンを押すとコメント欄を開く、または折り畳む
   $(document).on("click", ".post-action__comment", function(){
@@ -139,7 +134,6 @@ $(function (){
   $(document).on("mouseup", ".main-posts-header-list a", function(){
     $('.active').attr('class', 'non-active');
     $(this).attr('class', 'active');
-    // console.log($('.active').attr('href').replace(/\/users\/[0-9]+/g, ''));
   })
   // 投稿一覧画面（タイムライン、最新の投稿、人気の投稿） END ------------------------------------------------------------------------------
 
@@ -245,6 +239,67 @@ $(function (){
 
 
   // 関数集 START ------------------------------------------------------------------------------------------------------------------
+  // レビューの評価の星を表示する
+  function display_rate(post_id, rate) {
+    $("#star-" + post_id).raty({
+      size: 36,
+      starOff: '/assets/star/none.png',
+      starOn: "/assets/star/full.png",
+      starHalf: "/assets/star/half.png",
+      score: rate,
+      half: true,
+      readOnly: true
+    });
+  }
+
+  // Luminousを使用し、投稿画像をクリックした際にモーダルウィンドウで拡大表示する
+  function luminous(target) {
+    var post_previous_class = "none";
+    var post_hash_images = {};
+  
+    $(target + " [class^='luminous-post-']").each(function (i, elm){
+      if($(elm).attr("class") != post_previous_class){
+        post_hash_images[$(elm).attr("class")] = "single";
+      } else {
+        post_hash_images[$(elm).attr("class")] = "multiple";
+      }
+      post_previous_class = $(elm).attr("class");
+    })
+  
+    Object.keys(post_hash_images).forEach(function(key){
+      if(post_hash_images[key] == "multiple") {
+        var luminousTrigger = document.querySelectorAll('.' + key);
+        new LuminousGallery(luminousTrigger);
+      } else if(post_hash_images[key] == "single"){
+        var luminousTrigger = document.querySelector('.' + key);
+        new Luminous(luminousTrigger);
+      }
+    });
+  
+    // 投稿だけでなくコメントの画像も同様に拡大表示できるようにする
+    var comment_previous_class = "none";
+    var comment_hash_images = {};
+  
+    $("[class^='luminous-comment-']").each(function (i, elm){
+      if($(elm).attr("class") != comment_previous_class){
+        comment_hash_images[$(elm).attr("class")] = "single";
+      } else {
+        comment_hash_images[$(elm).attr("class")] = "multiple";
+      }
+      comment_previous_class = $(elm).attr("class");
+    })
+  
+    Object.keys(comment_hash_images).forEach(function(key){
+      if(comment_hash_images[key] == "multiple") {
+        var luminousTrigger = document.querySelectorAll('.' + key);
+        new LuminousGallery(luminousTrigger);
+      } else if(comment_hash_images[key] == "single"){
+        var luminousTrigger = document.querySelector('.' + key);
+        new Luminous(luminousTrigger);
+      }
+    });
+  }
+
   // 新規投稿画面でレビュー対象が1文字以上50文字以内かをチェック
   function title_check() {
     var titlelength = $("#newpost-input-title").val().length;

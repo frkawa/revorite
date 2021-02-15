@@ -12,8 +12,8 @@
           %i.fas.fa-trash-alt
 - if post.review.present?
   .post-review
-    .post-review-star{id: "star-#{post.review.id}"}
-      :javascript
+    .post-review-star{id: "star-#{post.id}", rate: "#{post.review.rate}"}
+      -# :javascript
         $('#star-#{post.review.id}').raty({
           size: 36,
           starOff: '/assets/star/none.png',

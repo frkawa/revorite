@@ -6,6 +6,8 @@ class PostsController < ApplicationController
       @user = User.find(current_user.id)
       # @posts = @user.followings_posts_with_reposts
       @posts = @user.followings_posts_with_reposts.page(params[:page]).without_count.per(5)
+      gon.posts = @posts
+      # binding.pry
     else
       @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes)
     end

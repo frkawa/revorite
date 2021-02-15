@@ -227,14 +227,25 @@ a {
         }
       }
     }
-    &-contents li:first-child {
+    &-contents .jscroll-inner{
       padding-top: 36px;
+      hr {
+        height: 1px;
+        margin: 0 10px;
+        background-color: #a1a1a1;
+        border: none;
+      }
+    }
+    &-contents .jscroll-inner>hr:first-of-type {
+      display: none;
     }
     &-pagenation {
       display: none;
     }
     .jscroll-loading {
       margin: 10px;
+      font-size: 0.8em;
+      color: gray;
     }
   }
 }
@@ -400,7 +411,8 @@ button, input, select, textarea {
   &-container {
     display: flex;
     line-height: 1.5rem;
-    padding: 10px;
+    margin: 10px;
+    // border-bottom: 1px solid #a1a1a1;
   }
   &-left {
     margin-right: 10px;
@@ -804,13 +816,6 @@ button, input, select, textarea {
       }
     }
   }
-}
-
-hr {
-  height: 1px;
-  margin: 0 10px;
-  background-color: #a1a1a1;
-  border: none;
 }
 
 .footer {
