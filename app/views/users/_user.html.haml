@@ -5,7 +5,7 @@
   - if user_signed_in?
     - if user.id != current_user.id
       - if current_user.following?(user)
-        = link_to "/users/#{user.id}/relationships/#{user.relationships.ids}", method: :delete, "data-turbolinks": false, remote: true do
+        = link_to "/users/#{user.id}/relationships/#{user.relationships.ids}", method: :delete, "data-turbolinks": false, remote: true, data: {confirm: "フォローを解除してよろしいですか？"} do
           .user-header__button.button-follow.unfollow
             %span.switch-normal
               %i.fas.fa-user-check

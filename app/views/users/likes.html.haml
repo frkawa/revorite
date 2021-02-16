@@ -1,5 +1,5 @@
 - content_for :no_turbolink, true
-= provide(:title, @user.name + "さんの投稿一覧")
+= provide(:title, @user.name + "さんのお気に入り一覧")
 
 = render "shared/header"
 
@@ -17,9 +17,9 @@
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
-        = link_to "/users/#{@user.id}", "data-turbolinks": false, class: "active" do 
+        = link_to "/users/#{@user.id}", "data-turbolinks": false, class: "non-active" do 
           %li 投稿
-        = link_to "/users/#{@user.id}/likes", "data-turbolinks": false, class: "non-active" do 
+        = link_to "/users/#{@user.id}/likes", "data-turbolinks": false, class: "active" do 
           %li お気に入り
         = link_to "/users/#{@user.id}/followings", "data-turbolinks": false, class: "non-active" do 
           %li フォロー
