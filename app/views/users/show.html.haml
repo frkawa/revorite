@@ -1,4 +1,8 @@
 - content_for :no_turbolink, true
+- if @user.id == current_user.id
+  = provide(:title, 'マイページ')
+- else
+  = provide(:title, 'ユーザ情報')
 
 = render "shared/header"
 
@@ -24,7 +28,10 @@
           %li フォロー
         = link_to "/users/#{@user.id}/followers", remote: true, "data-turbolinks": false, class: "non-active" do 
           %li フォロワー
-    %ul.main-posts-contents
+    %ul.main-posts-contents.jscroll
       = render partial: "posts/posts", locals: {posts: @posts}
+      .main-posts-pagenation
+        = link_to_prev_page @posts, '前のページ', class: "prev-page", "data-turbolinks": false
+        = link_to_next_page @posts, '次のページ', class: "next-page", "data-turbolinks": false
         
 = render "shared/footer"

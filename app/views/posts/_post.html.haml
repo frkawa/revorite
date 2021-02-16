@@ -13,16 +13,6 @@
 - if post.review.present?
   .post-review
     .post-review-star{id: "star-#{post.id}", rate: "#{post.review.rate}"}
-      -# :javascript
-        $('#star-#{post.review.id}').raty({
-          size: 36,
-          starOff: '/assets/star/none.png',
-          starOn: "/assets/star/full.png",
-          starHalf: "/assets/star/half.png",
-          score: "#{post.review.rate}",
-          half: true,
-          readOnly: true
-        });
     .post-review-title
       = post.review.title
     .post-review-price

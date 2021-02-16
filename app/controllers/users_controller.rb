@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @posts = @user.posts_with_reposts
+    @posts = @user.posts_with_reposts.page(params[:page]).without_count.per(5)
   end
 
   def likes

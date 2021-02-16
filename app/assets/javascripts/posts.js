@@ -14,17 +14,15 @@ $(function (){
   });
 
   // 最初に読み込んだ投稿の画像に対し、Luminousを適用する
-  var initial_tagert = ".jscroll-inner";
-  luminous(initial_tagert);
+  var initial_target = ".jscroll-inner";
+  luminous(initial_target);
 
   // 最初に読み込んだ投稿のレビューに対し、評価の星を表示する
-  if(typeof gon != "undefined"){
-    $.each(gon.posts, function (i, elm){
-      if(elm.reviews_rate != null){ 
-        display_rate(elm.id, elm.reviews_rate)
-      }
-    })
-  }
+  $(initial_target + " .post-review-star").each(function (i, elm){
+    var id = $(elm).attr('id').replace(/star-/g, '');
+    var rate = $(elm).attr('rate');
+    display_rate(id, rate);
+  })
 
   // プロフィール画像にもLuminousを適用する
   var luminousTrigger = document.querySelector('.luminous-profile');
@@ -259,7 +257,7 @@ $(function (){
     });
   }
 
-  // Luminousを使用し、投稿画像をクリックした際にモーダルウィンドウで拡大表示する
+  // Luminousを使用し、投稿画像（コメントの画像も含む）をクリックした際にモーダルウィンドウで拡大表示する
   function luminous(target) {
     var post_previous_class = "none";
     var post_hash_images = {};
@@ -283,11 +281,11 @@ $(function (){
       }
     });
   
-    // 投稿だけでなくコメントの画像も同様に拡大表示できるようにする
+    // コメントの画像も同様に拡大表示できるようにする
     var comment_previous_class = "none";
     var comment_hash_images = {};
   
-    $("[class^='luminous-comment-']").each(function (i, elm){
+    $(target + " [class^='luminous-comment-']").each(function (i, elm){
       if($(elm).attr("class") != comment_previous_class){
         comment_hash_images[$(elm).attr("class")] = "single";
       } else {
