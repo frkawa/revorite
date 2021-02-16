@@ -33,32 +33,39 @@ $(function (){
   }
 
   // スクロールで追加の投稿を読み込んだ際、MutationObserverでそれを検知し、①追加で読み込んだ投稿の画像にもLuminousを適用する、②レビューがある投稿の評価の星を表示する
+  var inf_scroll_times = 0;
   var observer = new MutationObserver(function() {
-    // 無限ループを防ぐ為にDOM変化の監視を一時停止する
-    observer.disconnect();
+    if($(".jscroll-added:last-of-type .main-posts-contents").length){ // jscrollの仕様上、これが無いと無駄な検知が増えるため入れている
+      if(inf_scroll_times != $(".jscroll-added").length){ // コメントを入力したりお気に入りに入れるだけで検知しないように入れている
+        // 無限ループを防ぐ為にDOM変化の監視を一時停止する
+        observer.disconnect();
 
-    next_target = ".jscroll-added:last-child";
-    // Luminousを適用
-    luminous(next_target);
+        next_target = ".jscroll-added:last-of-type";
+        // Luminousを適用
+        luminous(next_target);
 
-    // 評価の星を表示
-    $(next_target + " .post-review-star").each(function (i, elm){
-      var id = $(elm).attr('id').replace(/star-/g, '');
-      var rate = $(elm).attr('rate');
-      display_rate(id, rate);
-      console.log("星");
-    })
+        // 評価の星を表示
+        $(next_target + " .post-review-star").each(function (i, elm){
+          var id = $(elm).attr('id').replace(/star-/g, '');
+          var rate = $(elm).attr('rate');
+          display_rate(id, rate);
+        })
 
-    // DOM変化の監視を再開する
-    observer.observe(elem, config);
+        // 無限スクロールした回数を更新
+        inf_scroll_times = $(".jscroll-added").length;
+
+        // DOM変化の監視を再開する
+        observer.observe(elem, config);
+      }
+    }
   });
 
   // MutationObserverの監視対象、オプション
-  const elem = document.getElementsByClassName("jscroll-inner")[0];
+  const elem = document.querySelector(".jscroll-inner");
   const config = { 
-    attributes: true, 
+    attributes: false, 
     childList: true, 
-    characterData: true,
+    characterData: false,
     subtree: true
   };
 
