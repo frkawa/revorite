@@ -1,4 +1,5 @@
 - content_for :no_turbolink, true
+= provide(:title, '人気の投稿')
 
 = render "shared/header"
 
@@ -10,10 +11,11 @@
           = render partial: 'posts/profile', locals: {user: @user}
       - else
         .profile
+      
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
-        = link_to root_path, class: 'active post-links', "data-turbolinks": false do
+        = link_to root_path, class: 'non-active post-links', "data-turbolinks": false do
           .main-posts-header-list-box
             - if user_signed_in?
               %li タイムライン
@@ -22,7 +24,7 @@
                   フォローしているユーザの投稿を見ることができます
             - else
               %li 最新の投稿
-        = link_to trend_posts_path, class: 'non-active post-links', "data-turbolinks": false do 
+        = link_to trend_posts_path, class: 'active post-links', "data-turbolinks": false do 
           .main-posts-header-list-box
             %li 人気の投稿
             %i.fas.fa-question-circle

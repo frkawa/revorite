@@ -1,4 +1,5 @@
 = render "shared/header"
+= provide(:title, '新規登録')
 
 .main
   .signup
@@ -34,7 +35,7 @@
       .signup-links
         = link_to(">> ログイン", new_user_session_path, "data-turbolinks": false)
     .signup-footer
-      = link_to("<< トップに戻る", root_path)
+      = link_to("<< トップに戻る", root_path, "data-turbolinks": false)
           
 
 = render "shared/footer"

@@ -27,40 +27,48 @@
         ｜ 新規投稿
         
   .header-right
-    %ul
+    .header-right-newpost
       - if user_signed_in?
-        = link_to user_path(current_user.id), "data-turbolinks": false do
+        - if request.fullpath != "/posts/new"
+          = link_to new_post_url, "data-turbolinks": false do
+            .button-newpost
+              %i.fas.fa-feather-alt
+              投稿する
+    .header-right-menu
+      %ul
+        - if user_signed_in?
+          = link_to user_path(current_user.id), "data-turbolinks": false do
+            %li
+              - if current_user.image.attached? 
+                = image_tag(current_user.image, alt: 'デフォルトアイコン')
+              - else
+                = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+            %li#username
+              = current_user.name
           %li
-            - if current_user.image.attached? 
-              = image_tag(current_user.image, alt: 'デフォルトアイコン')
-            - else
-              = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
-          %li#username
-            = current_user.name
-        %li
-          = link_to destroy_user_session_path, method: :delete do
-            %i.fas.fa-sign-out-alt
-            ログアウト
-      - else
-        %li
-          = link_to(users_guest_sign_in_path, method: :post) do
-            %i.fas.fa-user-check
-            かんたんログイン
-        - if current_page?(new_user_session_path)
-          %li{style: "font-weight: bold;"}
-            %i.fas.fa-sign-in-alt
-            ログイン 
+            = link_to destroy_user_session_path, method: :delete do
+              %i.fas.fa-sign-out-alt
+              ログアウト
         - else
           %li
-            = link_to new_user_session_path, "data-turbolinks": false do
+            = link_to users_guest_sign_in_path, method: :post, "data-turbolinks": false do
+              %i.fas.fa-user-check
+              かんたんログイン
+          - if current_page?(new_user_session_path)
+            %li{style: "font-weight: bold;"}
               %i.fas.fa-sign-in-alt
-              ログイン
-        - if current_page?(new_user_registration_path)
-          %li{style: "font-weight: bold;"}
-            %i.fas.fa-plus
-            新規登録 
-        - else
-          %li
-            = link_to new_user_registration_path, "data-turbolinks": false do
+              ログイン 
+          - else
+            %li
+              = link_to new_user_session_path, "data-turbolinks": false do
+                %i.fas.fa-sign-in-alt
+                ログイン
+          - if current_page?(new_user_registration_path)
+            %li{style: "font-weight: bold;"}
               %i.fas.fa-plus
-              新規登録
+              新規登録 
+          - else
+            %li
+              = link_to new_user_registration_path, "data-turbolinks": false do
+                %i.fas.fa-plus
+                新規登録

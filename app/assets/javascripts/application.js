@@ -15,6 +15,7 @@
 //= require turbolinks
 
 //= require jquery
+//= require jquery.jscroll.min.js
 //= require jquery_ujs
 //= require_tree .
 

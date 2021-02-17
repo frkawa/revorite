@@ -4,15 +4,20 @@ class PostsController < ApplicationController
   def index
     if user_signed_in?
       @user = User.find(current_user.id)
-      @posts = @user.followings_posts_with_reposts
+      @posts = @user.followings_posts_with_reposts.page(params[:page]).without_count.per(PAGENATION_PAGES)
     else
-      @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes)
+      @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes).page(params[:page]).without_count.per(PAGENATION_PAGES)
     end
   end
 
   def trend
-    counts = Post.joins(:likes).group(:id).order('count_all').count
+    if user_signed_in?
+      @user = User.find(current_user.id)
+    end
+    counts = Post.joins(:likes).group(:id).order(count_all: "DESC").count
     @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes).find(counts.map{|id, count| id})
+    @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(PAGENATION_PAGES)
+
   end
 
   def new

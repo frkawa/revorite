@@ -1,5 +1,5 @@
 - content_for :no_turbolink, true
-= provide(:title, @user.name + "さんの投稿一覧")
+= provide(:title, @user.name + "さんのフォロー一覧")
 
 = render "shared/header"
 
@@ -11,18 +11,18 @@
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
-        = link_to "/users/#{@user.id}", "data-turbolinks": false, class: "active" do 
+        = link_to "/users/#{@user.id}", "data-turbolinks": false, class: "non-active" do 
           %li 投稿
         = link_to "/users/#{@user.id}/likes", "data-turbolinks": false, class: "non-active" do 
           %li お気に入り
-        = link_to "/users/#{@user.id}/followings", "data-turbolinks": false, class: "non-active" do 
+        = link_to "/users/#{@user.id}/followings", "data-turbolinks": false, class: "active" do 
           %li フォロー
         = link_to "/users/#{@user.id}/followers", "data-turbolinks": false, class: "non-active" do 
           %li フォロワー
     %ul.main-posts-contents.jscroll
-      = render partial: "posts/posts", locals: {posts: @posts}
+      = render partial: "users/users", locals: {users: @followings}
       .main-posts-pagenation
-        = link_to_prev_page @posts, '前のページ', class: "prev-page", "data-turbolinks": false
-        = link_to_next_page @posts, '次のページ', class: "next-page", "data-turbolinks": false
+        = link_to_prev_page @followings, '前のページ', class: "prev-page", "data-turbolinks": false
+        = link_to_next_page @followings, '次のページ', class: "next-page", "data-turbolinks": false
         
 = render "shared/footer"

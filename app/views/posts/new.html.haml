@@ -1,4 +1,5 @@
 - content_for :no_turbolink, true
+= provide(:title, '新規投稿')
 
 = render "shared/header"
 
@@ -51,6 +52,6 @@
         .newpost-items__submit
           = f.submit '投稿', class: "button-submit post-newpost post-button-submit", disabled: true
     .newpost-footer
-      = link_to("<< トップに戻る", root_path)
+      = link_to("<< トップに戻る", root_path, "data-turbolinks": false)
 
 = render "shared/footer"

@@ -8,7 +8,8 @@
       .user-container
         まだ誰にもフォローされていません。
 - else
-  - users.each_with_index.reverse_each do |user, i|
+  - users.each_with_index.each do |user, i|
+    %hr
     %li.user
       .user-container
         .user-left
@@ -19,5 +20,3 @@
               = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
         .user-right{id: "user-right-#{user.id}"}
           = render partial: "users/user", locals: {user: user}
-    - if i != 0
-      %hr
