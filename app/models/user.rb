@@ -88,8 +88,6 @@ class User < ApplicationRecord
   end
 
   def edit_password_path?
-    # binding.pry
-    # path = Rails.application.routes.recognize_path(request.referer)
     Thread.current[:request].fullpath.include?("/users/password")
   end
 
