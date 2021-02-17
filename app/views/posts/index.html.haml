@@ -8,13 +8,8 @@
       - if user_signed_in?
         .profile
           = render partial: 'posts/profile', locals: {user: @user}
-        = link_to new_post_url, "data-turbolinks": false do
-          .button-post
-            %i.fas.fa-feather-alt
-            投稿する
       - else
         .profile
-      
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list

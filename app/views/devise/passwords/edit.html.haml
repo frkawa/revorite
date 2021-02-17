@@ -23,10 +23,10 @@
         .editpassword-items__submit
           = f.submit "パスワードを変更する", class: "button-submit user-editpassword user-button-submit", disabled: true
       .editpassword-links
-        = link_to(">> 新規登録", new_user_registration_path)
+        = link_to(">> 新規登録", new_user_registration_path, "data-turbolinks": false)
         %br
-        = link_to(">> ログイン", new_user_session_path)
+        = link_to(">> ログイン", new_user_session_path, "data-turbolinks": false)
     .editpassword-footer
-      = link_to("<< トップに戻る", root_path)
+      = link_to("<< トップに戻る", root_path, "data-turbolinks": false)
 
 = render "shared/footer"

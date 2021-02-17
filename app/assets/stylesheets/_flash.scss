@@ -6,11 +6,12 @@
   top: 7px;
   transform: translateX(-50%);
   border-radius: 7px;
-  padding: 10px 50px; 
+  padding: 10px 40px; 
   color: white;
   text-align: center;
   font-weight: bold;
   margin: 0 auto;
+  visibility: hidden;
 
   animation: fadeInOut 7s ease 1 normal;
 
@@ -27,17 +28,21 @@
   0% {
     top: -30px;
     opacity: 0;
+    visibility: visible;
   }
   15% {
     top: 7px;
     opacity: 1;
+    visibility: visible;
   }
   85% {
     top: 7px;
     opacity: 1;
+    visibility: visible;
   }
   100% {
     top: -30px;
     opacity: 0;
+    visibility: hidden;
   }
 }

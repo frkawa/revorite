@@ -6,21 +6,21 @@ class UsersController < ApplicationController
   end
 
   def show
-    @posts = @user.posts_with_reposts.page(params[:page]).without_count.per(5)
+    @posts = @user.posts_with_reposts.page(params[:page]).without_count.per(PAGENATION_PAGES)
   end
 
   def likes
-    @posts = @user.like_posts.order("likes.created_at DESC").page(params[:page]).without_count.per(5)
+    @posts = @user.like_posts.order("likes.created_at DESC").page(params[:page]).without_count.per(PAGENATION_PAGES)
   end
 
   def followings
     @followings = @user.followings.order("relationships.created_at DESC")
-    @followings = Kaminari.paginate_array(@followings).page(params[:page]).per(5)
+    @followings = Kaminari.paginate_array(@followings).page(params[:page]).per(PAGENATION_PAGES)
   end
 
   def followers
     @followers = @user.followers.order("relationships.created_at DESC")
-    @followers = Kaminari.paginate_array(@followers).page(params[:page]).per(5)
+    @followers = Kaminari.paginate_array(@followers).page(params[:page]).per(PAGENATION_PAGES)
   end
 
   private

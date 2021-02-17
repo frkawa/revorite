@@ -8,12 +8,6 @@
     .main-menu-inner
       .profile
         = render partial: 'posts/profile', locals: {user: @user}
-        - if user_signed_in?
-          - if @user.id == current_user.id
-            = link_to edit_user_registration_path, "data-turbolinks": false do
-              .profile-config
-                %i.fas.fa-user-edit
-                プロフィールの変更
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
