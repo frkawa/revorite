@@ -65,3 +65,4 @@ gem 'pry-rails'
 gem 'jquery-rails'
 gem 'gon'
 gem 'kaminari'
+gem 'aws-sdk-s3', require: false
