@@ -6,7 +6,7 @@ class PostsController < ApplicationController
       @user = User.find(current_user.id)
       @posts = @user.followings_posts_with_reposts.page(params[:page]).without_count.per(PAGENATION_PAGES)
     else
-      @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes).page(params[:page]).without_count.per(PAGENATION_PAGES)
+      @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes).order(created_at: "DESC").page(params[:page]).without_count.per(PAGENATION_PAGES)
     end
   end
 

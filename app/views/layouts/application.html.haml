@@ -10,6 +10,7 @@
     = stylesheet_link_tag    asset_path('luminous-basic.min.css'), media: 'all'
     = include_gon
     = javascript_include_tag 'application'  , 'data-turbolinks-track': 'reload'
+    = favicon_link_tag('favicon.ico')
   %body{ no_turbolink? }
     = render 'layouts/flash'
     = yield

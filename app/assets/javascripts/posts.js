@@ -73,7 +73,8 @@ $(function (){
   }
 
   // 各投稿のコメントボタンを押すとコメント欄を開く、または折り畳む
-  $(document).on("click", ".post-action__comment", function(){
+  var clickEventType = ((window.ontouchstart !== null)?'click':'touchstart');
+  $(document).on(clickEventType, ".post-action__comment", function(){
     var post_id = $(this).attr('id').replace(/post-action__comment-/g, '');
     $('#comment_' + post_id).slideToggle('fast');
   })
