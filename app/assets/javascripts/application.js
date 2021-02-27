@@ -22,9 +22,9 @@
 $( function  () {
   $('#star').raty({
     size: 36,
-    starOff: '/assets/star/none.png',
-    starOn: "/assets/star/full.png",
-    starHalf: "/assets/star/half.png",
+    starOff: $("#star-none").attr('image_path'),
+    starOn: $("#star-full").attr('image_path'),
+    starHalf: $("#star-half").attr('image_path'),
     scoreName: "post[review_attributes][rate]",
     half: true,
     score: 3

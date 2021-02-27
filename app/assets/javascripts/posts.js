@@ -248,9 +248,9 @@ $(function (){
   function display_rate(post_id, rate) {
     $("#star-" + post_id).raty({
       size: 36,
-      starOff: '/assets/star/none.png',
-      starOn: "/assets/star/full.png",
-      starHalf: "/assets/star/half.png",
+      starOff: $("#star-none").attr('image_path'),
+      starOn: $("#star-full").attr('image_path'),
+      starHalf: $("#star-half").attr('image_path'),
       score: rate,
       half: true,
       readOnly: true
