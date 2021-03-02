@@ -21,7 +21,7 @@ set :format_options, command_output: true, log_file: "log/capistrano.log", color
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml"
+# append :linked_files, "config/database.yml"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
@@ -36,7 +36,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 set :keep_releases, 5
 
 # Uncomment the following to require manually verifying the host key before first deploy.
-# set :ssh_options, verify_host_key: :secure
+set :ssh_options, forward_agent: true
 
 set :rbenv_ruby, '2.5.1'
 set :log_level, :debug
