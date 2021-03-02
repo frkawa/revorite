@@ -829,7 +829,15 @@ button, input, select, textarea {
   background-color: #f3d2c1;
   height: $footer-h;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #582300;
   line-height: $footer-h;
+  a {
+    color: #582300;
+    font-size: 1.2rem;
+    margin-left: 5px;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
 }
