@@ -24,6 +24,7 @@ WORKDIR /app
 
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
+COPY .git/container_git_rsa /root/.ssh/
 
 RUN echo "alias cp='cp -i'" >> /root/.bashrc
 RUN echo "alias mv='mv -i'" >> /root/.bashrc
