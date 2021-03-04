@@ -1,0 +1,53 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    command: dockerize -wait tcp://db:3306 -timeout 20s bundle exec unicorn -p 3000 -c /app/config/unicorn_development.conf.rb
+    environment:
+      TZ: Asia/Tokyo
+    tty: true         # binding.pryを利用可能にするための2行
+    stdin_open: true  # binding.pryを利用可能にするための2行
+    depends_on:
+      - db 
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    volumes:
+      - .:/app:cached 
+      # ソケット通信用ファイルをnginxコンテナと共有
+      - tmp-data:/app/tmp/sockets
+      # アセットファイルをnginxと共有
+      - public-data:/app/public
+
+  db:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    ports: 
+      - "4306:3306"
+    environment:
+      MYSQL_DATABASE: revorite_development
+      MYSQL_ROOT_PASSWORD: password
+    # dbのデータを永続化しておく
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - 80:80
+    restart: always #明示的にstopさせるまでリスタートする。（失敗するたび遅延あり）
+    volumes:
+      - tmp-data:/app/tmp/sockets
+      - public-data:/app/public
+    depends_on:
+      - web 
+
+volumes:
+  public-data:
+  tmp-data:
+  mysql-data:
