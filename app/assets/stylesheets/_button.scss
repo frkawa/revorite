@@ -1,0 +1,77 @@
+@import "const";
+
+button, input, select, textarea {
+  font-family : inherit;
+  font-size   : 100%;
+}
+
+.button {
+  &-newpost {
+    text-align: left;
+    background-color: $dark-orange;
+    color: white;
+    border-radius: 30px;
+    padding: 10px 40px;
+    transition: .1s;
+    &:hover {
+      background-color: #bd794c;
+    }
+  }
+  &-submit {
+    color: white;
+    border: none;
+    outline: none;
+    background-color: $dark-orange;;
+    border-radius: 30px;
+    padding: 5px 10px;
+    transition: .1s;
+    &.user-registration, &.user-login, &.user-edit, &.user-newpassword, &.user-editpassword, &.post-newpost {
+      padding: 10px 80px;
+    }
+    &:hover {
+      background-color: #dfa57e;
+      cursor: pointer;
+    }
+    &:disabled {
+      background-color: $sober-gray;
+      cursor: default;
+    }
+  }
+  &-follow {
+    text-align: center;
+    margin: 0 auto;
+    width: 160px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: solid 1px $vivid-blue;
+    border-radius: 5px;
+    padding: 5px 0px;
+    transition: .2s;
+    &.follow {
+      background-color: white;
+      color: $vivid-blue;
+      &:hover {
+        background-color: $vivid-blue;
+        color: white;
+      }
+    }
+    &.unfollow {
+      background-color: $vivid-blue;
+      color: white;
+      & .switch-hover {
+        display: none;
+      }
+      &:hover {
+        background-color: #f079ba;
+        color: white;
+        border: solid 1px #f079ba;
+        & .switch-normal {
+          display: none;
+        }
+        & .switch-hover {
+          display: inline;
+        }
+      }
+    }
+  }
+}
