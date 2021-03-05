@@ -7,4 +7,4 @@ switch(active_menu){
   $(".jscroll-inner").html("<%= j(render partial: "users/users", locals: {users: @referer_user.followers.order('relationships.created_at DESC')}) %>");
   break;
 }
-$(".profile").html("<%= j(render partial: "posts/profile", locals: {user: @referer_user}) %>");
+$(".profile").html("<%= j(render partial: "users/profile", locals: {user: @referer_user}) %>");

@@ -8,7 +8,7 @@
     .main-menu-inner
       - if user_signed_in?
         .profile
-          = render partial: 'posts/profile', locals: {user: @user}
+          = render partial: 'users/profile', locals: {user: @user}
       - else
         .profile
       
