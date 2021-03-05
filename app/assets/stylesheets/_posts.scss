@@ -243,6 +243,9 @@ a {
     max-height: 100px;
     max-width: 100px;
     object-fit: cover;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 
