@@ -14,20 +14,12 @@ RUN apt-get update && \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && git clone https://github.com/awslabs/git-secrets.git \
-    && cd git-secrets \
-    && make install \
-    && cd ..
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
-RUN mv .git/container_git_rsa /root/.ssh/
-RUN mv .git/.gitconfig /root
-RUN mv .git/config /root/.ssh/
-RUN chmod 600 /root/.ssh/container_git_rsa
 
 RUN echo "alias cp='cp -i'" >> /root/.bashrc
 RUN echo "alias mv='mv -i'" >> /root/.bashrc
