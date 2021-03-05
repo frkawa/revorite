@@ -56,7 +56,7 @@ class PostsController < ApplicationController
   end
 
   def post_params_with_review
-    params.require(:post).permit(:rev_flg, :text, images: [], review_attributes:[:rate, :title, :price]).merge(user_id: current_user.id)
+    params.require(:post).permit(:rev_flg, :text, images: [], review_attributes: [:rate, :title, :price]).merge(user_id: current_user.id)
   end
 
 end
