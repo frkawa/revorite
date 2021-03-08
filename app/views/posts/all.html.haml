@@ -1,5 +1,5 @@
 - content_for :no_turbolink, true
-= provide(:title, '人気の投稿')
+= provide(:title, 'みんなの投稿')
 
 = render "shared/header"
 
@@ -25,10 +25,10 @@
             - else
               %li みんなの投稿
         - if user_signed_in?
-          = link_to all_posts_path, class: 'non-active post-links', "data-turbolinks": false do 
+          = link_to all_posts_path, class: 'active post-links', "data-turbolinks": false do 
             .main-posts-header-list-box
               %li みんなの投稿
-        = link_to trend_posts_path, class: 'active post-links', "data-turbolinks": false do 
+        = link_to trend_posts_path, class: 'non-active post-links', "data-turbolinks": false do 
           .main-posts-header-list-box
             %li 人気の投稿
             %i.fas.fa-question-circle

@@ -30,12 +30,6 @@
     &#not-signed-in {
       background-color: #ffe0cc;
       padding: 5px;
-      a {
-        text-decoration: underline;
-        &:hover {
-          color: $dark-orange;
-        }
-      }
     }
   }
   &-header {

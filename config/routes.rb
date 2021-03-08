@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
   resources :posts, only: [:index, :new, :create, :destroy] do
     collection do
-      get :trend
+      get :trend, :all
     end
     resources :comments, only: [:create, :destroy]
     resources :reposts, only: [:create, :destroy]

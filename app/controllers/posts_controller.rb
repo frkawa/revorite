@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: :new
+  before_action :authenticate_user!, only: [:new, :all]
+  before_action :set_user, only: [:index, :trend, :all]
 
   def index
     if user_signed_in?
-      @user = User.find(current_user.id)
       @posts = @user.followings_posts_with_reposts.page(params[:page]).without_count.per(PAGENATION_PAGES)
     else
       @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes).order(created_at: "DESC").page(params[:page]).without_count.per(PAGENATION_PAGES)
@@ -11,13 +11,13 @@ class PostsController < ApplicationController
   end
 
   def trend
-    if user_signed_in?
-      @user = User.find(current_user.id)
-    end
     counts = Post.joins(:likes).group(:id).order(count_all: "DESC").count
     @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes).find(counts.map{|id, count| id})
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(PAGENATION_PAGES)
+  end
 
+  def all
+    @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes).order(created_at: "DESC").page(params[:page]).without_count.per(PAGENATION_PAGES)
   end
 
   def new
@@ -57,6 +57,12 @@ class PostsController < ApplicationController
 
   def post_params_with_review
     params.require(:post).permit(:rev_flg, :text, images: [], review_attributes: [:rate, :title, :price]).merge(user_id: current_user.id)
+  end
+
+  def set_user
+    if user_signed_in?
+      @user = User.find(current_user.id)
+    end
   end
 
 end

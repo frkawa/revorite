@@ -9,17 +9,21 @@
     = user.name
 .profile-postcount
   投稿数
-  = user.postcount.to_s(:delimited)
+  = user.posts.count.to_s(:delimited)
+.profile-reviewcount
+  レビュー数
+  = user.reviews.count.to_s(:delimited)
 .profile-following
   フォロー
   = user.followings.count.to_s(:delimited)
 .profile-follower
   フォロワー
   = user.followers.count.to_s(:delimited)
-.profile-description
-  = simple_format(user.description)
+- if user.description.present?
+  .profile-description
+    = simple_format(user.description)
 - if user_signed_in?
-  - if user.id != current_user.id
+  - if user.id != current_user.id  # ログイン中、かつ他人のユーザページの場合
     - if current_user.following?(user)
       = link_to "/users/#{user.id}/relationships/#{user.relationships.ids}", method: :delete, "data-turbolinks": false, remote: true, data: {confirm: "フォローを解除してよろしいですか？"} do
         .button-follow.unfollow
@@ -34,10 +38,24 @@
         .button-follow.follow
           %i.fas.fa-user-plus
           フォローする
-- if request.fullpath.match(/\/users\/[0-9]+.*/)
+- if request.fullpath.match(/\/users\/[0-9]+.*/)  # ユーザページ or マイページの場合（＝トップページを除く）
   - if user_signed_in?
     - if user.id == current_user.id
       = link_to edit_user_registration_path, "data-turbolinks": false do
         .profile-config
           %i.fas.fa-user-edit
           プロフィールの変更
+- if current_page?(root_path) || current_page?(trend_posts_path)
+  - if user_signed_in?
+    - unless current_user.image.attached? || current_user.description.present?
+      .profile-description-none
+        プロフィールが未設定です。
+        アイコン画像や自己紹介を設定しましょう。
+        %br
+        = link_to "プロフィールの変更", edit_user_registration_path, "data-turbolinks": false
+        %br
+        %br
+        ※ プロフィールは
+        = link_to "マイページ", user_path(current_user.id), "data-turbolinks": false
+        からいつでも変更ができます。
+= render 'posts/sns-share'

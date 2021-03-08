@@ -10,7 +10,6 @@ button, input, select, textarea {
     border: 1px solid #36a1f2;
     color: #36a1f2;
     margin-right: 10px;
-    
   }
   &-line {
     border: 1px solid #2ab900;
@@ -63,6 +62,11 @@ button, input, select, textarea {
     border-radius: 5px;
     padding: 5px 0px;
     transition: .2s;
+    &-list {
+      font-size: 1rem;
+      width: 140px;
+      padding: 2px 0px;
+    }
     &.follow {
       background-color: white;
       color: $vivid-blue;

@@ -16,7 +16,7 @@ services:
     links:
       - db
     volumes:
-      - .:/app:cached 
+      - .:/app:delegated 
       - /app/vendor
       - /app/tmp
       - /app/log

@@ -53,6 +53,47 @@
           margin-left: 0px;
         }
       }
+      li.easylogin {
+        i.fa-question-circle {
+          position: relative;
+          font-size: 0.85em;
+          margin-left: 3px;
+          padding-top: 2px;
+          & .fukidashi {
+            visibility: hidden;
+            opacity: 0;
+            background: #e8d2c5;
+            position: absolute;
+            top: 30px;
+            left: -10px;
+            font-size: 0.9rem;
+            font-family: "游ゴシック体";
+            color: black;
+            font-weight: normal;
+            padding: 10px;
+            z-index: 1;
+            border-radius: 5px;
+            width: 200px;
+            text-align: left;
+            line-height: 15px;
+            &:before {
+              content: "";
+              position: absolute;
+              top: -10px;
+              left: 12%;
+              margin-left: -20px;
+              border: 10px solid transparent;
+              border-bottom: 15px solid #e8d2c5;
+              border-top: 0px;
+            }
+          }
+          &:hover .fukidashi {
+            visibility: visible;
+            opacity: 1;
+            transition: .2s;
+          }
+        }
+      }
       a {
         position: relative;
         display: inline-block;
