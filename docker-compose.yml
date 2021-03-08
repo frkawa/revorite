@@ -17,6 +17,10 @@ services:
       - db
     volumes:
       - .:/app:cached 
+      - /app/vendor
+      - /app/tmp
+      - /app/log
+      - /app/.git
       # ソケット通信用ファイルをnginxコンテナと共有
       - tmp-data:/app/tmp/sockets
       # アセットファイルをnginxと共有

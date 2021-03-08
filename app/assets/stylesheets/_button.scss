@@ -6,6 +6,22 @@ button, input, select, textarea {
 }
 
 .button {
+  &-twitter {
+    border: 1px solid #36a1f2;
+    color: #36a1f2;
+    margin-right: 10px;
+    
+  }
+  &-line {
+    border: 1px solid #2ab900;
+    color: #2ab900;
+  }
+  &-sns {
+    padding: 5px 28px;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
   &-newpost {
     text-align: left;
     background-color: $dark-orange;

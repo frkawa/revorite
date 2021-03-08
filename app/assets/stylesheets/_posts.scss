@@ -209,6 +209,40 @@ a {
   }
 }
 
+.site-description {
+  &__header {
+    font-size: 0;
+    font-family: "FjallaOne-Regular";
+    margin: 10px 10px 30px 10px;
+    span {
+      font-size: 1.65rem;
+      &.brawn { color: #9a592f; }
+      &.orange { color: orange; }
+    }
+  }
+  &__list {
+    margin: 0 26px;
+    font-size: 1.1rem;
+    li {
+      margin-bottom: 15px;
+      line-height: 20px;
+    }
+    a {
+      color: $dark-orange;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.sns-share {
+  display: flex;
+  font-size: 1.4rem;
+  justify-content: center;
+  margin-top: 60px;
+}
+
 %post-comment-header {
   display: flex;
   margin-bottom: 5px;

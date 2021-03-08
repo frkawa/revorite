@@ -10,8 +10,8 @@
         .profile
           = render partial: 'users/profile', locals: {user: @user}
       - else
-        .profile
-      
+        .site-description
+          = render partial: 'posts/site-description'
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
