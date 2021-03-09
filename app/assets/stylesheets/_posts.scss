@@ -26,6 +26,8 @@ a {
   justify-content: center;
   padding-top: $header-h;
   background-color: #fef6e4;
+  background-image: image-url('bg-image.png');
+  background-repeat: repeat;
   min-height: calc(100vh - #{$header-h} - #{$footer-h});
   a {
     color: $dark-orange;
