@@ -7,7 +7,7 @@ module ImageValidation
     def image_length
       if images.length > 4
         images.purge
-        errors.add(:images, "は一度に4枚まで投稿可能です。")
+        errors.add(:images, "は一度に4枚まで投稿可能です")
       end
     end
 
