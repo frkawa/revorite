@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :like_posts, through: :likes, source: :post
   has_many :comments, dependent: :destroy
+  has_many :reviews, through: :posts
 
   has_many :reposts, dependent: :destroy
   has_many :reposted_posts, through: :reposts, source: :post
@@ -33,10 +34,6 @@ class User < ApplicationRecord
       user.password_confirmation = user.password
       user.name = "ゲストくんさん"
     end
-  end
-
-  def postcount
-    Post.where(user_id: id).count
   end
 
   def followings_with_userself

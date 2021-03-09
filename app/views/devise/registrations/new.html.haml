@@ -16,6 +16,7 @@
           .signup-items__field--caution.user-caution-name
         .signup-items__label
           = f.label :email
+          %span.note 　※ パスワード再発行時にのみ使用
         .signup-items__field
           = f.email_field :email, autocomplete: "email", placeholder: "例）example@example.com", class: "user-input-email", id: "signup-input-email"
           .signup-items__field--caution.user-caution-email

@@ -8,10 +8,10 @@
     .main-menu-inner
       - if user_signed_in?
         .profile
-          = render partial: 'posts/profile', locals: {user: @user}
+          = render partial: 'users/profile', locals: {user: @user}
       - else
-        .profile
-      
+        .site-description
+          = render partial: 'posts/site-description'
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
@@ -23,7 +23,11 @@
                 .fukidashi
                   フォローしているユーザの投稿を見ることができます
             - else
-              %li 最新の投稿
+              %li みんなの投稿
+        - if user_signed_in?
+          = link_to all_posts_path, class: 'non-active post-links', "data-turbolinks": false do 
+            .main-posts-header-list-box
+              %li みんなの投稿
         = link_to trend_posts_path, class: 'active post-links', "data-turbolinks": false do 
           .main-posts-header-list-box
             %li 人気の投稿

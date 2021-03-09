@@ -7,7 +7,7 @@
     - else
       = link_to "/posts/#{post.id}/reposts", method: :post, title: "リポストする", data: {confirm: "この投稿をリポストしますか？"}, remote: true do
         %i.fas.fa-retweet
-      = post.reposts.length
+        = post.reposts.length
   - else
     %i.fas.fa-retweet.nonactive
     = post.reposts.length

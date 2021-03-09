@@ -13,7 +13,7 @@ $(function (){
     nextSelector: 'a.next-page'
   });
 
-  // 最初に読み込んだ投稿の画像に対し、Luminousを適用する
+  // 最初に読み込んだ投稿の画像に対し、Luminous（画像クリックでモーダルウィンドウで拡大表示できるjQueryプラグイン）を適用する
   var initial_target = ".jscroll-inner";
   luminous(initial_target);
 
@@ -71,7 +71,10 @@ $(function (){
   if(elem){
     observer.observe(elem, config);
   }
+  // 投稿一覧画面（タイムライン、最新の投稿、人気の投稿） END ------------------------------------------------------------------------------
 
+
+  // コメント投稿関連 START ----------------------------------------------------------------------------------------------------------
   // 各投稿のコメントボタンを押すとコメント欄を開く、または折り畳む
   var clickEventType = ((window.ontouchstart !== null)?'click':'touchstart');
   $(document).on(clickEventType, ".post-action__comment", function(){
@@ -135,13 +138,13 @@ $(function (){
     // コメント欄の文字数、画像枚数に応じてコメントボタンを活性/非活性化する
     buttononoff (post_id)
   })
+  // コメント投稿関連 END ------------------------------------------------------------------------------------------------------------
 
   // タブメニューの切り替え機能
-  $(document).on("mouseup", ".main-posts-header-list a", function(){
-    $('.active').attr('class', 'non-active');
-    $(this).attr('class', 'active');
-  })
-  // 投稿一覧画面（タイムライン、最新の投稿、人気の投稿） END ------------------------------------------------------------------------------
+  // $(document).on("mouseup", ".main-posts-header-list a", function(){
+  //   $('.active').attr('class', 'non-active');
+  //   $(this).attr('class', 'active');
+  // })
 
 
   // 新規投稿画面 START -------------------------------------------------------------------------------------------------------------
@@ -379,13 +382,8 @@ $(function (){
       }
     }
   }
-  
 
-  
-  
-
-
-  // buttononoff関数：コメントの入力文字数及び画像枚数より、コメントボタンを活性化/非活性化する
+  // コメントの入力文字数及び画像枚数より、コメントボタンを活性化/非活性化する
   function buttononoff (post_id) {
     var filecount = document.getElementById(post_id + "-comment-images").files.length;
     var textcount = $("#comment-text" + post_id).val().length;
@@ -407,7 +405,7 @@ $(function (){
     }
   }
 
-  // cancelupload関数：コメント投稿時に画像を選択した際、バリデーションチェックでNGの場合はアラートを出して画像選択を解除する
+  // コメント投稿時に画像を選択した際、バリデーションチェックでNGの場合はアラートを出して画像選択を解除する
   function cancelupload(post_id, alertstr) {
     alert(alertstr);
     $("#" + post_id + "-comment-images").val('');

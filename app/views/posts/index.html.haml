@@ -7,9 +7,10 @@
     .main-menu-inner
       - if user_signed_in?
         .profile
-          = render partial: 'posts/profile', locals: {user: @user}
+          = render partial: 'users/profile', locals: {user: @user}
       - else
-        .profile
+        .site-description
+          = render partial: 'posts/site-description'
   .main-posts
     .main-posts-header
       %ul.main-posts-header-list
@@ -21,18 +22,40 @@
                 .fukidashi
                   フォローしているユーザの投稿を見ることができます
             - else
-              %li 最新の投稿
+              %li みんなの投稿
+        - if user_signed_in?
+          = link_to all_posts_path, class: 'non-active post-links', "data-turbolinks": false do 
+            .main-posts-header-list-box
+              %li みんなの投稿
         = link_to trend_posts_path, class: 'non-active post-links', "data-turbolinks": false do 
           .main-posts-header-list-box
             %li 人気の投稿
             %i.fas.fa-question-circle
               .fukidashi
                 お気に入りに多く登録されている投稿を見ることができます
-    - if @posts.empty?
-      %ul.main-posts-contents.jscroll
-        %li.post
-          .post-container
-            投稿はまだありません。
+    - if user_signed_in?
+      - if @user.followings.count == 0
+        %ul.main-posts-contents.jscroll
+          %li.post
+            .post-container-none
+              まだ誰もフォローしていません。フォローした人たちの投稿がここに表示されます。
+              %br
+              = link_to "みんなの投稿", all_posts_path, class: 'non-active post-links', "data-turbolinks": false
+              や
+              = link_to "人気の投稿", trend_posts_path, class: 'non-active post-links', "data-turbolinks": false 
+              から気になる人をフォローしてみましょう。
+      - else
+        - if @posts.empty?
+          %ul.main-posts-contents.jscroll
+            %li.post
+              .post-container
+                投稿はまだありません。
+        - else
+          %ul.main-posts-contents.jscroll
+            = render partial: "posts/posts", locals: {posts: @posts}
+            .main-posts-pagenation
+              = link_to_prev_page @posts, '前のページ', class: "prev-page", "data-turbolinks": false
+              = link_to_next_page @posts, '次のページ', class: "next-page", "data-turbolinks": false
     - else
       %ul.main-posts-contents.jscroll
         = render partial: "posts/posts", locals: {posts: @posts}

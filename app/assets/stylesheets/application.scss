@@ -10,8 +10,18 @@
   src: font-url('Aclonica-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'FjallaOne-Regular';
+  src: font-url('FjallaOne-Regular.ttf') format('truetype');
+}
+
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "posts";
 @import "flash";
 @import "comments";
+@import "shared";
+@import "const";
+@import "comments";
+@import "button";
+@import "submit-page";

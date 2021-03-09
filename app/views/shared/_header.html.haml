@@ -54,10 +54,13 @@
               %i.fas.fa-sign-out-alt
               ログアウト
         - else
-          %li
+          %li.easylogin
             = link_to users_guest_sign_in_path, method: :post, "data-turbolinks": false do
               %i.fas.fa-user-check
               かんたんログイン
+            %i.fas.fa-question-circle
+              .fukidashi
+                ゲストユーザとしてワンクリックでログインができます
           - if current_page?(new_user_session_path)
             %li{style: "font-weight: bold;"}
               %i.fas.fa-sign-in-alt

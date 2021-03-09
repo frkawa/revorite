@@ -1,0 +1,72 @@
+.comment-wrapper#comment{ id: post.id}
+  - if post.comments.present?
+    .post-comment
+      - post.comments.each do |comment|
+        .comment-list
+          .comment-left
+            - if comment.user.image.attached? 
+              = link_to(url_for(comment.user.image)) do
+                = image_tag(comment.user.image, alt: 'デフォルトアイコン')
+            - else
+              = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+          .comment-right
+            .comment-header
+              .comment-header__name
+                = link_to user_path(comment.user.id), "data-turbolinks": false do
+                  = comment.user.name
+              .comment-header__time
+                %i.far.fa-clock
+                = comment.created_at.to_s(:human)
+              - if user_signed_in?
+                - if comment.user_id == current_user.id
+                  .comment-header__delete
+                    = link_to("/posts/#{comment.post_id}/comments/#{comment.id}", method: :delete, data: {confirm: "コメントを削除してよろしいですか？"}) do
+                      %i.fas.fa-trash-alt
+            .comment-text
+              = simple_format(comment.message)
+            - if comment.images.attached?
+              .comment-image
+                - comment.images.each do |image|
+                  = link_to(url_for(image), class: "luminous-comment-#{comment.id}") do
+                    = image_tag(image)
+            - else
+  .comment-write
+    - if user_signed_in?
+      .comment-write-left
+        - if current_user.image.attached? 
+          = link_to(url_for(current_user.image)) do
+            = image_tag(current_user.image, alt: 'デフォルトアイコン')
+        - else
+          = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+      .comment-write-right
+        = form_with model: [post, Comment.new], local: true do |f|
+          .comment-write__textarea
+            = f.text_area :message, placeholder: "コメントを入力（300文字以内）", class: "comment-text", id: "comment-text#{post.id}"
+          .comment-write__submit
+            .comment-write__submit-upper
+              .comment-write__submit-upper-left
+                .comment-write__submit--img
+                  = f.label :images, for: "#{post.id}-comment-images" do
+                    %i.far.fa-image
+                    画像の投稿
+                    %span.note
+                    = f.file_field :images, class: "comment-image-files", id: "#{post.id}-comment-images", multiple: true, accept: "image/jpeg, image/png"
+              .comment-write__submit-upper-right
+                .comment-write__submit--count{id: "comment-textcount#{post.id}"}
+                  300
+                .comment-write__submit--btn
+                  = f.submit "コメント", class: "button-submit", id: "comment-button#{post.id}", disabled: true
+            .comment-write__submit-downer
+              .comment-write__submit-previewimages{id: "previewimages-#{post.id}"}
+    - else
+      .comment-write-left
+        = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
+      .comment-write-right#not-signed-in
+        = link_to "ログイン", new_user_session_path, "data-turbolinks": false
+        すると皆の投稿にコメントできるようになります。またユーザをフォローしたり、気に入った投稿をお気に入りに登録することもできます。
+        %br 
+        アカウントが無い方は
+        = link_to "新規登録", new_user_registration_path, "data-turbolinks": false
+        、または
+        = link_to "かんたんログイン", users_guest_sign_in_path, method: :post, "data-turbolinks": false
+        （ゲストユーザとしてワンクリックでログイン）してください。
