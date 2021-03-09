@@ -38,7 +38,7 @@ set :keep_releases, 5
 # Uncomment the following to require manually verifying the host key before first deploy.
 set :ssh_options, forward_agent: true
 
-set :rbenv_ruby, '2.5.1'
+set :rbenv_ruby, '2.7.1'
 set :log_level, :debug
 
 namespace :deploy do
