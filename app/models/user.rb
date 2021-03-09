@@ -8,6 +8,7 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\z/
   validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6, maximum: 30 }, format: { with: /\A[a-z\d]+\z/i }, confirmation: true, on: :create
+  # Userのupdateを行う①プロフィールの変更、②パスワードの再発行のうち、②にのみバリデーションを適用する（①はパスワード不要）
   validates :password, presence: true, length: { minimum: 6, maximum: 30 }, format: { with: /\A[a-z\d]+\z/i }, confirmation: true, on: :update, if: :edit_password_path?
   validates :password_confirmation, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :update, if: :edit_password_path?
@@ -86,6 +87,19 @@ class User < ApplicationRecord
 
   def edit_password_path?
     Thread.current[:request].fullpath.include?("/users/password")
+  end
+
+  def update_without_current_password(params, *options)
+    params.delete(:current_password)
+ 
+    if params[:password].blank? && params[:password_confirmation].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation)
+    end
+ 
+    result = update_attributes(params, *options)
+    clean_up_passwords
+    result
   end
 
 end
