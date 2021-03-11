@@ -133,7 +133,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'アソシエーションの確認' do
-    it 'userを削除すると、そのuserのの投稿（posts）も削除される' do
+    it 'userを削除すると、そのuserの投稿（posts）も削除される' do
       post = create(:post)
       expect{ post.user.destroy }.to change{ Post.count }.by(-1)
     end

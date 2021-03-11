@@ -66,8 +66,24 @@ RSpec.describe Post, type: :model do
       @post.images = fixture_file_upload('/files/4.jpeg')
       expect(@post).to be_valid
     end
+  end
 
-    describe 'アソシエーション確認' do
-      it 'user削除時に'
+  describe 'アソシエーションの確認' do
+    it 'postを削除すると、そのpostのレビュー（review）も削除される' do
+      review = create(:review)
+      expect{ review.post.destroy }.to change{ Review.count }.by(-1)
+    end
+    it 'postを削除すると、そのpostのお気に入り（likes）も削除される' do
+      like = create(:like)
+      expect{ like.post.destroy }.to change{ Like.count }.by(-1)
+    end
+    it 'postを削除すると、そのpostのコメント（comment）も削除される' do
+      comment = create(:comment)
+      expect{ comment.post.destroy }.to change{ Comment.count }.by(-1)
+    end
+    it 'postを削除すると、そのpostのリポスト（repost）も削除される' do
+      repost = create(:repost)
+      expect{ repost.post.destroy }.to change{ Repost.count }.by(-1)
+    end
   end
 end
