@@ -19,14 +19,14 @@
 .profile-follower
   フォロワー
   = user.followers.count.to_s(:delimited)
-- if user.description.present?
-  .profile-description
+.profile-description
+  - if user.description.present?
     = simple_format(user.description)
 - if user_signed_in?
   - if user.id != current_user.id  # ログイン中、かつ他人のユーザページの場合
     - if current_user.following?(user)
       = link_to "/users/#{user.id}/relationships/#{user.relationships.ids}", method: :delete, "data-turbolinks": false, remote: true, data: {confirm: "フォローを解除してよろしいですか？"} do
-        .button-follow.unfollow
+        .profile-button.button-follow.unfollow
           %span.switch-normal
             %i.fas.fa-user-check
             フォロー中
@@ -35,7 +35,7 @@
             フォロー解除
     - else
       = link_to "/users/#{user.id}/relationships", method: :post, "data-turbolinks": false, remote: true do
-        .button-follow.follow
+        .profile-button.button-follow.follow
           %i.fas.fa-user-plus
           フォローする
 - if request.fullpath.match(/\/users\/[0-9]+.*/)  # ユーザページ or マイページの場合（＝トップページを除く）
