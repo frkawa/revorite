@@ -21,14 +21,14 @@ RSpec.describe Post, type: :model do
   end
 
   describe '基本の異常系' do
-    it '異常系：本文・画像①　本文と画像どちらも入力されていないため無効' do
+    it '異常系：本文・画像①　本文と画像どちらも入力されていないためエラー' do
       @post.text = nil
       expect(@post).to be_invalid
     end
   end
 
   describe '本文（text）のバリデーションチェック' do
-    it '異常系：本文①　本文が501文字のため無効' do
+    it '異常系：本文①　本文が501文字のためエラー' do
       @post.text = "aaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooa"
       @post.valid?
       expect(@post.errors[:text]).to include('は500文字以内で入力してください')
@@ -40,7 +40,7 @@ RSpec.describe Post, type: :model do
   end
 
   describe '画像（images）のバリデーションチェック' do
-    it '異常系：画像①　画像を5枚投稿しているため無効' do
+    it '異常系：画像①　画像を5枚投稿しているためエラー' do
       @post.images = fixture_file_upload('/files/1.png')
       @post.images = fixture_file_upload('/files/2.jpg')
       @post.images = fixture_file_upload('/files/3.jpg')
@@ -49,12 +49,12 @@ RSpec.describe Post, type: :model do
       @post.valid?
       expect(@post.errors[:images]).to include("は一度に4枚まで投稿可能です")
     end
-    it '異常系：画像②　JPEG、PNG以外の形式で投稿しているため無効' do
+    it '異常系：画像②　JPEG、PNG以外の形式で投稿しているためエラー' do
       @post.images = fixture_file_upload('/files/partyparrot.gif')
       @post.valid?
       expect(@post.errors[:images]).to include("はjpegまたはpng形式でアップロードしてください")
     end
-    it '異常系：画像③　1ファイルにつき3MBを超えているため無効' do
+    it '異常系：画像③　1ファイルにつき3MBを超えているためエラー' do
       @post.images = fixture_file_upload('/files/large.png')
       @post.valid?
       expect(@post.errors[:images]).to include("は1ファイルにつき3MB以内にしてください")
@@ -66,5 +66,8 @@ RSpec.describe Post, type: :model do
       @post.images = fixture_file_upload('/files/4.jpeg')
       expect(@post).to be_valid
     end
+
+    describe 'アソシエーション確認' do
+      it 'user削除時に'
   end
 end

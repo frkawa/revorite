@@ -21,14 +21,15 @@ RSpec.describe Comment, type: :model do
   end
 
   describe '基本の異常系' do
-    it '異常系：本文・画像①　本文と画像どちらも入力されていないため無効' do
+    it '異常系：本文・画像①　本文と画像どちらも入力されていないためエラー' do
       @comment.message = nil
-      expect(@comment).to be_invalid
+      @comment.valid?
+      expect(@comment.errors[:message]).to include('を入力してください')
     end
   end
 
   describe '本文（message）のバリデーションチェック' do
-    it '異常系：本文①　本文が301文字のため無効' do
+    it '異常系：本文①　本文が301文字のためエラー' do
       @comment.message = "aaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooaaaaaaaaaaiiiiiiiiiiuuuuuuuuuueeeeeeeeeeooooooooooa"
       @comment.valid?
       expect(@comment.errors[:message]).to include('は300文字以内で入力してください')
@@ -40,7 +41,7 @@ RSpec.describe Comment, type: :model do
   end
 
   describe '画像（images）のバリデーションチェック' do
-    it '異常系：画像①　画像を5枚投稿しているため無効' do
+    it '異常系：画像①　画像を5枚投稿しているためエラー' do
       @comment.images = fixture_file_upload('/files/1.png')
       @comment.images = fixture_file_upload('/files/2.jpg')
       @comment.images = fixture_file_upload('/files/3.jpg')
@@ -49,12 +50,12 @@ RSpec.describe Comment, type: :model do
       @comment.valid?
       expect(@comment.errors[:images]).to include("は一度に4枚まで投稿可能です")
     end
-    it '異常系：画像②　JPEG、PNG以外の形式で投稿しているため無効' do
+    it '異常系：画像②　JPEG、PNG以外の形式で投稿しているためエラー' do
       @comment.images = fixture_file_upload('/files/partyparrot.gif')
       @comment.valid?
       expect(@comment.errors[:images]).to include("はjpegまたはpng形式でアップロードしてください")
     end
-    it '異常系：画像③　1ファイルにつき3MBを超えているため無効' do
+    it '異常系：画像③　1ファイルにつき3MBを超えているためエラー' do
       @comment.images = fixture_file_upload('/files/large.png')
       @comment.valid?
       expect(@comment.errors[:images]).to include("は1ファイルにつき3MB以内にしてください")
