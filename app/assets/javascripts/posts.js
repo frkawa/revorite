@@ -1,3 +1,9 @@
+window.onpageshow = function(evt) {
+  if (evt.persisted) {
+    location.reload();
+  }
+};
+
 $(function (){
   // 各項目のバリデーションチェック用フラグ項目
   var rev_flg = $("#newpost-rev_flg").prop("checked");
