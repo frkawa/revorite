@@ -21,7 +21,7 @@
   = user.followers.count.to_s(:delimited)
 .profile-description
   - if user.description.present?
-    = simple_format(user.description)
+    = user.description
 - if user_signed_in?
   - if user.id != current_user.id  # ログイン中、かつ他人のユーザページの場合
     - if current_user.following?(user)
