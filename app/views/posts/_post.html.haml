@@ -31,7 +31,7 @@
       = link_to "https://kakaku.com/search_results/#{CGI.escape(post.review.title.encode(Encoding::Shift_JIS))}", target: "_blank" do
         = image_tag asset_path("kakakudotcom.png"), title: "価格.comで検索する", size: "20x20"
 .post-text
-  = simple_format(post.text)
+  = raw Rinku.auto_link(h(simple_format(post.text)), :urls, 'target="_blank"')
 - if post.images.attached?
   .post-image
     - post.images.each do |image|
