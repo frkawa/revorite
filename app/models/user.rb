@@ -8,23 +8,25 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\z/
   validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6, maximum: 30 }, format: { with: /\A[a-z\d]+\z/i }, confirmation: true, on: :create
+  # Userのupdateを行う①プロフィールの変更、②パスワードの再発行のうち、②にのみバリデーションを適用する（①はパスワード不要）
   validates :password, presence: true, length: { minimum: 6, maximum: 30 }, format: { with: /\A[a-z\d]+\z/i }, confirmation: true, on: :update, if: :edit_password_path?
   validates :password_confirmation, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :update, if: :edit_password_path?
   validates :description, length: { maximum: 150 }
+  include ImageValidation
 
-  has_one_attached :image, dependent: :destroy
+  has_one_attached :image
   has_many :posts, dependent: :destroy
   has_many :likes, dependent: :destroy
-  has_many :like_posts, through: :likes, source: :post
   has_many :comments, dependent: :destroy
   has_many :reviews, through: :posts
-
   has_many :reposts, dependent: :destroy
+
+  has_many :like_posts, through: :likes, source: :post
   has_many :reposted_posts, through: :reposts, source: :post
 
   has_many :relationships, dependent: :destroy
-  has_many :followings, through: :relationships, source: :follow, dependent: :destroy
+  has_many :followings, through: :relationships, source: :follow
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverse_of_relationships, source: :user, dependent: :destroy
 
@@ -70,9 +72,7 @@ class User < ApplicationRecord
   end
 
   def follow(other_user)
-    if self != other_user
-      self.relationships.find_or_create_by(follow_id: other_user.id)
-    end
+    self.relationships.find_or_create_by(follow_id: other_user.id) if self != other_user
   end
 
   def unfollow(other_user)

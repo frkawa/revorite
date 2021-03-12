@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :comment do
-    user { nil }
-    post { nil }
-    message { "MyText" }
+    association :post
+    user { post.user }
+    message {"これはコメント本文です"}
   end
 end
