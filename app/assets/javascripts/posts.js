@@ -2,7 +2,7 @@ $(function (){
   // 各項目のバリデーションチェック用フラグ項目
   var rev_flg = $("#newpost-rev_flg").prop("checked");
   var title_available_flg = "ng";
-  var price_available_flg = "ng";
+  var price_available_flg = "ok";
   var text_available_flg = "ng";
   var filecount = 0;
 
