@@ -3,9 +3,9 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     
     if @comment.save
-      redirect_to :root, notice: "投稿にコメントしました"
+      redirect_back fallback_location: root_path, notice: "投稿にコメントしました"
     else
-      redirect_to :root, alert: "コメントに失敗しました"
+      redirect_back fallback_location: root_path, alert: "コメントに失敗しました"
     end
   end
 
@@ -13,12 +13,12 @@ class CommentsController < ApplicationController
     comment = Comment.find_by(id: params[:id])
     if comment.present?
       if comment.destroy
-        redirect_to :root, notice: "コメントを削除しました"
+        redirect_back fallback_location: root_path, notice: "コメントを削除しました"
       else
-        redirect_to :root, alert: "コメントの削除に失敗しました"
+        redirect_back fallback_location: root_path, alert: "コメントの削除に失敗しました"
       end
     else
-      redirect_to :root, alert: "コメントが見つかりません"
+      redirect_back fallback_location: root_path, alert: "コメントが見つかりません"
     end
   end
 

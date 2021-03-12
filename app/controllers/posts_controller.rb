@@ -41,12 +41,12 @@ class PostsController < ApplicationController
     post = Post.find_by(id: params[:id])
     if post.present?
       if post.destroy
-        redirect_to root_path, notice: "投稿を削除しました"
+        redirect_back fallback_location: root_path, notice: "投稿を削除しました"
       else
-        redirect_to root_path, alert: "投稿の削除に失敗しました"
+        redirect_back fallback_location: root_path, alert: "投稿の削除に失敗しました"
       end
     else
-      redirect_to root_path, alert: "投稿が見つかりません"
+      redirect_back fallback_location: root_path, alert: "投稿が見つかりません"
     end
   end
 
