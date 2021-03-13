@@ -160,8 +160,14 @@ $(function (){
 
   // 「レビューをする」をチェックするとレビューに必要な入力項目を表示する、チェックを外すと隠す
   $("#newpost-rev_flg").change(function (){
-    $(".newpost-items__review").slideToggle('fast');
-    rev_flg = $("#newpost-rev_flg").prop("checked");
+    var rev_flg = $("#newpost-rev_flg").prop("checked");
+    var rev_area;
+    if($(".newpost-items__review").attr('style') == "display: block;"){ rev_area = "open"; } else {rev_area = "close"; }
+
+    if(((rev_flg && rev_area == "close") || (rev_flg == false && rev_area == "open") ) ){
+      $(".newpost-items__review").slideToggle('fast');
+    }
+
     if($("#newpost-input-text").val().length != 0){
       text_check();
     }
@@ -186,11 +192,8 @@ $(function (){
     postButtonToggle(rev_flg, title_available_flg, price_available_flg, text_available_flg);
   })
 
-  // 本文を入力・変更する毎に残り記入可能文字数を更新し、併せてバリデーションチェックを行う
+  // 本文を入力・変更する毎に残り記入可能文字数の更新とバリデーションチェックを行う
   $("#newpost-input-text").keyup(function (){
-    var textcount = $("#newpost-input-text").val().length;
-    $("#newpost-input-text__textcount").text(500 - textcount);
-    
     text_check();
     postButtonToggle(rev_flg, title_available_flg, price_available_flg, text_available_flg);
   })
@@ -352,6 +355,7 @@ $(function (){
   // 新規投稿画面で本文が1文字以上500文字以内かをチェック
   function text_check() {
     var textcount = $(".post-input-text").val().length
+    $(".textcount").text(500 - textcount);
 
     if(textcount > 500){
       $(".post-input-text").addClass("input-caution");
