@@ -28,7 +28,7 @@
       = link_to "https://search.rakuten.co.jp/search/mall/#{CGI.escape(post.review.title)}", target: "_blank" do
         = image_tag asset_path("rakuten.png"), title: "楽天で検索する", size: "20x20"
     .post-review-kakakudotcom.review-img
-      = link_to "https://kakaku.com/search_results/#{CGI.escape(post.review.title.encode("cp932"))}", target: "_blank" do
+      = link_to "https://kakaku.com/search_results/#{CGI.escape(post.review.title.encode("cp932"))}/?act=Input", target: "_blank" do
         = image_tag asset_path("kakakudotcom.png"), title: "価格.comで検索する", size: "20x20"
 .post-text
   = raw Rinku.auto_link(h(simple_format(post.text)), :urls, 'target="_blank"')
