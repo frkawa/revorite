@@ -4,24 +4,32 @@ RSpec.describe "Users", type: :request do
   let(:user) { create(:user) }
   let(:user_params) { attributes_for(:user) }
   let(:invalid_user_params) { attributes_for(:user, name: "") }
+  before do
+    @another_user1 = create(:another_user, description: 'another_user1の自己紹介')
+    @another_user2 = create(:another_user, description: 'another_user2の自己紹介', email: "test03@example.com")
+    @another_user1_post = Post.create(text: 'another_user1です', user_id: @another_user1.id)
+    @my_post = Post.create(text: '私です', user_id: user.id)
+    user.follow(@another_user1)
+    @another_user2.follow(user)
+  end
 
   describe '新規登録：POST /users/sign_up' do
     context '有効なパラメータの場合' do
       it 'リクエストが成功すること' do
-        post user_registration_path, params: { user: user_params }
+        post user_registration_path, params: { user: { name: 'new', email: 'new-user@example.com', password: 'pass01', password_confirmation: 'pass01' } }
         expect(response.status).to eq 302
       end
       it 'createが成功すること' do
         expect do
-          post user_registration_path, params: { user: user_params }
+          post user_registration_path, params: { user: { name: 'new', email: 'new-user@example.com', password: 'pass01', password_confirmation: 'pass01' } }
         end.to change(User, :count).by(+1)
       end
       it 'ルートにリダイレクトすること' do
-        post user_registration_path, params: { user: user_params }
+        post user_registration_path, params: { user: { name: 'new', email: 'new-user@example.com', password: 'pass01', password_confirmation: 'pass01' } }
         expect(response).to redirect_to root_path
       end
       it 'Flashメッセージが表示されること' do
-        post user_registration_path, params: { user: user_params }
+        post user_registration_path, params: { user: { name: 'new', email: 'new-user@example.com', password: 'pass01', password_confirmation: 'pass01' } }
         expect(response.request.flash.notice).to include 'ようこそ！アカウントが登録されました'
       end
     end
@@ -161,6 +169,60 @@ RSpec.describe "Users", type: :request do
       sign_in user
       delete user_registration_path
       expect(response.request.flash.notice).to include 'アカウントが削除されました。またのご利用をお待ちしています'
+    end
+  end
+
+  describe 'ユーザ情報ページ（投稿一覧）：GET /users/user.id' do
+    it 'リクエストが成功すること' do
+      get user_path(user.id)
+      expect(response.status).to eq 200
+    end
+    it 'ユーザの投稿一覧が表示されていること' do
+      get user_path(user.id)
+      expect(response.body).to include '私です'
+      expect(response.body).not_to include 'another_user1です'
+      expect(response.body).not_to include 'another_user2です'
+    end
+  end
+
+  describe 'ユーザ情報ページ（お気に入り一覧）：GET /users/user.id/likes' do
+    it 'リクエストが成功すること' do
+      sign_in user
+      post post_likes_path(@another_user1_post.id), xhr: true
+      get likes_user_path(user.id)
+      expect(response.status).to eq 200
+    end
+    it 'ユーザのお気に入り一覧が表示されていること' do
+      sign_in user
+      post post_likes_path(@another_user1_post.id), xhr: true
+      get likes_user_path(user.id)
+      expect(response.body).not_to include '私です'
+      expect(response.body).to include 'another_user1です'
+      expect(response.body).not_to include 'another_user2です'
+    end
+  end
+
+  describe 'ユーザ情報ページ（フォロー一覧）：GET /users/user.id/followings' do
+    it 'リクエストが成功すること' do
+      get followings_user_path(user.id)
+      expect(response.status).to eq 200
+    end
+    it 'ユーザのフォロー一覧が表示されていること' do
+      get followings_user_path(user.id)
+      expect(response.body).to include 'another_user1の自己紹介'
+      expect(response.body).not_to include 'another_user2の自己紹介'
+    end
+  end
+
+  describe 'ユーザ情報ページ（フォロワー一覧）：GET /users/user.id/followers' do
+    it 'リクエストが成功すること' do
+      get followers_user_path(user.id)
+      expect(response.status).to eq 200
+    end
+    it 'ユーザのフォロワー一覧が表示されていること' do
+      get followers_user_path(user.id)
+      expect(response.body).not_to include 'another_user1の自己紹介'
+      expect(response.body).to include 'another_user2の自己紹介'
     end
   end
 end

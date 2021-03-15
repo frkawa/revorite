@@ -273,12 +273,16 @@ RSpec.describe "Posts", type: :request do
 
     context '未ログインの場合' do
       it 'リクエストが成功すること' do
+        sign_in user
+        post post_likes_path(@another_user2_post.id), xhr: true
+        sign_out user
         get trend_posts_path
         expect(response.status).to eq 200
       end
       it '人気の投稿（お気に入り登録されている投稿）が表示されていること' do
         sign_in user
         post post_likes_path(@another_user2_post.id), xhr: true
+        sign_out user
         get trend_posts_path
         expect(response.body).not_to include '私です'
         expect(response.body).not_to include 'another_user1です'
