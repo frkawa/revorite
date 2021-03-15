@@ -11,7 +11,7 @@ class PostsController < ApplicationController
   end
 
   def trend
-    counts = Post.joins(:likes).group(:id).order(count_all: "DESC").count
+    counts = Post.joins(:likes).group(:id).order(count_all: "DESC").order(created_at: "DESC").count
     @posts = Post.with_attached_images.preload(:user, :review, :comments, :likes).find(counts.map{|id, count| id})
     @posts = Kaminari.paginate_array(@posts).page(params[:page]).per(PAGENATION_PAGES)
   end
