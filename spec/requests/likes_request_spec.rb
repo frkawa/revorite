@@ -83,7 +83,7 @@ RSpec.describe "Likes", type: :request do
         delete post_like_path(@post.id, @like.id), xhr: true
         expect(response.content_type).to eq "text/javascript"
       end
-      it 'createが失敗すること' do
+      it 'deleteが失敗すること' do
         sign_in user
         @post.destroy
         expect do
