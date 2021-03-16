@@ -3,7 +3,9 @@ class RepostsController < ApplicationController
 
   def create
     if Repost.find_by(user_id: current_user.id, post_id: @post.id)
-      redirect_to root_path, alert: '既にリポスト済みです'
+      respond_to do |format|
+        format.js {render inline: "location.reload();"}
+      end
     else
       @repost = Repost.create(user_id: current_user.id, post_id: @post.id)
     end
@@ -14,15 +16,19 @@ class RepostsController < ApplicationController
     if @repost.present?
       @repost.destroy
     else
-      redirect_to root_path, alert: '既にリポストを取り消し済みです'
+      respond_to do |format|
+        format.js {render inline: "location.reload();"}
+      end
     end
   end
 
   private
   def set_post
-    @post = Post.find(params[:post_id])
+    @post = Post.find_by(id: params[:post_id])
     if @post.nil?
-      redirect_to root_path, alert: '該当の投稿が見つかりません'
+      respond_to do |format|
+        format.js {render inline: "location.reload();"}
+      end
     end
   end
 end
