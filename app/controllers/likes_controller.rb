@@ -3,7 +3,9 @@ class LikesController < ApplicationController
 
   def create
     if Like.find_by(user_id: current_user.id, post_id: @post.id)
-      redirect_to root_path, alert: '既にお気に入りに追加済みです'
+      respond_to do |format|
+        format.js {render inline: "location.reload();"}
+      end
     else
       @like = Like.create(user_id: current_user.id, post_id: @post.id)
     end
@@ -14,7 +16,9 @@ class LikesController < ApplicationController
     if @like.present?
       @like.destroy
     else
-      redirect_to root_path, alert: '既にお気に入りから削除済みです'
+      respond_to do |format|
+        format.js {render inline: "location.reload();"}
+      end
     end
   end
 
@@ -22,7 +26,9 @@ class LikesController < ApplicationController
   def set_post
     @post = Post.find_by(id: params[:post_id])
     if @post.nil?
-      redirect_to root_path, alert: '該当の投稿が見つかりません'
+      respond_to do |format|
+        format.js {render inline: "location.reload();"}
+      end
     end
   end
 end
