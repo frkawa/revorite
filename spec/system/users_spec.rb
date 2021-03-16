@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Users', type: :system do
+RSpec.describe 'Users', type: :system, js: true do
   let(:user) { create(:user) }
 
   it 'ログイン画面にアクセス' do  
