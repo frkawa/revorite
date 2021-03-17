@@ -15,4 +15,15 @@ module ApplicationHelper
       { data: nil }
     end
   end
+
+  def lazy_image_tag(source, options={})
+    options['data-original'] = asset_path(source)
+    if options[:class].blank?
+      options[:class] = 'lazy'
+    else
+      options[:class] = "lazy #{options[:class]}"
+    end
+
+    image_tag('preload.gif', options)
+  end
 end

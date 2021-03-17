@@ -15,7 +15,7 @@
         .user-left
           = link_to "/users/#{user.id}" do
             - if user.image.attached? 
-              = image_tag(user.image, alt: 'デフォルトアイコン')
+              = lazy_image_tag(url_for(user.image))
             - else
               = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
         .user-right{id: "user-right-#{user.id}"}

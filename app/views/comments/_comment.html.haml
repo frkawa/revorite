@@ -6,7 +6,7 @@
           .comment-left
             - if comment.user.image.attached? 
               = link_to(url_for(comment.user.image)) do
-                = image_tag(comment.user.image, alt: 'デフォルトアイコン')
+                = lazy_image_tag(url_for(comment.user.image))
             - else
               = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
           .comment-right
@@ -28,14 +28,14 @@
               .comment-image
                 - comment.images.each do |image|
                   = link_to(url_for(image), class: "luminous-comment-#{comment.id}") do
-                    = image_tag(image)
+                    = lazy_image_tag(url_for(image))
             - else
   .comment-write
     - if user_signed_in?
       .comment-write-left
         - if current_user.image.attached? 
           = link_to(url_for(current_user.image)) do
-            = image_tag(current_user.image, alt: 'デフォルトアイコン')
+            = lazy_image_tag(url_for(current_user.image))
         - else
           = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
       .comment-write-right

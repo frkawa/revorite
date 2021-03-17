@@ -21,7 +21,7 @@
         .post-left
           = link_to user_path(post.user.id), "data-turbolinks": false do
             - if post.user.image.attached? 
-              = image_tag(post.user.image, alt: 'デフォルトアイコン')
+              = lazy_image_tag(url_for(post.user.image), alt: 'デフォルトアイコン')
             - else
               = image_tag('sample/default_icon.png', alt: 'デフォルトアイコン')
         .post-right

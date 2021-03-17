@@ -36,7 +36,7 @@
   .post-image
     - post.images.each do |image|
       = link_to(url_for(image), class: "luminous-post-#{post.id}") do
-        = image_tag(image)
+        = lazy_image_tag(url_for(image))
 .post-action
   .post-action__comment{id: "post-action__comment-#{post.id}", title: "コメントをする・見る" } 
     %p
