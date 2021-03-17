@@ -40,9 +40,9 @@
             .post-container-none
               まだ誰もフォローしていません。フォローした人たちの投稿がここに表示されます。
               %br
-              = link_to "みんなの投稿", all_posts_path, class: 'non-active post-links', "data-turbolinks": false
+              = link_to "みんなの投稿", all_posts_path, "data-turbolinks": false
               や
-              = link_to "人気の投稿", trend_posts_path, class: 'non-active post-links', "data-turbolinks": false 
+              = link_to "人気の投稿", trend_posts_path, "data-turbolinks": false 
               から気になる人をフォローしてみましょう。
       - else
         - if @posts.empty?
