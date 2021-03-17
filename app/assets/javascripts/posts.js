@@ -14,7 +14,6 @@ $(function (){
 
   // 画像の遅延読み込み
   $("img.lazy").lazyload();
-  console.log("done");
 
   // 投稿一覧画面（タイムライン、最新の投稿、人気の投稿） START ----------------------------------------------------------------------------
   // 無限スクロール。最初はコントローラで指定した件数のみ投稿を読み込み、スクロールする度に追加で指定件数の投稿を取得してくる
@@ -59,6 +58,9 @@ $(function (){
           display_rate(id, rate);
         })
 
+        // 画像の遅延読み込み
+        $("img.lazy").lazyload();
+
         // 無限スクロールした回数を更新
         inf_scroll_times = $(".jscroll-added").length;
 
@@ -90,6 +92,7 @@ $(function (){
   $(document).on(clickEventType, ".post-action__comment", function(){
     var post_id = $(this).attr('id').replace(/post-action__comment-/g, '');
     $('#comment_' + post_id).slideToggle('fast');
+    $("img.lazy").lazyload();
   })
   
   // コメント投稿時に画像を選択すると画像のプレビューを表示する
