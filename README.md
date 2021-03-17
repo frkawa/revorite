@@ -10,7 +10,7 @@ Revoriteは、「スキ」をレビューすることができるSNSアプリで
 <img width="450" alt="コンセプト画像_3" src="https://user-images.githubusercontent.com/57317752/111473870-d256fa80-876e-11eb-8ef4-79c7ad1d7f15.png">
 
 ## URL
-<a target="_blank" href="https://www.revorite.net/">https://www.revorite.net/</a>（別窓で開きます） <br>
+https://www.revorite.net/
 <br>
 ページ上部の「かんたんログイン」より、ゲスト用アカウントにワンクリックでログインが可能です。 <br>
 ゲスト用アカウントはアカウント削除を除く全ての機能が使えます。
