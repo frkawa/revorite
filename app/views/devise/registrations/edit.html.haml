@@ -1,10 +1,10 @@
 = render "shared/header"
-= provide(:title, 'プロフィールの編集')
+= provide(:title, 'プロフィールの変更')
 
 .main
   .edituser
     .edituser-header
-      プロフィールの編集
+      プロフィールの変更
     .edituser-items
       = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, novalidate: true }) do |f|
         = render "devise/shared/error_messages", resource: resource
@@ -34,7 +34,7 @@
           = f.text_area :description, autocomplete: "description", class: "user-input-description", id: "edituser-input-description"
           .edituser-items__field--caution.user-caution-description
         .edituser-items__submit
-          = f.submit "更新する", class: "button-submit user-edit user-button-submit", id: "edituser-button-submit", disabled: true
+          = f.submit "変更する", class: "button-submit user-edit user-button-submit", id: "edituser-button-submit", disabled: true
       .edituser-links
         = link_to(">> アカウントの削除", registration_path(resource_name), data: { confirm: "アカウントを削除します。本当によろしいですか？投稿も全て削除され、データは復元できません。" }, method: :delete, class: "warning")
     .edituser-footer
