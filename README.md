@@ -1,24 +1,106 @@
-# README
+# Revorite
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Revorite = Review + Favorite.
 
-Things you may want to cover:
+Revoriteは、「スキ」をレビューすることができるSNSアプリです。 <br>
+ジャンルを問わず好きな物をおすすめし合うことで、まだ見ぬ誰かの「推し」に出会うことができます。
 
-* Ruby version
+<img width="800" alt="コンセプト画像_1" src="https://user-images.githubusercontent.com/57317752/111473080-fd8d1a00-876d-11eb-91cc-6f56c8138cfb.png">
+<img width="800" alt="コンセプト画像_2" src="https://user-images.githubusercontent.com/57317752/111473129-0e3d9000-876e-11eb-9500-361a583e65d7.png">
+<img width="450" alt="コンセプト画像_3" src="https://user-images.githubusercontent.com/57317752/111473870-d256fa80-876e-11eb-8ef4-79c7ad1d7f15.png">
 
-* System dependencies
+## URL
+https://www.revorite.net/
+<br>
+ページ上部の「かんたんログイン」より、ゲスト用アカウントにワンクリックでログインが可能です。 <br>
+ゲスト用アカウントはアカウント削除を除く全ての機能が使えます。
 
-* Configuration
+## 使用技術
+- Ruby 2.7.1
+- Ruby on Rails 5.2.4.5
+- jQuery 1.12.4
+- MySQL 8.0.20
+- Nginx 1.18.0
+- Unicron 5.8.0
+- Rspec 3.10
+- Docker 20.10.3
+- Capistrano 3.16.0
+- AWS
+  - IAM
+  - VPC
+  - EC2（踏み台サーバ、Webサーバ）
+  - RDS
+  - S3
+  - Route 53
+  - Amazon SES
+  - CloudWatch
 
-* Database creation
+## ER図
+<img width="1000" alt="ER図" src="https://user-images.githubusercontent.com/57317752/111494153-95483380-8781-11eb-9bd1-e077075c744b.png">
 
-* Database initialization
+## ネットワーク構成図（開発環境、AWS）
+<img width="1000" alt="ネットワーク構成図（開発環境、AWS）" src="https://user-images.githubusercontent.com/57317752/111482637-6e84ff80-8777-11eb-8b7a-399960f253f2.png">
 
-* How to run the test suite
+## 機能一覧
+- 認証機能（```devise```）
+  - ユーザ登録機能
+  - （かんたん）ログイン機能
+  - プロフィール変更機能（```Active Storage```）
+  - パスワード再発行機能
+- 投稿表示機能
+  - タイムライン：フォローしているユーザの投稿を表示
+  - みんなの投稿：全てのユーザの投稿を表示
+  - 人気の投稿：お気に入りに多く登録されている投稿を表示
+- ユーザ情報表示機能
+  - 投稿一覧、お気に入り一覧、フォロー・フォロワー一覧
+- 投稿機能
+  - 複数画像投稿機能（```Active Storage```） 
+  - レビュー機能（投稿時にレビュー有無を選択）
+  - 星（★）による5段階の評価機能（```raty```）
+- コメント機能
+  - 複数画像投稿機能（```Active Storage```） 
+- お気に入り機能（```Ajax```）
+- リポスト機能（```Ajax```）　※フォロワーに向けて他人の投稿を共有する機能
+- フォロー機能（```Ajax```）
+- 無限スクロール機能（```jScroll```、```kaminari```、```MutationObserver```）
+- モーダルウィンドウでの画像拡大機能（```Luminous```）
+- 画像遅延読み込み機能（```lazyload```）
 
-* Services (job queues, cache servers, search engines, etc.)
+## テスト
+Rspecを利用したテストを実施
+- 単体テスト（Model spec）
+  - 各モデルのバリデーション、アソシエーション、クラスメソッドについて正常系・異常系の両方を検証
+- 機能テスト（Request spec）
+  - 各ルーティングに対してのリクエストやページリダイレクト、データ作成の成否を検証
+- 統合テスト（System spec）
+  - 実際のサービス利用を想定したシナリオを組み、ブラウザ上で実際にフォームを入力したりリンクをクリックするなどして想定通りにアプリが動作するかを検証
 
-* Deployment instructions
+また、```rubocop```による静的コード解析を適宜実施
 
-* ...
+## こだわりポイント
+
+### レビュー機能
+
+当アプリの一番の特徴であるレビュー機能は、星（★）の評価を星の画像をクリックすることで決められるという、UI/UXとしても特徴的なものにすることで印象に残せるように工夫しています。<br>
+また投稿したレビューのタイトル横に表示される各種検索サイト（Google、Amazon、楽天、価格.com）のボタンをワンクリックするだけでレビュー対象を別タブで検索できるので、「興味はあるけど今調べるのはちょっと面倒だな」という心理的ハードルをできる限り低くしています。
+
+### リポスト機能の実装方式
+
+リポスト機能は、第三者の投稿を自分のフォロワーに向けて共有する（＝自分をフォローしている人のタイムラインに表示させる）ための機能です。そのためタイムラインには、自分の投稿とフォローしている人（＝フォロイー）の投稿に加え、自分またはフォロイーのリポストを表示する必要があります。<br>
+ただし投稿が重複して表示されるのを防ぐため、投稿テーブルとリポストテーブルをJOINする際に重複を排除しながら取得する、といった工夫を施しています。結合条件やデータの取得条件が複雑にはなってしまったのですが、上手く実装できたと自負しています。<br>
+<br>
+当アプリで恐らく一番複雑な処理のためここではこれ以上の記述はしませんが、実装の経緯は備忘としてQiita記事にまとめています。<br>
+https://qiita.com/345dvl/items/7d4396256105ce1d0382 <br>
+
+### 無限スクロールと画像拡大モーダルウィンドウ
+
+モダンなUI/UXを提供するため、```jScroll```と```kaminari```による無限スクロール、```Luminous```による画像拡大モーダルウィンドウを実装しました。<br>
+無限スクロールで追加で読み込んだ投稿にも```Luminous```を適用するために、```MutationObserver```でDOMの要素の変化を監視し```Luminous```を適用する、というやり方でうまく実装することができました。<br>
+
+## 改善点・今後の見込み
+
+就職活動と並行して以下を実施したいと考えています。
+
+- CircleCI/CDによる自動テスト・デプロイの導入
+- 通知機能の実装（現状、コメントやお気に入り登録されたことに気付きにくいため）
+
